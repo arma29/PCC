@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <string.h>
+#include <limits.h>
 
 /*
 Busca Exata (default).
@@ -60,6 +61,39 @@ Miscellaneous:\n\
 }
 #define MAX_FILE_NAME 100
 
+
+int Search_in_File(char *fname, char *str) {
+    FILE *fp;
+    int line_num = 1;
+    int find_result = 0;
+    char temp[512];
+    
+    //If fname is null -> string
+    if((fp = fopen(fname, "r")) == NULL) {
+      printf("maybe string\n");
+      return(-1);
+    }
+
+    while(fgets(temp, 512, fp) != NULL) {
+        if((strstr(temp, str)) != NULL) {
+            printf("A match found on line: %d\n", line_num);
+            printf("\n%s\n", temp);
+            find_result++;
+        }
+        line_num++;
+    }
+
+    if(find_result == 0) {
+        printf("\nSorry, couldn't find a match.\n");
+    }
+    
+    //Close the file if still open.
+    if(fp) {
+        fclose(fp);
+    }
+    return(0);
+}
+
 int main(int argc, char **argv) {
     //TODO: flags
     int option;
@@ -76,22 +110,69 @@ int main(int argc, char **argv) {
             case 'p':
                 //TODO: Busca linha por linha no arquivo
                 //Argumento é armazenado em optarg
-                printf("optarg = %s\n", optarg);
+              //  printf("optarg = %s\n", optarg);
                 //Index do argumento é armazenado em optind
-                printf("currently arg is = %d\n", optind);
+                //printf("currently arg is = %d\n", optind);
                 if(optind > first_index)
-                    first_index = optind+1; //utilitario para o while ou for.
-                    /*for(i = first_index; i < argc; i++){
-                        FILE *aux = fopen(argv[i], "r");
+                    first_index = optind; //utilitario para o while ou for.
 
-                    }*/
-                //Testes , optopt = é o char ,
-                printf("optopt vale = %d // opterr vale = %d\n", optopt, opterr);
+                
+
+                //TODO: Organize as function
+                //For Wildcards
+                int i;
+                int j = 1;
+                for(i=first_index; i<argc;i++){
+                    //printf("hello?\n");
+                    FILE *aux;
+                    if( (aux = fopen(optarg, "r")) == NULL ){
+                        printf("error\n");
+                        return -1;
+                    }
+                    printf("wildcard number %d\n", j);
+                    char line[128];
+                    while(fgets(line, sizeof(line), aux) != NULL){
+                        line[strlen(line) - 1] = '\0';
+                        printf("line é --%s--\n",line);
+                        
+                        Search_in_File(argv[i], line);
+                    }
+                    fclose(aux);
+                    j++;
+                }
+
                 break;
             case 'a':
                 //TODO: Busca com um determinado algorithm.
                 if(optind > first_index)
                     first_index = optind+1;
+                /*FILE *aux;
+                if((aux = fopen(argv[argc-2], "r")) == NULL){
+                    printf("string\n");
+                    Search_in_File(argv[argc-1], argv[argc-2]);
+                }
+                //TODO: organizar para -f
+                else{
+                    printf("arquivo\n");
+                    char line[128];
+                    while(fgets(line, sizeof line, aux) != NULL){
+                        
+                        line[strlen(line) - 1] = '\0'; //ASsim corta-se a fim de linha
+                        printf("line é --%s--\n",line);
+                        Search_in_File(argv[argc-1], line);
+                    }
+                }
+                //TODO wildcards
+                if((argc - first_index) > 1) {
+                    //We have wildcards
+                    for(i=first_index; i<argc;i++){
+                        Search_in_File(argv[i], argv[first_index]);
+                    }
+                }
+
+                if(aux)
+                    fclose(aux);*/
+                
                 break;
             case 'c':
                 //TODO: Show a total count of every match pattern-file
@@ -106,7 +187,9 @@ int main(int argc, char **argv) {
                 return -1;
         }
     }
-    /*printf("first index vale = %d\n", first_index);
+    //printf("first index vale = %d\n", first_index);
+    //printf("argc vale %d\n", argc);
+    /*
     //TODO: A Search pattern-file program.
     FILE *fp;
     //printf("Default here\n");
