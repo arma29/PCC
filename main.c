@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <getopt.h>
 #include <string.h>
 
 /*
@@ -21,14 +22,51 @@ usando o algoritmo.
 contidas no(s) arquivo(s)de texto. (ou seja apenas um número)
 
 */
+
+/*Necessary for getopt_long, use as argument 4*/
+static struct option const long_options[]=
+{
+    {"help", no_argument, NULL, 'h'},
+    {"count", no_argument, NULL, 'c'},
+    {"edit", required_argument, NULL, 'e'},
+    {"pattern", required_argument, NULL, 'p'},
+    {"algorithm", required_argument, NULL, 'a'},
+    {0,0,0,0}, //end of array
+};
+
+void usage (char *name, int status){
+    if(status == 0){
+        fprintf(stderr,"Usage: %s [options] pattern textfile [textfile...]\n", name);
+        fprintf(stderr, "Try '%s -h' for more information.\n", name);
+    }
+    else{
+        printf("Usage: %s [OPTION]... PATTERN TEXTFILE [TEXTFILE...]\n", name);
+        printf("Search for PATTERN in each FILE.\n");
+        printf ("\
+Example: %s -e 4 'hello world' menu.h main.c\n\
+\n\
+Pattern selection and interpretation:\n", name);
+        printf("\
+    -e, --edit=EMAX         Find the pattern matches with a max edit distance\n\
+    -p, --pattern=PFile     Make the search of all patterns in patternfile\n\
+    -a, --algorithm=AName   Make the pattern search with the algorithm\n\
+    -c, --count             Print the total count of matches\n\n");
+            printf("\
+Miscellaneous:\n\
+    -h, --help              Display this help text and exit\n");
+    }
+
+    exit(-1);
+}
 #define MAX_FILE_NAME 100
 
 int main(int argc, char **argv) {
-    //TODO: Initial variables
+    //TODO: flags
     int option;
-    int default_context = -1;
     int first_index = 0;
-    while((option = getopt(argc,argv, "e:p:a:hc")) != -1){
+    if(argc < 2)
+        usage(argv[0],0);
+    while((option = getopt_long(argc,argv, "e:p:a:ch", long_options, NULL)) != -1){
         switch (option) {
             case 'e':
                 //TODO: Busca aproximada
@@ -59,12 +97,16 @@ int main(int argc, char **argv) {
                 //TODO: Show a total count of every match pattern-file
                 printf("deve mostrar a conta\n");
                 break;
+            case 'h':
+                //TODO: void usage
+                usage(argv[0],1);
+                break;  
+
             default:
-                //TODO: Show a help function listin all algorithms
-                fprintf(stderr, "getopt\n");
+                return -1;
         }
     }
-    printf("first index vale = %d\n", first_index);
+    /*printf("first index vale = %d\n", first_index);
     //TODO: A Search pattern-file program.
     FILE *fp;
     //printf("Default here\n");
@@ -87,7 +129,7 @@ int main(int argc, char **argv) {
         strcpy(file[i], line); //This way store line-string
         fputs(line,stdout);
         i++;
-    }
+    }*/
 
     return 0;
 }
