@@ -60,7 +60,8 @@ Miscellaneous:\n\
     exit(-1);
 }
 #define MAX_FILE_NAME 100
-
+#define RED   "\x1B[31m"
+#define RESET "\x1B[0m"
 
 int Search_in_File(char *fname, char *str) {
     FILE *fp;
@@ -76,8 +77,24 @@ int Search_in_File(char *fname, char *str) {
 
     while(fgets(temp, 512, fp) != NULL) {
         if((strstr(temp, str)) != NULL) {
-            printf("A match found on line: %d\n", line_num);
-            printf("\n%s\n", temp);
+            //printf("A match found on line: %d\n", line_num);
+            //TODO: make a good color
+            printf("%s", temp);
+            int i;
+            int j = 0;
+            for(i=0;i<strlen(temp);i++){
+                if(temp[i] = str[j]){
+                    printf(RED "%c" RESET, temp[i]);
+                    j++;
+                }
+                else{
+                    printf(RESET "--%c--" RESET, temp[i]);
+                }
+            }
+            printf("\n");
+            //printf("%s\n", temp);
+            //printf("%s\n", str);
+            
             find_result++;
         }
         line_num++;
@@ -109,14 +126,8 @@ int main(int argc, char **argv) {
                 break;
             case 'p':
                 //TODO: Busca linha por linha no arquivo
-                //Argumento é armazenado em optarg
-              //  printf("optarg = %s\n", optarg);
-                //Index do argumento é armazenado em optind
-                //printf("currently arg is = %d\n", optind);
                 if(optind > first_index)
                     first_index = optind; //utilitario para o while ou for.
-
-                
 
                 //TODO: Organize as function
                 //For Wildcards
@@ -133,7 +144,7 @@ int main(int argc, char **argv) {
                     char line[128];
                     while(fgets(line, sizeof(line), aux) != NULL){
                         line[strlen(line) - 1] = '\0';
-                        printf("line é --%s--\n",line);
+                        //printf("line é --%s--\n",line);
                         
                         Search_in_File(argv[i], line);
                     }
@@ -145,38 +156,10 @@ int main(int argc, char **argv) {
             case 'a':
                 //TODO: Busca com um determinado algorithm.
                 if(optind > first_index)
-                    first_index = optind+1;
-                /*FILE *aux;
-                if((aux = fopen(argv[argc-2], "r")) == NULL){
-                    printf("string\n");
-                    Search_in_File(argv[argc-1], argv[argc-2]);
-                }
-                //TODO: organizar para -f
-                else{
-                    printf("arquivo\n");
-                    char line[128];
-                    while(fgets(line, sizeof line, aux) != NULL){
-                        
-                        line[strlen(line) - 1] = '\0'; //ASsim corta-se a fim de linha
-                        printf("line é --%s--\n",line);
-                        Search_in_File(argv[argc-1], line);
-                    }
-                }
-                //TODO wildcards
-                if((argc - first_index) > 1) {
-                    //We have wildcards
-                    for(i=first_index; i<argc;i++){
-                        Search_in_File(argv[i], argv[first_index]);
-                    }
-                }
-
-                if(aux)
-                    fclose(aux);*/
-                
+                    first_index = optind+1;                
                 break;
             case 'c':
-                //TODO: Show a total count of every match pattern-file
-                printf("deve mostrar a conta\n");
+                //TODO: Show a total count of every match pattern-file "namefile": count
                 break;
             case 'h':
                 //TODO: void usage
@@ -187,32 +170,6 @@ int main(int argc, char **argv) {
                 return -1;
         }
     }
-    //printf("first index vale = %d\n", first_index);
-    //printf("argc vale %d\n", argc);
-    /*
-    //TODO: A Search pattern-file program.
-    FILE *fp;
-    //printf("Default here\n");
-    //char filename[MAX_FILE_NAME] = argv[2];
-    //TODO: um loop sobre o Wildcards
-    fp = fopen(argv[argc-1], "r");
-
-    if(fp == NULL){
-        printf("Could not open file\n");
-        return 0;
-    }
-    //Wildcards se expandem em outros argumentos.
-    printf("argc vale = %d\n", argc);
-    //Read Lines
-    char line[128];
-    //Each line will be a string.
-    char file[10][128];
-    int i = 0;
-    while(fgets(line, sizeof line, fp) != NULL){
-        strcpy(file[i], line); //This way store line-string
-        fputs(line,stdout);
-        i++;
-    }*/
 
     return 0;
 }
