@@ -60,15 +60,44 @@ Miscellaneous:\n\
     exit(-1);
 }
 #define MAX_FILE_NAME 100
+#define MAX_WORD_LENGTH	128
+#define MAX_LINES 128
+#define ALGORITHM_NUMBER 4
 #define RED   "\x1B[31m"
 #define RESET "\x1B[0m"
+
+int build_strarray(char *filename, char* strings[]){
+    FILE *fp;
+    char line[MAX_WORD_LENGTH];
+    if((fp=fopen(filename,"r")) == NULL){
+        printf("couldn't open the file\n");
+        return -1;
+    }
+
+    int k = 0;
+    while(fgets(line, sizeof(line), fp) != NULL){
+        line[strlen(line) - 2] = '\0';
+        // line[strlen(line) - 2] = '\0';
+        // strings[k] = strdup(line);
+        //printf("line tem %d\n", (int)strlen(line));
+        strings[k] = malloc(sizeof(line));
+        strcpy(strings[k],line);
+        k++;
+    }
+
+    return k;
+
+    fclose(fp);
+
+
+}
 
 int Search_in_File(char *fname, char *str) {
     FILE *fp;
     int line_num = 1;
     int find_result = 0;
     char temp[512];
-    
+
     //If fname is null -> string
     if((fp = fopen(fname, "r")) == NULL) {
       printf("maybe string\n");
@@ -76,34 +105,32 @@ int Search_in_File(char *fname, char *str) {
     }
 
     while(fgets(temp, 512, fp) != NULL) {
-        if((strstr(temp, str)) != NULL) {
+        // printf("%d -- %d\n", (int)strlen(temp), (int)strlen(str));
+        if((strstr(temp, str)) != NULL) { //one per line
             //printf("A match found on line: %d\n", line_num);
             //TODO: make a good color
-            printf("%s", temp);
             int i;
             int j = 0;
             for(i=0;i<strlen(temp);i++){
-                if(temp[i] = str[j]){
+
+                if(temp[i] == str[j]){
                     printf(RED "%c" RESET, temp[i]);
                     j++;
                 }
                 else{
-                    printf(RESET "--%c--" RESET, temp[i]);
+                    printf("%c", temp[i]);
                 }
+
             }
-            printf("\n");
-            //printf("%s\n", temp);
-            //printf("%s\n", str);
-            
             find_result++;
         }
         line_num++;
     }
-
+    printf("find_result = %d\n", find_result);
     if(find_result == 0) {
         printf("\nSorry, couldn't find a match.\n");
     }
-    
+
     //Close the file if still open.
     if(fp) {
         fclose(fp);
@@ -113,63 +140,74 @@ int Search_in_File(char *fname, char *str) {
 
 int main(int argc, char **argv) {
     //TODO: flags
+    int eflag, pflag, aflag, cflag = 0;
     int option;
     int first_index = 0;
+    char *strarray[50];
+    char *algorithm_names[ALGORITHM_NUMBER] = {"boyermoore", "ahocorasik", "e1", "e2"};
     if(argc < 2)
         usage(argv[0],0);
     while((option = getopt_long(argc,argv, "e:p:a:ch", long_options, NULL)) != -1){
         switch (option) {
             case 'e':
+                eflag = 1;
                 //TODO: Busca aproximada
+                //A busca aproximada deve receber como argumento obrigatorio o erro maximo - optarg
                 if(optind > first_index)
                     first_index = optind+1;
                 break;
             case 'p':
+                pflag = 1;
                 //TODO: Busca linha por linha no arquivo
                 if(optind > first_index)
                     first_index = optind; //utilitario para o while ou for.
 
-                //TODO: Organize as function
-                //For Wildcards
                 int i;
-                int j = 1;
                 for(i=first_index; i<argc;i++){
                     //printf("hello?\n");
-                    FILE *aux;
-                    if( (aux = fopen(optarg, "r")) == NULL ){
-                        printf("error\n");
-                        return -1;
-                    }
-                    printf("wildcard number %d\n", j);
-                    char line[128];
-                    while(fgets(line, sizeof(line), aux) != NULL){
-                        line[strlen(line) - 1] = '\0';
-                        //printf("line é --%s--\n",line);
-                        
-                        Search_in_File(argv[i], line);
-                    }
-                    fclose(aux);
-                    j++;
+
+                    printf("wildcard number %d - %s\n", (i+1-first_index), argv[i]);
+
+
+                    int lines = build_strarray(optarg,strarray);
+                    int j;
+                    for(j = 0; j < lines;j++)
+                        Search_in_File(argv[i],strarray[j]);
+                    //printf("%s ", strarray[0]);
+
                 }
 
                 break;
             case 'a':
-                //TODO: Busca com um determinado algorithm.
+                aflag = 1;
+                //TODO: Busca com um determinado algorithm. {BoyerMoore, AhoCorasik, +2 Aprox} PRIORITY 3
                 if(optind > first_index)
-                    first_index = optind+1;                
+                    first_index = optind+1;
+
+                for(i=0;i<ALGORITHM_NUMBER;i++){
+                    if(strcmp(algorithm_names[i],optarg) == 0){
+                        printf("choosens --%s--\n", algorithm_names[i]);
+                        break;
+                    }
+                }
+                printf("test\n");
+
                 break;
             case 'c':
-                //TODO: Show a total count of every match pattern-file "namefile": count
+                cflag = 1;
+                //TODO: Show a total count of every match pattern-file "namefile": count MAX_PRIORITY 4
                 break;
             case 'h':
                 //TODO: void usage
                 usage(argv[0],1);
-                break;  
+                break;
 
             default:
                 return -1;
         }
     }
+
+
 
     return 0;
 }
