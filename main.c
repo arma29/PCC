@@ -50,11 +50,18 @@ Pattern selection and interpretation:\n", name);
         printf("\
     -e, --edit=EMAX         Find the pattern matches with a max edit distance\n\
     -p, --pattern=PFile     Make the search of all patterns in patternfile\n\
-    -a, --algorithm=AName   Make the pattern search with the algorithm\n\
+    -a, --algorithm=AName   Make the pattern search with the selected algorithm\n\
     -c, --count             Print the total count of matches\n\n");
-            printf("\
+        printf("\
 Miscellaneous:\n\
-    -h, --help              Display this help text and exit\n");
+    -h, --help              Display this help text and exit\n\n");
+        printf("\
+Algorithm Names:\n\
+    boyermoore              Default Algorithm for search\n\
+    ahocorasik              Default Algorithm for multi string search\n\
+    e1                      Default Algorithm for fuzzy search\n\
+    e2                      Default for...\n\n"
+  );
     }
 
     exit(-1);
@@ -77,9 +84,6 @@ int build_strarray(char *filename, char* strings[]){
     int k = 0;
     while(fgets(line, sizeof(line), fp) != NULL){
         line[strlen(line) - 2] = '\0';
-        // line[strlen(line) - 2] = '\0';
-        // strings[k] = strdup(line);
-        //printf("line tem %d\n", (int)strlen(line));
         strings[k] = malloc(sizeof(line));
         strcpy(strings[k],line);
         k++;
@@ -90,6 +94,20 @@ int build_strarray(char *filename, char* strings[]){
     fclose(fp);
 
 
+}
+//For Debug
+void highlight_match(char* line, char* match){
+    int i;
+    int j =0;
+    for(i=0;i<strlen(line);i++){
+      if(line[i] == match[j]){
+        printf(RED "%c" RESET, line[i]);
+        j++;
+      }
+      else{
+        printf("%c", line[i]);
+      }
+    }
 }
 
 int Search_in_File(char *fname, char *str) {
@@ -109,19 +127,7 @@ int Search_in_File(char *fname, char *str) {
         if((strstr(temp, str)) != NULL) { //one per line
             //printf("A match found on line: %d\n", line_num);
             //TODO: make a good color
-            int i;
-            int j = 0;
-            for(i=0;i<strlen(temp);i++){
-
-                if(temp[i] == str[j]){
-                    printf(RED "%c" RESET, temp[i]);
-                    j++;
-                }
-                else{
-                    printf("%c", temp[i]);
-                }
-
-            }
+            highlight_match(temp,str);
             find_result++;
         }
         line_num++;
@@ -206,6 +212,8 @@ int main(int argc, char **argv) {
                 return -1;
         }
     }
+
+    
 
 
 
