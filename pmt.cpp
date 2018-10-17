@@ -17,6 +17,8 @@ static struct option const long_options[]=
     {0,0,0,0}, //end of array
 };
 
+static std::vector<std::string> alg_array = {"boyermoore", "ahocorasik", "e1", "e2"};
+
 /*Usage function to show messages*/
 void usage(std::string const& name, bool status){
     if(!status){
@@ -64,6 +66,14 @@ void set_txt_index(int opt, int& index){
     }
 }
 
+void set_pat(std::vector<std::string> &pat_array,
+  std::string str,bool pflag){
+
+  if(!pflag)
+    pat_array.push_back(str);
+
+}
+
 void check_args(int argc, std:: string const& prog ){
     if(argc < 3)
         usage(prog,false);
@@ -91,7 +101,8 @@ void check_edit(std::string const& str, int &emax){
     //std::cout << emax << '\n';
 }
 
-void build_string_array(char *file,
+/*Convert the input file in array of strings*/
+void build_string_array(char* file,
     std::vector<std::string> &str_array){
 
     std:: ifstream infile(file);
@@ -103,32 +114,70 @@ void build_string_array(char *file,
     while(std::getline(infile,line)){
         str_array.push_back(line);
     }
-
     infile.close();
 }
 
+/*Chamada dos algoritmos, incluindo a cflag
+Deve ser a chamada final da função call_pmt*/
+void call_alg(std::string alg_name, char* file,
+   std::vector<std::string> pat_array, int emax, bool cflag){
+
+  std::ifstream infile(file);
+  std::string line;
+  while(std::getline(infile,line)){
+    //alg_(line, pat, err);
+    std::cout << line << '\n';
+    //para cada
+  }
+
+  if(alg_name.compare(alg_array[0])){
+    //TODO: BoyerMoore
+    std::cout << alg_name << '\n';
+  }
+  else if(alg_name.compare(alg_array[1])){
+    //TODO: Upgrade ahocorasik
+    std::cout << alg_name << '\n';
+  }
+  else if(alg_name.compare(alg_array[2])){
+    //TODO: e1 parametro emax
+    std::cout << alg_name << '\n';
+  }
+  else if(alg_name.compare(alg_array[3])){
+    //TODO: e2 parametro emax
+    std::cout << alg_name << '\n';
+  }
+
+  infile.close();
+}
+
+void call_pmt(std::string alg_name, char* file,
+   std::vector<std::string> pat_array, int emax,  bool cflag){
+     //TODO: Defaults e Sugestões
+      call_alg(alg_name, file, pat_array , emax, cflag);
+    }
+
 int main(int argc, char *argv[]) {
     int option;
-    int eflag, pflag, aflag, cflag = 0;
+    bool eflag, pflag, aflag, cflag = false;
     int txt_index = 0;
-    int emax;
+    int emax = -1;
+    std::string alg_name;
+    std::vector<std::string> pat_array;
 
     check_args(argc, argv[0]);
     check_file(argv[argc-1], argv[0]);
-
-    std::vector<std::string> pat_array;
 
     while((option = getopt_long(argc,argv, "e:p:a:ch",
         long_options, NULL)) != -1){
             switch(option){
                 case 'e':
-                    eflag = 1;
+                    eflag = true;
                     check_edit(optarg, emax);
                     //TODO: Busca aproximada PRIORITY 1
                     set_txt_index(optind,txt_index);
                     break;
                 case 'p':
-                    pflag = 1;
+                    pflag = true;
                     /*TODO: Busca linha por linha no arquivo
                     PRIORITY 2*/
                     build_string_array(optarg, pat_array);
@@ -137,11 +186,12 @@ int main(int argc, char *argv[]) {
                 case 'a':
                     /*TODO: Busca com um determinado algorithm.
                     {BoyerMoore, AhoCorasik, +2 Aprox} PRIORITY 3 */
-                    aflag = 1;
+                    aflag = true;
+                    alg_name = optarg;
                     set_txt_index(optind,txt_index);
                     break;
                 case 'c':
-                    cflag = 1;
+                    cflag = true;
                     /*TODO: Show a total count of every match pattern-file
                     "namefile": count MAX_PRIORITY 4*/
                     break;
@@ -152,8 +202,16 @@ int main(int argc, char *argv[]) {
                     return -1;
             }
         }
+        std::cout << argv[txt_index-1] << '\n';
+        set_pat(pat_array, argv[txt_index-1],pflag);
+
+        call_pmt(alg_name, argv[txt_index], pat_array, emax, cflag);
+
+
+        //TODO: debug ./pmt -a "ala" teste.txt ; n deveria funcionar
+        std::cout << alg_name << '\n';
         //txt_index-1 te dará a pattern
-        if(pat_array.empty()){
+        if(pat_array.size() == 1){
             //é uma string
             std::cout << "é uma string - " << argv[txt_index-1] <<'\n';
         }
