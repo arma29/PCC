@@ -68,6 +68,7 @@ std::pair<std::vector<int>, aho::O> AhoCohasick::build_fail(std::vector<std::str
                 aux.second = ab[i];
                 while (g.count(aux) == 0) {
                     brd = f[brd];
+                    aux.first = brd;
                 }
                 aux.first = brd;
                 f[nxt] = g[aux];
@@ -150,8 +151,8 @@ void AhoCohasick::print_fsm(aho::G &g, std::vector<int> &f, aho::O &o, std::stri
 //int main() {
 //    AhoCohasick a;
 //
-//    std::vector<std::string> P = {"he", "she", "his", "hers"};
-//    std::string txt = "she sells sea shells at the sea shore for her friends";
+//    std::vector<std::string> P = {"alamo"};
+//    std::string txt = "alamoo";
 //    std::string ab = "abcdefghijklmnopqrstuvwxyz \n\0\r";
 //
 //    std::vector<std::vector<int>> b = a.ahocohasick(txt, P, ab);
