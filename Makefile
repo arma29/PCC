@@ -1,11 +1,20 @@
-all: pmt aho
-	 g++ pmt.o aho.o -o pmt -O2 -O3 -std=c++11
+OBJS = pmt.cpp ahoCohasick.o boyerMoore.o #falta ukk e sellers e dir
+CC = g++
+CFLAGS = -c
+LFLAGS =
+VFLAGS = -std=c++11 -O2
 
-pmt: pmt.cpp
-	  g++ -c pmt.cpp -o pmt.o -O2 -O3 -std=c++11
+all: pmt clean
 
-aho: ahoCohasick.cpp
-	  g++ -c ahoCohasick.cpp -o aho.o -O2 -O3 -std=c++11
+pmt: $(OBJS)
+		@mkdir -p ../bin/
+		$(CC) $(LFLAGS) $(VFLAGS) $(OBJS) -o ../bin/pmt
 
-clean: pmt.o ahoCohasick.o
-	  rm -f -r *.o
+ahoCohasick.o: ahoCohasick.cpp ahoCohasick.h
+	  $(CC) $(CFLAGS) $(VFLAGS) ahoCohasick.cpp
+
+boyerMoore.o: boyerMoore.cpp boyerMoore.h
+		$(CC) $(CFLAGS) $(VFLAGS) boyerMoore.cpp
+
+clean:
+	  @rm -f *.o
