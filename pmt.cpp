@@ -193,10 +193,10 @@ void aho_call(char* file, std::vector<std::string> pat_array,
     bool cflag){
         std::ifstream infile(file);
         std::string line;
-        // std::string ab = "abcdefghijklmnopqrstuvwxyz \n\0\r";
+
         std::string ab;
         int find_result = 0;
-        for(int i =0; i<256;i++){
+        for(int i =0; i<128;i++){
             char a = i;
             ab += a;
         }
@@ -272,8 +272,6 @@ int main(int argc, char *argv[]) {
                     break;
                 case 'p':
                     pflag = true;
-                    /*TODO: Busca linha por linha no arquivo
-                    PRIORITY 2*/
                     build_string_array(optarg, pat_array);
                     set_txt_index(1,txt_index);
                     break;
@@ -287,8 +285,6 @@ int main(int argc, char *argv[]) {
                 case 'c':
                     cflag = true;
                     set_txt_index(1,txt_index);
-                    /*TODO: Show a total count of every match pattern-file
-                    "namefile": count MAX_PRIORITY 4*/
                     break;
                 case 'h':
                     usage(argv[0],true);
@@ -297,8 +293,7 @@ int main(int argc, char *argv[]) {
                     return -1;
             }
         }
-        //txt_index -> first textfile
-        //txt_index-1 -> string
+
         check_args(argc, txt_index, argv[0]);
 
         set_pat(pat_array, argv[txt_index-1],pflag);
@@ -311,6 +306,7 @@ int main(int argc, char *argv[]) {
             //vetor de strings
             std::cout << "é um vetor de string - " << pat_array[0]<<'\n';
         }
+
         call_pmt(alg_name, argv[txt_index], pat_array, emax, cflag);
 
 
