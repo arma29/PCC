@@ -195,6 +195,7 @@ void aho_call(char* file, std::vector<std::string> pat_array,
         std::string line;
         // std::string ab = "abcdefghijklmnopqrstuvwxyz \n\0\r";
         std::string ab;
+        int find_result = 0;
         for(int i =0; i<256;i++){
             char a = i;
             ab += a;
@@ -204,9 +205,14 @@ void aho_call(char* file, std::vector<std::string> pat_array,
         while(std::getline(infile,line)){
             // std::cout << line << '\n';
             std::vector<std::vector<int> > array = aho.ahocohasick(line,pat_array,ab);
-            if(aho_aux(array))
-                std::cout << line << '\n';
+            if(aho_aux(array)){
+                if(!cflag)
+                    std::cout << line << '\n';
+                find_result++;
+            }
         }
+        if(cflag)
+            std::cout << find_result << '\n';
         infile.close();
     }
 /*Chamada dos algoritmos, incluindo a cflag
