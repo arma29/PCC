@@ -7,6 +7,7 @@
 #include <string>
 
 #include "ahoCohasick.h"
+#include "boyerMoore.h"
 
 /*Necessary for getopt_long, use as argument 4*/
 static struct option const long_options[]=
@@ -70,7 +71,7 @@ void set_txt_index(int opt, int& index){
 
 /*Caso seja uma string, anexo a um vetor de string (único)*/
 void set_pat(std::vector<std::string> &pat_array,
-  std::string str,bool pflag){
+  std::string str ,bool pflag){
 
   if(!pflag)
     pat_array.push_back(str);
@@ -134,7 +135,6 @@ void highlight_match(std::string line, std::string match, int first){
     int j = 0;
     for(int i = 0; i < line.length() ; i++){
         if(i == first && first <= match.length()){
-            //std::cout << "chega?" << '\n';
             std::cout << RED << line.at(i) << RESET;
             first++;
 
@@ -177,15 +177,14 @@ void simple_search(char* file , std::vector<std::string> pat_array,
 }
 
 
-bool aho_aux(std::vector<std::vector<int>> array){
+int aho_aux(std::vector<std::vector<int>> array){
     int occ = 0;
     for(int i =0; i< array.size(); i++){
         occ += array[i].size();
-        if(occ > 0)
-            return true;
+
     }
 
-    return false;
+    return occ;
 
 }
 
@@ -193,28 +192,56 @@ void aho_call(char* file, std::vector<std::string> pat_array,
     bool cflag){
         std::ifstream infile(file);
         std::string line;
-
         std::string ab;
-        int find_result = 0;
         for(int i =0; i<128;i++){
             char a = i;
             ab += a;
         }
-
         AhoCohasick aho;
+        int count = 0;
         while(std::getline(infile,line)){
             // std::cout << line << '\n';
             std::vector<std::vector<int> > array = aho.ahocohasick(line,pat_array,ab);
-            if(aho_aux(array)){
+            int find = aho_aux(array);
+            if(find > 0){
                 if(!cflag)
                     std::cout << line << '\n';
-                find_result++;
+                count += find;
             }
         }
         if(cflag)
-            std::cout << find_result << '\n';
+            std::cout << count << '\n';
         infile.close();
     }
+
+void boy_call(char* file, std::string pat,
+  bool cflag){
+
+    std::ifstream infile(file);
+    std::string line;
+    std::string ab;
+    for(int i =0; i<128;i++){
+        char a = i;
+        ab += a;
+    }
+    BoyerMoore boy;
+
+    int count = 0;
+
+    while(std::getline(infile,line)){
+      std::vector<int> array = boy.boyerMoore(line,pat,ab);
+      if(!array.empty()){
+        if(!cflag)
+          std::cout << line << '\n';
+        count++;
+      }
+    }
+    if(cflag)
+      std::cout << count << '\n';
+    infile.close();
+
+
+  }
 /*Chamada dos algoritmos, incluindo a cflag
 Deve ser a chamada final da função call_pmt*/
 void call_alg(std::string alg_name, char* file,
@@ -222,8 +249,10 @@ void call_alg(std::string alg_name, char* file,
 
   if(alg_name.compare(alg_array[0]) == 0){
     //TODO: BoyerMoore
-    // std::cout << alg_name << '\n';
-    simple_search(file, pat_array, cflag);
+    std::cout << alg_name << '\n';
+    // simple_search(file, pat_array, cflag);
+    for(auto i: pat_array)
+      boy_call(file,i,cflag);
   }
   else if(alg_name.compare(alg_array[1]) == 0){
     //TODO: Upgrade ahocorasik
@@ -237,6 +266,9 @@ void call_alg(std::string alg_name, char* file,
   else if(alg_name.compare(alg_array[3]) == 0){
     //TODO: e2 parametro emax
     std::cout << alg_name << '\n';
+  }
+  else{
+    usage("./pmt", false);
   }
   // infile.close();
 }
@@ -252,7 +284,10 @@ void call_pmt(std::string alg_name, char* file,
 
 int main(int argc, char *argv[]) {
     int option;
-    bool eflag, pflag, aflag, cflag = false;
+    bool eflag = false;
+    bool pflag = false;
+    bool aflag = false;
+    bool cflag = false;
     int txt_index = 2;
     int emax = -1;
     std::string alg_name;
@@ -260,7 +295,6 @@ int main(int argc, char *argv[]) {
 
     check_args(argc, txt_index, argv[0]);
     check_file(argv[argc-1], argv[0]);
-
     while((option = getopt_long(argc,argv, "e:p:a:ch",
         long_options, NULL)) != -1){
             switch(option){
@@ -294,20 +328,19 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        check_args(argc, txt_index, argv[0]);
+      check_args(argc, txt_index, argv[0]);
+      set_pat(pat_array, argv[txt_index-1],pflag);
 
-        set_pat(pat_array, argv[txt_index-1],pflag);
+      if(pat_array.size() == 1){
+          //é uma string
+          std::cout << "é uma string --" << argv[txt_index-1] << "--"<<'\n';
+      }
+      else{
+          //vetor de strings
+          std::cout << "é um vetor de string - " << pat_array[0]<<'\n';
+      }
 
-        if(pat_array.size() == 1){
-            //é uma string
-            std::cout << "é uma string --" << argv[txt_index-1] << "--"<<'\n';
-        }
-        else{
-            //vetor de strings
-            std::cout << "é um vetor de string - " << pat_array[0]<<'\n';
-        }
-
-        call_pmt(alg_name, argv[txt_index], pat_array, emax, cflag);
+      call_pmt(alg_name, argv[txt_index], pat_array, emax, cflag);
 
 
 
