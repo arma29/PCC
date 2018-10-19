@@ -1,4 +1,4 @@
-OBJS = pmt.cpp ahoCohasick.o boyerMoore.o
+OBJS = pmt.cpp ahoCohasick.o boyerMoore.o sellers.o
 CC = g++
 CFLAGS = -c
 LFLAGS =
@@ -11,10 +11,13 @@ pmt: $(OBJS)
 		$(CC) $(LFLAGS) $(VFLAGS) $(OBJS) -o pmt # ../bin/pmt -> cria na pasta bin o exe pmt
 
 ahoCohasick.o: ahoCohasick.cpp ahoCohasick.h
-	  $(CC) $(CFLAGS) $(VFLAGS) ahoCohasick.cpp
+		$(CC) $(CFLAGS) $(VFLAGS) ahoCohasick.cpp
 
 boyerMoore.o: boyerMoore.cpp boyerMoore.h
 		$(CC) $(CFLAGS) $(VFLAGS) boyerMoore.cpp
+
+sellers.o: sellers.cpp sellers.h
+		$(CC) $(CFLAGS) $(VFLAGS) sellers.cpp
 
 clean:
 	  @rm -f *.o
