@@ -43,16 +43,16 @@ std::vector<int> Wu::wu_manber(std::string &txt,
     return occ;
 }
 
-int main() {
-    std::string ab = "abcdefghijklmnopqrstuvwxyz1234567890 \n\r\0\t";
-    std::string pat = "like";
-    std::string txt = "love";
-    std::vector<int> occ = Wu::wu_manber(txt, pat, ab, 2);
-
-    std::cout << "[";
-    for (int i = 0;i < occ.size();i++) {
-        std::cout << occ[i] << ", ";
-    }
-    std::cout << "]" << std::endl;
-    return 0;
-}
+//int main() {
+//    std::string ab = "abcdefghijklmnopqrstuvwxyz1234567890 \n\r\0\t";
+//    std::string pat = "like";
+//    std::string txt = "love";
+//    std::vector<int> occ = Wu::wu_manber(txt, pat, ab, 2);
+//
+//    std::cout << "[";
+//    for (int i = 0;i < occ.size();i++) {
+//        std::cout << occ[i] << ", ";
+//    }
+//    std::cout << "]" << std::endl;
+//    return 0;
+//}
