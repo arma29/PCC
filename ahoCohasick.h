@@ -12,21 +12,16 @@
 #include <vector>
 #include <deque>
 
-namespace aho {
+namespace Aho {
     using G = std::map<std::pair<int, char>, int>;
     using O = std::vector<std::vector<int>>;
     using IntPair = std::pair<int, int>;
-}
 
-class AhoCohasick {
-private:
-
-    std::tuple<aho::G, int, aho::O> build_goto(std::vector<std::string>&, std::string&);
-    std::pair<std::vector<int>, aho::O> build_fail(std::vector<std::string>&, std::string&, aho::G&, int, aho::O&);
-    std::tuple<aho::G, std::vector<int>, aho::O> build_fsm(std::vector<std::string>&, std::string&);
-    void print_fsm(aho::G&, std::vector<int>&, aho::O&, std::string&);
-public:
+    std::tuple<G, int, O> build_goto(std::vector<std::string>&, std::string&);
+    std::pair<std::vector<int>, O> build_fail(std::vector<std::string>&, std::string&, G&, int, O&);
+    std::tuple<G, std::vector<int>, O> build_fsm(std::vector<std::string>&, std::string&);
+    void print_fsm(G&, std::vector<int>&, O&, std::string&);
     std::vector<std::vector<int>> ahocohasick(std::string&, std::vector<std::string>&, std::string&);
-};
+}
 
 #endif //PCC_AHOCOHASICK_H

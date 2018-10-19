@@ -1,7 +1,7 @@
 #include "ahoCohasick.h"
 
-std::tuple<aho::G , int, aho::O> AhoCohasick::build_goto(std::vector<std::string> &P, std::string &ab) {
-    aho::G g; aho::O o;
+std::tuple<Aho::G , int, Aho::O> Aho::build_goto(std::vector<std::string> &P, std::string &ab) {
+    Aho::G g; Aho::O o;
     o.push_back(std::vector<int>());
     int nxt = 0;
     for (int k = 0; k < P.size(); k++) {
@@ -24,26 +24,26 @@ std::tuple<aho::G , int, aho::O> AhoCohasick::build_goto(std::vector<std::string
         pat.clear();
     }
 
-    aho::IntPair zero_a(0, 0);
+    Aho::IntPair zero_a(0, 0);
     for (int i = 0; i < ab.size(); i++) {
         zero_a.second = ab[i];
         if (g.count(zero_a) == 0) {
             g[zero_a] = 0;
         }
     }
-    std::tuple<aho::G, int, aho::O> ret(g, nxt+1, o);
+    std::tuple<Aho::G, int, Aho::O> ret(g, nxt+1, o);
     return ret;
 }
 
-std::pair<std::vector<int>, aho::O> AhoCohasick::build_fail(std::vector<std::string> &P,
+std::pair<std::vector<int>, Aho::O> Aho::build_fail(std::vector<std::string> &P,
                                                             std::string &ab,
-                                                            aho::G &g,
+                                                            Aho::G &g,
                                                             int n,
-                                                            aho::O &o) {
+                                                            Aho::O &o) {
     std::deque<int> Q;
     std::vector<int> f(n, 0);
 
-    aho::IntPair aux(0,0);
+    Aho::IntPair aux(0,0);
 
     for (int i = 0;i < ab.size(); i++) {
         aux.second = ab[i];
@@ -79,22 +79,22 @@ std::pair<std::vector<int>, aho::O> AhoCohasick::build_fail(std::vector<std::str
 
     }
 
-    return std::pair<std::vector<int>, aho::O>(f, o);
+    return std::pair<std::vector<int>, Aho::O>(f, o);
 }
 
-std::tuple<aho::G, std::vector<int>, aho::O> AhoCohasick::build_fsm(std::vector<std::string> &P,
+std::tuple<Aho::G, std::vector<int>, Aho::O> Aho::build_fsm(std::vector<std::string> &P,
                                                                     std::string &ab) {
-    aho::G g; int n; aho::O o; std::vector<int> f;
+    Aho::G g; int n; Aho::O o; std::vector<int> f;
     std::tie(g, n, o) = build_goto(P, ab);
     std::tie(f, o) = build_fail(P, ab, g, n, o);
 //    print_fsm(g, f, o, ab);
-    return std::tuple<aho::G, std::vector<int>, aho::O>(g, f, o);
+    return std::tuple<Aho::G, std::vector<int>, Aho::O>(g, f, o);
 }
 
-std::vector<std::vector<int>> AhoCohasick::ahocohasick(std::string &txt, std::vector<std::string> &P, std::string &ab) {
+std::vector<std::vector<int>> Aho::ahocohasick(std::string &txt, std::vector<std::string> &P, std::string &ab) {
     int n = txt.size(); int cur;
     std::vector<int> m(P.size());
-    aho::G g; aho::O o; std::vector<int> f;
+    Aho::G g; Aho::O o; std::vector<int> f;
     std::vector<std::vector<int>> occ;
 
     for (int i = 0;i < P.size();i++) {
@@ -122,10 +122,10 @@ std::vector<std::vector<int>> AhoCohasick::ahocohasick(std::string &txt, std::ve
     return occ;
 }
 
-void AhoCohasick::print_fsm(aho::G &g, std::vector<int> &f, aho::O &o, std::string &ab) {
+void Aho::print_fsm(Aho::G &g, std::vector<int> &f, Aho::O &o, std::string &ab) {
     int nxt = o.size();
     std::cout << "goto" << std::endl;
-    aho::IntPair aux(0,0);
+    Aho::IntPair aux(0,0);
     for (int s = 0;s < nxt;s++){
         std::cout << s << ":" << std::endl;
         for (int i = 0;i < ab.size();i++) {
@@ -149,13 +149,11 @@ void AhoCohasick::print_fsm(aho::G &g, std::vector<int> &f, aho::O &o, std::stri
 }
 
 //int main() {
-//    AhoCohasick a;
-//
 //    std::vector<std::string> P = {"alamo"};
 //    std::string txt = "alamoo";
 //    std::string ab = "abcdefghijklmnopqrstuvwxyz \n\0\r";
 //
-//    std::vector<std::vector<int>> b = a.ahocohasick(txt, P, ab);
+//    std::vector<std::vector<int>> b = Aho::ahocohasick(txt, P, ab);
 //    std::cout << "[";
 //    for (int i = 0;i < b.size(); i++) {
 //        std::cout << "[";

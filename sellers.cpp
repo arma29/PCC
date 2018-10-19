@@ -10,11 +10,11 @@ struct c_unique {
 	}
 } UniqueNumber;
 
-int Sellers::phi(char a, char b){
+int Sel::phi(char a, char b){
 	return (int)(a != b);
 }
 
-std::vector<std::vector<int> > Sellers::mtz(int n, int m){
+std::vector<std::vector<int> > Sel::mtz(int n, int m){
 	std::vector<std::vector<int> > mtz;
 
 	std::vector<int> array_n(n+1);
@@ -47,7 +47,7 @@ void print_edit(std::vector<std::vector<int> > edit){
 
 
 
-std::vector<int> Sellers::sellers(std::string txt,
+std::vector<int> Sel::sellers(std::string txt,
                                   std::string pat, int emax){
 	int n = txt.length();
 	int m = pat.length();
@@ -90,11 +90,10 @@ std::vector<int> Sellers::sellers(std::string txt,
 }
 
 // int main(int argc, char const *argv[]) {
-//     Sellers sel;
 //     std::string txt = "like lovi loveme like you do lov loveee you iove";
 //     std::string pat = "love";
 //     int emax = 2;
-//     std::vector<int> occ = sel.sellers(txt,pat,emax);
+//     std::vector<int> occ = Sel::sellers(txt,pat,emax);
 //     std::cout << "[";
 //     for(auto i:occ)
 //         std::cout << i << ",";

@@ -4,7 +4,7 @@
 
 #include "boyerMoore.h"
 
-std::map<char, int> BoyerMoore::bad_char(std::string &pat, std::string &ab) {
+std::map<char, int> Bm::bad_char(std::string &pat, std::string &ab) {
     int m = pat.length();
     int l = ab.length();
 
@@ -21,39 +21,7 @@ std::map<char, int> BoyerMoore::bad_char(std::string &pat, std::string &ab) {
     return C;
 }
 
-bool BoyerMoore::ends_with(std::string &a, std::string &b) {
-    int lenA = a.length();
-    int lenB = b.length();
-
-    if (lenA >= lenB) {
-        return (0 == a.compare (lenA - lenB, lenB, b));
-    } else {
-        return false;
-    }
-}
-
-bool BoyerMoore::sim(std::string &a, std::string &b) {
-    return ends_with(a,b) || ends_with(b,a);
-}
-
-int BoyerMoore::border_bf(std::string &s) {
-    int n = s.length();
-    if (n == 0) {
-        return -1;
-    }
-    std::string first = "";
-    std::string last = "";
-    for (int i = n-1; i > 0; i--) {
-        first = s.substr(0, i);
-        last = s.substr(n - i, n);
-        if (!first.compare(last)) {
-            return i;
-        }
-    }
-    return 0;
-}
-
-std::vector<int> BoyerMoore::init_border(std::string &pat) {
+std::vector<int> Bm::init_border(std::string &pat) {
     int m = pat.length();
     std::vector<int> nxt(m+1, 0);
     int i = 1;
@@ -70,27 +38,7 @@ std::vector<int> BoyerMoore::init_border(std::string &pat) {
     return nxt;
 }
 
-std::vector<int> BoyerMoore::good_suffix_bf(std::string &pat) {
-    int m = pat.length();
-    std::vector<int> S(m+1, m);
-
-    std::string first = "";
-    std::string last = "";
-    for (int j = 0; j < m; j++) {
-        for (int k = m - 1; k > 0; k--) {
-            first = pat.substr(j+1, m);
-            last = pat.substr(0, k);
-            if (sim(first, last)) {
-                S[j] = m - k;
-                break;
-            }
-        }
-    }
-    S[m] = m - border_bf(pat);
-    return S;
-}
-
-std::vector<int> BoyerMoore::good_suffix(std::string & pat) {
+std::vector<int> Bm::good_suffix(std::string & pat) {
     int m = pat.length();
     std::string patCopy(pat);
     std::reverse(patCopy.begin(), patCopy.end());
@@ -106,7 +54,7 @@ std::vector<int> BoyerMoore::good_suffix(std::string & pat) {
     return S;
 }
 
-std::vector<int> BoyerMoore::boyerMoore(std::string &txt, std::string &pat, std::string &ab) {
+std::vector<int> Bm::boyer_moore(std::string &txt, std::string &pat, std::string &ab) {
     int n = txt.length();
     int m = pat.length();
     int l = ab.length();
@@ -135,7 +83,6 @@ std::vector<int> BoyerMoore::boyerMoore(std::string &txt, std::string &pat, std:
 }
 
 //int main() {
-//    BoyerMoore b;
 //    std::string txt = "Ah! the love! love, love, love... I love it!";
 //    std::string pat = "love";
 //    std::string ab = "";
@@ -144,7 +91,7 @@ std::vector<int> BoyerMoore::boyerMoore(std::string &txt, std::string &pat, std:
 //        ab += (char) i;
 //    }
 //
-//    for (auto i: b.boyerMoore(txt, pat, ab)) {
+//    for (auto i: Bm::boyer_moore(txt, pat, ab)) {
 //        std::cout << i << ", ";
 //    }
 //    std::cout << std::endl;

@@ -19,5 +19,8 @@ boyerMoore.o: boyerMoore.cpp boyerMoore.h
 sellers.o: sellers.cpp sellers.h
 		$(CC) $(CFLAGS) $(VFLAGS) sellers.cpp
 
+wumanber.o: wumanber.cpp wumanber.h
+        $(CC) $(CFLAGS) $(VFLAGS) wumanber.cpp -I .
+
 clean:
 	  @rm -f *.o
