@@ -9,6 +9,12 @@
 #include "ahoCohasick.h"
 #include "boyerMoore.h"
 #include "sellers.h"
+#include "wumanber.h"
+
+/*If you open the command palette, using Ctrl+Shift+p,
+you should find a fold all function by typing “fold all”.
+A shortcut for fold all is Ctrl+Alt+Shift+[.*/
+/*fold at ident level 1 - ctrl+K ctrl+1*/
 
 /*Necessary for getopt_long, use as argument 4*/
 static struct option const long_options[]=
@@ -22,7 +28,7 @@ static struct option const long_options[]=
 };
 
 static std::vector<std::string> alg_array =
-{"boyermoore", "ahocorasik", "sellers", "e2"};
+{"bm", "aho", "sel", "wu"};
 
 /*Usage function to show messages*/
 void usage(std::string const& name, bool status)
@@ -199,12 +205,11 @@ void aho_call(char* file, std::vector<std::string> pat_array,
 		char a = i;
 		ab += a;
 	}
-	AhoCohasick aho;
 	int count = 0;
 	while(std::getline(infile,line)) {
 		// std::cout << line << '\n';
 		std::vector<std::vector<int> > array =
-		    aho.ahocohasick(line,pat_array,ab);
+		    Aho::ahocohasick(line,pat_array,ab);
 		int find = aho_aux(array);
 		if(find > 0) {
 			if(!cflag)
@@ -227,12 +232,11 @@ void boy_call(char* file, std::string pat,
 		char a = i;
 		ab += a;
 	}
-	BoyerMoore boy;
 
 	int count = 0;
 
 	while(std::getline(infile,line)) {
-		std::vector<int> array = boy.boyerMoore(line,pat,ab);
+		std::vector<int> array = Bm::boyer_moore(line,pat,ab);
 		if(!array.empty()) {
 			if(!cflag)
 				std::cout << line << '\n';
@@ -246,9 +250,65 @@ void boy_call(char* file, std::string pat,
 
 }
 
+
+int aprox_count(std::vector<int> occ){
+	int count = 0;
+	for (size_t i = 0; i < occ.size()-1; i++) {
+		/* code */
+		if((occ[i+1] - occ[i]) > 1){
+			count++;
+		}
+
+		if(occ[i+1] == (occ[occ.size()-1])){
+			count++;
+		}
+	}
+
+	return count;
+}
+
 void sel_call(char *file, std::string pat, int emax, bool cflag){
     //TODO: Function and sel_aux , that returns the count, {if(prox-atual > 1)count++}
-    Sellers sel;
+	std::ifstream infile(file);
+	std::string line;
+	int count = 0;
+	while(std::getline(infile,line)) {
+		// std::cout << line << '\n';
+		std::vector<int> array = Sel::sellers(line,pat,emax);
+		if(!array.empty()) {
+			if(!cflag)
+				std::cout << line << '\n';
+			count += aprox_count(array);
+		}
+	}
+	if(cflag)
+		std::cout << count << '\n';
+	infile.close();
+}
+
+void wu_call(char *file, std::string pat, int emax, bool cflag){
+    //TODO: Function and sel_aux , that returns the count, {if(prox-atual > 1)count++}
+	std::ifstream infile(file);
+	std::string line;
+	std::string ab;
+	for(int i =0; i<128; i++) {
+		char a = i;
+		ab += a;
+	}
+	int count = 0;
+	while(std::getline(infile,line)) {
+		// std::cout << line << '\n';
+		std::vector<int> array = Wu::wu_manber(line,pat,ab,emax);
+		if(!array.empty()) {
+			if(!cflag)
+				std::cout << line << '\n';
+			count += aprox_count(array);
+		}
+	}
+	if(cflag)
+		std::cout << count << '\n';
+	infile.close();
+
 }
 /*Chamada dos algoritmos, incluindo a cflag
    Deve ser a chamada final da função call_pmt*/
@@ -276,6 +336,8 @@ void call_alg(std::string alg_name, char* file,
 	else if(alg_name.compare(alg_array[3]) == 0) {
 		//TODO: e2 parametro emax
 		std::cout << alg_name << '\n';
+		for(auto i: pat_array)
+			wu_call(file,i,emax,cflag);
 	}
 	else{
 		usage("./pmt", false);
