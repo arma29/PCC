@@ -7,7 +7,7 @@
 std::map<char, boost::dynamic_bitset<>> Wu::make_mask(std::string &pat, std::string &ab) {
     int l = pat.length(); int n = ab.length();
     std::map<char, boost::dynamic_bitset<>> mask;
-    boost::dynamic_bitset<> lastOne = boost::dynamic_bitset<>(l).set(l-1,1);
+    boost::dynamic_bitset<> lastOne = boost::dynamic_bitset<>(l).set(l-1,true);
     boost::dynamic_bitset<> slide = boost::dynamic_bitset<>(lastOne).flip();
     for (int i = 0;i < n;i++) { mask[ab[i]] = boost::dynamic_bitset<>(l).set(); }
     for (int j = 0;j < l;j++) {
