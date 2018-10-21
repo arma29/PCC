@@ -1,10 +1,10 @@
 //
-// Created by Allan on 19/10/2018.
+// Created by Allan on 21/10/2018.
 //
 
-#include "wumanber.h"
+#include "shiftOr.h"
 
-std::map<char, std::bitset<BITSET_SIZE>> Wu::make_mask(std::string &pat, std::string &ab,
+std::map<char, std::bitset<BITSET_SIZE>> Sho::make_mask(std::string &pat, std::string &ab,
                                                        std::bitset<BITSET_SIZE> &beginMask) {
     int l = pat.length(); int n = ab.length();
     std::map<char, std::bitset<BITSET_SIZE>> mask;
@@ -19,28 +19,17 @@ std::map<char, std::bitset<BITSET_SIZE>> Wu::make_mask(std::string &pat, std::st
     return mask;
 }
 
-std::vector<int> Wu::wu_manber(int m,
+std::vector<int> Sho::shift_or(int m,
                                std::string &txt,
                                std::map<char, std::bitset<BITSET_SIZE>> &C,
-                               int r,
                                std::bitset<BITSET_SIZE> &beginMask) {
     int n = txt.length();
     std::vector<int> occ;
-    std::vector<std::bitset<BITSET_SIZE>> s = std::vector<std::bitset<BITSET_SIZE>>(
-                                                                        r + 1,
-                                                                        std::bitset<BITSET_SIZE>().flip() & beginMask);
-    std::bitset<BITSET_SIZE> old;
-    std::bitset<BITSET_SIZE> old2;
+    std::bitset<BITSET_SIZE> s = std::bitset<BITSET_SIZE>().flip() & beginMask;
     for (int i = 0;i < n;i++) {
-        old = s[0];
-        s[0] = (s[0] >> 1) | C[txt[i]];
-        for (int q = 1; q < r+1; q++) {
-            old2 = s[q];
-            s[q] = ((s[q] >> 1) | C[txt[i]]) & (s[q-1] >> 1) & (old >> 1) & old;
-            old = old2;
-        }
-        if (!s[r].test(0)) {
-            occ.push_back(i);
+        s = (s >> 1) | C[txt[i]];
+        if (!s.test(0)) {
+            occ.push_back(i - m + 1);
         }
     }
     return occ;

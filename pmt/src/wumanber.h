@@ -10,8 +10,7 @@
 #include <string>
 #include <iostream>
 #include <map>
-
-#define BITSET_SIZE 200
+#include "config.h"
 
 namespace Wu {
     std::map<char, std::bitset<BITSET_SIZE>> make_mask(std::string&, std::string&, std::bitset<BITSET_SIZE>&);

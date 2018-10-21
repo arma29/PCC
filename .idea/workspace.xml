@@ -10,6 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7095c01d-7fee-4a2c-9efa-29c98e1e87ff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/pmt/src/config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pmt/src/shiftOr.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pmt/src/shiftOr.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pmt/src/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pmt/src/pmt.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/pmt.cpp" afterDir="false" />
@@ -29,28 +32,28 @@
           <entry key="Makefile" value="7" />
           <entry key="bat" value="1" />
           <entry key="c" value="1" />
-          <entry key="cpp" value="45" />
-          <entry key="h" value="32" />
+          <entry key="cpp" value="46" />
+          <entry key="h" value="34" />
           <entry key="txt" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="78" />
+          <entry key="ObjectiveC" value="81" />
           <entry key="PLAIN_TEXT" value="12" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Makefile" value="394" />
-          <entry key="cpp" value="10514" />
-          <entry key="h" value="1213" />
+          <entry key="Makefile" value="459" />
+          <entry key="cpp" value="10605" />
+          <entry key="h" value="1311" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="11727" />
-          <entry key="PLAIN_TEXT" value="394" />
+          <entry key="ObjectiveC" value="11916" />
+          <entry key="PLAIN_TEXT" value="459" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -68,11 +71,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pmt/src/pmt.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="329" column="59" selection-start-line="329" selection-start-column="59" selection-end-line="329" selection-end-column="59" />
+            <state relative-caret-position="85">
+              <caret line="318" column="31" lean-forward="true" selection-start-line="318" selection-start-column="31" selection-end-line="318" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -80,17 +83,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="13" column="90" selection-start-line="13" selection-start-column="90" selection-end-line="13" selection-end-column="90" />
+            <state relative-caret-position="205">
+              <caret line="46" column="1" selection-start-line="46" selection-start-column="1" selection-end-line="46" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+            <state relative-caret-position="181">
+              <caret line="15" column="110" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="110" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="266">
+              <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="74" selection-start-line="11" selection-start-column="74" selection-end-line="11" selection-end-column="74" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pmt/src/config.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -98,8 +128,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pmt/src/Makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+            <state>
+              <caret column="72" selection-start-column="72" selection-end-column="72" />
             </state>
           </provider>
         </entry>
@@ -153,10 +183,13 @@
         <option value="$PROJECT_DIR$/sellers.h" />
         <option value="$PROJECT_DIR$/sellers.cpp" />
         <option value="$PROJECT_DIR$/Makefile" />
+        <option value="$PROJECT_DIR$/pmt/src/config.h" />
+        <option value="$PROJECT_DIR$/pmt/src/wumanber.h" />
+        <option value="$PROJECT_DIR$/pmt/src/shiftOr.h" />
+        <option value="$PROJECT_DIR$/pmt/src/shiftOr.cpp" />
+        <option value="$PROJECT_DIR$/pmt/src/wumanber.cpp" />
         <option value="$PROJECT_DIR$/pmt/src/Makefile" />
         <option value="$PROJECT_DIR$/pmt/src/pmt.cpp" />
-        <option value="$PROJECT_DIR$/pmt/src/wumanber.cpp" />
-        <option value="$PROJECT_DIR$/pmt/src/wumanber.h" />
       </list>
     </option>
   </component>
@@ -189,19 +222,6 @@
               <item name="PCC" type="b2602c69:ProjectViewProjectNode" />
               <item name="PCC" type="462c0819:PsiDirectoryNode" />
               <item name="pmt" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PCC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PCC" type="462c0819:PsiDirectoryNode" />
-              <item name="pmt" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PCC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PCC" type="462c0819:PsiDirectoryNode" />
-              <item name="pmt" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-              <item name="genome" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PCC" type="b2602c69:ProjectViewProjectNode" />
@@ -285,7 +305,7 @@
       <workItem from="1539818810579" duration="15235000" />
       <workItem from="1539873102058" duration="26564000" />
       <workItem from="1540123626804" duration="55000" />
-      <workItem from="1540125434095" duration="11514000" />
+      <workItem from="1540125434095" duration="13283000" />
     </task>
     <task id="LOCAL-00001" summary="Deleted main version of ubuntu. Should add in git ignore. Added makefile.">
       <created>1539287174508</created>
@@ -304,13 +324,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52388000" />
+    <option name="totallyTimeSpent" value="54157000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1805668" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1805668" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -322,7 +342,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32890365" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.34385383" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49959514" visible="true" weight="0.22416812" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49959514" visible="true" weight="0.22416812" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50040483" side_tool="true" weight="0.45907474" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -393,13 +413,6 @@
         <state relative-caret-position="-1530" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pmt/src/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pmt/src/sellers.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="708">
@@ -407,24 +420,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pmt/src/pmt.cpp">
+    <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="15" column="110" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="329" column="59" selection-start-line="329" selection-start-column="59" selection-end-line="329" selection-end-column="59" />
+          <caret line="11" column="74" selection-start-line="11" selection-start-column="74" selection-end-line="11" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/config.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="13" column="90" selection-start-line="13" selection-start-column="90" selection-end-line="13" selection-end-column="90" />
+        <state relative-caret-position="205">
+          <caret line="46" column="1" selection-start-line="46" selection-start-column="1" selection-end-line="46" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.h">
+    <entry file="file://$PROJECT_DIR$/pmt/src/Makefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        <state>
+          <caret column="72" selection-start-column="72" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/pmt.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="318" column="31" lean-forward="true" selection-start-line="318" selection-start-column="31" selection-end-line="318" selection-end-column="31" />
         </state>
       </provider>
     </entry>

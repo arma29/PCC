@@ -314,7 +314,6 @@ void sel_call(char *file, std::string pat, int emax, bool cflag){
 	infile.close();
 }
 
-
 void wu_call(char *file, std::string pat, int emax, bool cflag){
     //TODO: Function and sel_aux , that returns the count, {if(prox-atual > 1)count++}
 	std::ifstream infile(file);

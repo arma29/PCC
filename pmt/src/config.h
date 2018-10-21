@@ -1,0 +1,3 @@
+#ifndef BITSTRING_SIZE
+#define BITSTRING_SIZE 100
+#endif

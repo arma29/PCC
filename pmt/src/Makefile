@@ -1,7 +1,7 @@
-OBJS = pmt.cpp ahoCohasick.o boyerMoore.o sellers.o wumanber.o
+OBJS = pmt.cpp ahoCohasick.o boyerMoore.o sellers.o wumanber.o shiftOr.o
 CC = g++
 CFLAGS = -c
-LFLAGS = -I .
+LFLAGS =
 VFLAGS = -std=c++11 -O2 -O3
 
 all: pmt clean
@@ -20,6 +20,9 @@ sellers.o: sellers.cpp sellers.h
 
 wumanber.o: wumanber.cpp wumanber.h
 		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) wumanber.cpp
+
+shiftOr.o: shiftOr.cpp shiftOr.h
+		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) shiftOr.cpp
 
 clean:
 	  @rm -f *.o
