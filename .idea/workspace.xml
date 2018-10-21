@@ -10,14 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7095c01d-7fee-4a2c-9efa-29c98e1e87ff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/pmt/src/config.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pmt/src/shiftOr.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pmt/src/shiftOr.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/pmt.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/pmt.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/wumanber.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/wumanber.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/wumanber.h" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/wumanber.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pmt/src/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pmt/src/shiftOr.h" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/shiftOr.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,12 +41,12 @@
         <counts>
           <entry key="Makefile" value="459" />
           <entry key="cpp" value="10605" />
-          <entry key="h" value="1311" />
+          <entry key="h" value="1371" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="11916" />
+          <entry key="ObjectiveC" value="11976" />
           <entry key="PLAIN_TEXT" value="459" />
         </counts>
       </usages-collector>
@@ -71,7 +65,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pmt/src/pmt.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
@@ -101,17 +95,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+            <state relative-caret-position="79">
+              <caret line="24" column="69" selection-start-line="21" selection-end-line="24" selection-end-column="69" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="74" selection-start-line="11" selection-start-column="74" selection-end-line="11" selection-end-column="74" />
+            <state relative-caret-position="170">
+              <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -120,7 +114,7 @@
         <entry file="file://$PROJECT_DIR$/pmt/src/config.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
-              <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
+              <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -183,13 +177,13 @@
         <option value="$PROJECT_DIR$/sellers.h" />
         <option value="$PROJECT_DIR$/sellers.cpp" />
         <option value="$PROJECT_DIR$/Makefile" />
-        <option value="$PROJECT_DIR$/pmt/src/config.h" />
         <option value="$PROJECT_DIR$/pmt/src/wumanber.h" />
-        <option value="$PROJECT_DIR$/pmt/src/shiftOr.h" />
         <option value="$PROJECT_DIR$/pmt/src/shiftOr.cpp" />
         <option value="$PROJECT_DIR$/pmt/src/wumanber.cpp" />
         <option value="$PROJECT_DIR$/pmt/src/Makefile" />
         <option value="$PROJECT_DIR$/pmt/src/pmt.cpp" />
+        <option value="$PROJECT_DIR$/pmt/src/config.h" />
+        <option value="$PROJECT_DIR$/pmt/src/shiftOr.h" />
       </list>
     </option>
   </component>
@@ -305,7 +299,7 @@
       <workItem from="1539818810579" duration="15235000" />
       <workItem from="1539873102058" duration="26564000" />
       <workItem from="1540123626804" duration="55000" />
-      <workItem from="1540125434095" duration="13283000" />
+      <workItem from="1540125434095" duration="13610000" />
     </task>
     <task id="LOCAL-00001" summary="Deleted main version of ubuntu. Should add in git ignore. Added makefile.">
       <created>1539287174508</created>
@@ -324,13 +318,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54157000" />
+    <option name="totallyTimeSpent" value="54484000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1805668" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1805668" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -342,7 +336,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32890365" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.34385383" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49959514" visible="true" weight="0.22416812" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49959514" visible="true" weight="0.22416812" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50040483" side_tool="true" weight="0.45907474" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -420,34 +414,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="15" column="110" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="110" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="74" selection-start-line="11" selection-start-column="74" selection-end-line="11" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pmt/src/config.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
@@ -466,6 +432,34 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="318" column="31" lean-forward="true" selection-start-line="318" selection-start-column="31" selection-end-line="318" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="15" column="110" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/config.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="24" column="69" selection-start-line="21" selection-end-line="24" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/shiftOr.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
         </state>
       </provider>
     </entry>
