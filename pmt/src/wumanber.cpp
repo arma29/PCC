@@ -4,12 +4,14 @@
 
 #include "wumanber.h"
 
-std::map<char, boost::dynamic_bitset<>> Wu::make_mask(std::string &pat, std::string &ab) {
+std::map<char, std::bitset<BITSET_SIZE>> Wu::make_mask(std::string &pat, std::string &ab,
+                                                       std::bitset<BITSET_SIZE> &beginMask) {
     int l = pat.length(); int n = ab.length();
-    std::map<char, boost::dynamic_bitset<>> mask;
-    boost::dynamic_bitset<> lastOne = boost::dynamic_bitset<>(l).set(l-1,true);
-    boost::dynamic_bitset<> slide = boost::dynamic_bitset<>(lastOne).flip();
-    for (int i = 0;i < n;i++) { mask[ab[i]] = boost::dynamic_bitset<>(l).set(); }
+    std::map<char, std::bitset<BITSET_SIZE>> mask;
+
+    std::bitset<BITSET_SIZE> lastOne = std::bitset<BITSET_SIZE>().set(l-1,true) & beginMask;
+    std::bitset<BITSET_SIZE> slide = std::bitset<BITSET_SIZE>(lastOne).flip() & beginMask;
+    for (int i = 0;i < n;i++) { mask[ab[i]] = std::bitset<BITSET_SIZE>().set() & beginMask; }
     for (int j = 0;j < l;j++) {
         mask[pat[j]] = mask[pat[j]] & slide;
         slide = (slide >> 1) | lastOne;
@@ -17,17 +19,18 @@ std::map<char, boost::dynamic_bitset<>> Wu::make_mask(std::string &pat, std::str
     return mask;
 }
 
-std::vector<int> Wu::wu_manber(std::string &txt,
-                               std::string &pat,
-                               std::string &ab,
-                               int r) {
+std::vector<int> Wu::wu_manber(int m,
+                               std::string &txt,
+                               std::map<char, std::bitset<BITSET_SIZE>> &C,
+                               int r,
+                               std::bitset<BITSET_SIZE> &beginMask) {
     int n = txt.length();
-    int m = pat.length();
-    std::map<char, boost::dynamic_bitset<>> C = make_mask(pat, ab);
     std::vector<int> occ;
-    std::vector<boost::dynamic_bitset<>> s = std::vector<boost::dynamic_bitset<>>(r + 1, boost::dynamic_bitset<>(m).flip());
-    boost::dynamic_bitset<> old;
-    boost::dynamic_bitset<> old2;
+    std::vector<std::bitset<BITSET_SIZE>> s = std::vector<std::bitset<BITSET_SIZE>>(
+                                                                        r + 1,
+                                                                        std::bitset<BITSET_SIZE>().flip() & beginMask);
+    std::bitset<BITSET_SIZE> old;
+    std::bitset<BITSET_SIZE> old2;
     for (int i = 0;i < n;i++) {
         old = s[0];
         s[0] = (s[0] >> 1) | C[txt[i]];

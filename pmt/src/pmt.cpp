@@ -324,11 +324,17 @@ void wu_call(char *file, std::string pat, int emax, bool cflag){
 		char a = i;
 		ab += a;
 	}
+
+	int patSize = pat.length();
+    std::bitset<BITSET_SIZE> beginMask = std::bitset<BITSET_SIZE>();
+    for (int i = 0;i < patSize;i++) { beginMask.set(i, true); }
+	std::map<char, std::bitset<BITSET_SIZE>> C = Wu::make_mask(pat,ab,beginMask);
+
 	int count = 0;
 	int lines = 0;
 	while(std::getline(infile,line)) {
 		// std::cout << line << '\n';
-		std::vector<int> array = Wu::wu_manber(line,pat,ab,emax);
+		std::vector<int> array = Wu::wu_manber(patSize,line,C,emax,beginMask);
 		if(!array.empty()) {
 			if(!cflag)
 				std::cout << line << '\n';
