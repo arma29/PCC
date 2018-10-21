@@ -59,10 +59,10 @@ Miscellaneous:\n\
     -h, --help              Display this help text and exit\n\n" << '\n';
 		std::cout << "\
 Algorithm Names:\n\
-    boyermoore              Default Algorithm for search\n\
-    ahocorasik              Default Algorithm for multi string search\n\
-    e1                      Default Algorithm for fuzzy search\n\
-    e2                      Default for...\n\n" << '\n';
+    bm, BoyerMoore          Default Algorithm for search\n\
+    aho, AhoCorasick        Default Algorithm for multi string search\n\
+    sel, Sellers            Default Algorithm for fuzzy search\n\
+    wu, Wumanber            Default for...\n\n" << '\n';
 
 		std::cout << "\
 Relate the bugs to: arma@cin.ufpe.br // mapa@cin.ufpe.br\n\
@@ -70,6 +70,16 @@ PMT Page: <http://www.github.com/arma29/PCC>\n" << '\n';
 	}
 
 	exit(EXIT_SUCCESS);
+}
+
+//TODO: delete
+void print_edit(std::vector<int> edit){
+	std::cout << "[";
+	for(auto i : edit) {
+
+		std::cout << i << ",";
+	}
+	std::cout << "]" << '\n';
 }
 
 /*Function to set the index of first wildcard argument or textfile*/
@@ -84,11 +94,18 @@ void set_pat(std::vector<std::string> &pat_array,
 	if(!pflag)
 		pat_array.push_back(str);
 
+	std::ifstream infile(pat_array[0]);
+
+	if(infile.is_open()){
+		std::cout << "No file" << '\n';
+		usage("./pmt", false);
+	}
 }
 
 /*Teste de validade, argumentos devem ser no minimo 3
    o primeiro textfile deve ser válido*/
-void check_args(int argc, int txt_index, std:: string const& prog ){
+void check_args(int argc, int txt_index, std:: string const& prog){
+
 	if(argc < 3)
 		usage(prog,false);
 
@@ -184,8 +201,8 @@ void simple_search(char* file, std::vector<std::string> pat_array,
 
 }
 
-
 int aho_aux(std::vector<std::vector<int> > array){
+
 	int occ = 0;
 	for(int i =0; i< array.size(); i++) {
 		occ += array[i].size();
@@ -206,6 +223,7 @@ void aho_call(char* file, std::vector<std::string> pat_array,
 		ab += a;
 	}
 	int count = 0;
+	int lines = 0;
 	while(std::getline(infile,line)) {
 		// std::cout << line << '\n';
 		std::vector<std::vector<int> > array =
@@ -214,11 +232,13 @@ void aho_call(char* file, std::vector<std::string> pat_array,
 		if(find > 0) {
 			if(!cflag)
 				std::cout << line << '\n';
+			lines++;
 			count += find;
 		}
 	}
 	if(cflag)
-		std::cout << count << '\n';
+		std::cout << "[Lines - " << lines << "] , [Count - "
+		<< count << "], AhoCorasick" <<'\n';
 	infile.close();
 }
 
@@ -234,21 +254,24 @@ void boy_call(char* file, std::string pat,
 	}
 
 	int count = 0;
-
+	int lines = 0;
 	while(std::getline(infile,line)) {
 		std::vector<int> array = Bm::boyer_moore(line,pat,ab);
 		if(!array.empty()) {
 			if(!cflag)
 				std::cout << line << '\n';
-			count++;
+			lines++;
+			count += array.size();
 		}
 	}
 	if(cflag)
-		std::cout << count << '\n';
+		std::cout << "[Lines - " << lines << "] , [Count - "
+		<< count << "], BoyerMoore" <<'\n';
 	infile.close();
 
 
 }
+
 
 
 int aprox_count(std::vector<int> occ){
@@ -272,19 +295,25 @@ void sel_call(char *file, std::string pat, int emax, bool cflag){
 	std::ifstream infile(file);
 	std::string line;
 	int count = 0;
+	int lines = 0;
 	while(std::getline(infile,line)) {
 		// std::cout << line << '\n';
 		std::vector<int> array = Sel::sellers(line,pat,emax);
+		// print_edit(array);
 		if(!array.empty()) {
 			if(!cflag)
 				std::cout << line << '\n';
-			count += aprox_count(array);
+			count += array.size();
+			lines++;
 		}
 	}
 	if(cflag)
-		std::cout << count << '\n';
+		std::cout << "[Lines - " << lines << "] , [Count - "
+		<< count << "], Sellers" <<'\n';
+
 	infile.close();
 }
+
 
 void wu_call(char *file, std::string pat, int emax, bool cflag){
     //TODO: Function and sel_aux , that returns the count, {if(prox-atual > 1)count++}
@@ -296,17 +325,20 @@ void wu_call(char *file, std::string pat, int emax, bool cflag){
 		ab += a;
 	}
 	int count = 0;
+	int lines = 0;
 	while(std::getline(infile,line)) {
 		// std::cout << line << '\n';
 		std::vector<int> array = Wu::wu_manber(line,pat,ab,emax);
 		if(!array.empty()) {
 			if(!cflag)
 				std::cout << line << '\n';
-			count += aprox_count(array);
+			lines++;
+			count += array.size();
 		}
 	}
 	if(cflag)
-		std::cout << count << '\n';
+		std::cout << "[Lines - " << lines << "] , [Count - "
+		<< count << "], WuManber" <<'\n';
 	infile.close();
 
 }
@@ -317,29 +349,26 @@ void call_alg(std::string alg_name, char* file,
 
 	if(alg_name.compare(alg_array[0]) == 0) {
 		//TODO: BoyerMoore
-		std::cout << alg_name << '\n';
 		// simple_search(file, pat_array, cflag);
 		for(auto i : pat_array)
 			boy_call(file,i,cflag);
 	}
 	else if(alg_name.compare(alg_array[1]) == 0) {
-		//TODO: Upgrade ahocorasik
-		std::cout << alg_name << '\n';
+		//TODO: Aho -  ahocorasik
 		aho_call(file,pat_array,cflag);
 	}
 	else if(alg_name.compare(alg_array[2]) == 0) {
-		//TODO: e1 parametro emax Sellers
-		std::cout << alg_name << '\n';
+		//TODO: sel - Sellers
         for(auto i: pat_array)
             sel_call(file,i,emax,cflag);
 	}
 	else if(alg_name.compare(alg_array[3]) == 0) {
-		//TODO: e2 parametro emax
-		std::cout << alg_name << '\n';
+		//TODO: wu - WuManber
 		for(auto i: pat_array)
 			wu_call(file,i,emax,cflag);
 	}
 	else{
+		std::cout << "Invalid algorithm name" << '\n';
 		usage("./pmt", false);
 	}
 	// infile.close();
@@ -349,8 +378,22 @@ void call_alg(std::string alg_name, char* file,
 /* Cada linha deve ser impressa apenas uma vez, independente
    da quantidade de ocorrencias que ela contenha.*/
 void call_pmt(std::string alg_name, char* file,
-              std::vector<std::string> pat_array, int emax,  bool cflag){
+              std::vector<std::string> pat_array, int emax, bool aflag, bool cflag){
 	//TODO: Defaults e Sugestões
+
+	//If no algorithm, pflag is activated...
+	if(!aflag){
+		if(pat_array.size() > 1)
+			alg_name = "aho";
+		if(emax != -1){
+			alg_name = "wu";
+		}
+	}
+	//If no error is selected., default is 1
+	if(emax == -1){
+		emax = 1;
+	}
+
 	call_alg(alg_name, file, pat_array, emax, cflag);
 }
 
@@ -362,11 +405,11 @@ int main(int argc, char *argv[]) {
 	bool cflag = false;
 	int txt_index = 2;
 	int emax = -1;
-	std::string alg_name;
+	std::string alg_name = "bm";
 	std::vector<std::string> pat_array;
 
-	check_args(argc, txt_index, argv[0]);
-	check_file(argv[argc-1], argv[0]);
+	//check_args(argc, txt_index, argv[0]);
+
 	while((option = getopt_long(argc,argv, "e:p:a:ch",
 	                            long_options, NULL)) != -1) {
 		switch(option) {
@@ -393,14 +436,16 @@ int main(int argc, char *argv[]) {
 			set_txt_index(1,txt_index);
 			break;
 		case 'h':
+			std::cout << "/* message */" << '\n';
 			usage(argv[0],true);
 			break;
 		default:
 			return -1;
 		}
 	}
-
+	check_file(argv[argc-1], argv[0]);
 	check_args(argc, txt_index, argv[0]);
+	std::cout << argv[txt_index-1] << '\n';
 	set_pat(pat_array, argv[txt_index-1],pflag);
 
 	if(pat_array.size() == 1) {
@@ -412,7 +457,12 @@ int main(int argc, char *argv[]) {
 		std::cout << "é um vetor de string - " << pat_array[0]<<'\n';
 	}
 
-	call_pmt(alg_name, argv[txt_index], pat_array, emax, cflag);
+	for (size_t i = txt_index; i < argc; i++) {
+		/* code */
+		std::cout << RED << argv[i] << ":" << RESET << '\n';
+		call_pmt(alg_name, argv[i], pat_array, emax, aflag,cflag);
+	}
+
 
 
 

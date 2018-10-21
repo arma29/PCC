@@ -13,8 +13,8 @@
 namespace Sel {
     int phi(char a, char b);
     std::vector<std::vector<int> > mtz(int n, int m);
-    std::vector<int> sellers(std::string txt,
-                         std::string pat, int emax);
+    std::vector<int> sellers(std::string &txt,
+                         std::string &pat, int emax);
 };
 
 #endif
