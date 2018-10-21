@@ -7,7 +7,8 @@ VFLAGS = -std=c++11 -O2 -O3
 all: pmt clean
 
 pmt: $(OBJS)
-		$(CC) $(LFLAGS) $(VFLAGS) $(OBJS) -o pmt
+		@mkdir -p ../bin/
+		$(CC) $(LFLAGS) $(VFLAGS) $(OBJS) -o ../bin/pmt
 
 ahoCohasick.o: ahoCohasick.cpp ahoCohasick.h
 		$(CC) $(CFLAGS) $(VFLAGS) ahoCohasick.cpp

@@ -451,7 +451,6 @@ int main(int argc, char *argv[]) {
 			set_txt_index(1,txt_index);
 			break;
 		case 'h':
-			std::cout << "/* message */" << '\n';
 			usage(argv[0],true);
 			break;
 		default:
@@ -460,17 +459,16 @@ int main(int argc, char *argv[]) {
 	}
 	check_file(argv[argc-1], argv[0]);
 	check_args(argc, txt_index, argv[0]);
-	std::cout << argv[txt_index-1] << '\n';
 	set_pat(pat_array, argv[txt_index-1],pflag);
 
-	if(pat_array.size() == 1) {
-		//é uma string
-		std::cout << "é uma string --" << argv[txt_index-1] << "--"<<'\n';
-	}
-	else{
-		//vetor de strings
-		std::cout << "é um vetor de string - " << pat_array[0]<<'\n';
-	}
+	// if(pat_array.size() == 1) {
+	// 	//é uma string
+	// 	std::cout << "é uma string --" << argv[txt_index-1] << "--"<<'\n';
+	// }
+	// else{
+	// 	//vetor de strings
+	// 	std::cout << "é um vetor de string - " << pat_array[0]<<'\n';
+	// }
 
 	for (size_t i = txt_index; i < argc; i++) {
 		/* code */
