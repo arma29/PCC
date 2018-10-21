@@ -222,12 +222,19 @@ void aho_call(char* file, std::vector<std::string> pat_array,
 		char a = i;
 		ab += a;
 	}
+
+	Aho::G g; std::vector<int> f;Aho::O o;
+	std::tuple<Aho::G, std::vector<int>, Aho::O> ret = Aho::build_fsm(pat_array, ab);
+	std::vector<int> patSize(pat_array.size());
+	for (int i = 0;i < pat_array.size();i++) {
+		patSize[i] = pat_array[i].size();
+	}
 	int count = 0;
 	int lines = 0;
 	while(std::getline(infile,line)) {
 		// std::cout << line << '\n';
 		std::vector<std::vector<int> > array =
-		    Aho::ahocohasick(line,pat_array,ab);
+		    Aho::ahocohasick(line,patSize,ret);
 		int find = aho_aux(array);
 		if(find > 0) {
 			if(!cflag)

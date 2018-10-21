@@ -91,20 +91,16 @@ std::tuple<Aho::G, std::vector<int>, Aho::O> Aho::build_fsm(std::vector<std::str
     return std::tuple<Aho::G, std::vector<int>, Aho::O>(g, f, o);
 }
 
-std::vector<std::vector<int>> Aho::ahocohasick(std::string &txt, std::vector<std::string> &P, std::string &ab) {
+std::vector<std::vector<int>> Aho::ahocohasick(std::string &txt, std::vector<int> &patSize,
+                                               std::tuple<Aho::G, std::vector<int>, Aho::O> &ret) {
     int n = txt.size(); int cur;
-    std::vector<int> m(P.size());
     Aho::G g; Aho::O o; std::vector<int> f;
     std::vector<std::vector<int>> occ;
 
-    for (int i = 0;i < P.size();i++) {
-        m[i] = P[i].size();
-    }
-
-    std::tie(g, f, o) = build_fsm(P, ab);
+    std::tie(g, f, o) = ret;
     cur = 0;
 
-    for (int i = 0;i < P.size();i++) {
+    for (int i = 0;i < patSize.size();i++) {
         occ.push_back(std::vector<int>());
     }
 
@@ -115,7 +111,7 @@ std::vector<std::vector<int>> Aho::ahocohasick(std::string &txt, std::vector<std
             }
             cur = g[std::make_pair(cur, a)];
             for (int p = 0; p < o[cur].size();p++) {
-                occ[o[cur][p]].push_back(i - m[o[cur][p]] + 1);
+                occ[o[cur][p]].push_back(i - patSize[o[cur][p]] + 1);
             }
     }
 
