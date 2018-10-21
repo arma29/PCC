@@ -10,12 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7095c01d-7fee-4a2c-9efa-29c98e1e87ff" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/ahoCohasick.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/ahoCohasick.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/ahoCohasick.h" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/ahoCohasick.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/ahoCohasick.o" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/ahoCohasick.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pmt/src/boyerMoore.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/boyerMoore.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pmt/src/boyerMoore.h" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/boyerMoore.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pmt/src/boyerMoore.o" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/boyerMoore.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pmt/src/pmt.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/pmt.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pmt/src/shiftOr.o" beforeDir="false" afterPath="$PROJECT_DIR$/pmt/src/shiftOr.o" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,27 +28,27 @@
           <entry key="Makefile" value="7" />
           <entry key="bat" value="1" />
           <entry key="c" value="1" />
-          <entry key="cpp" value="48" />
-          <entry key="h" value="36" />
+          <entry key="cpp" value="50" />
+          <entry key="h" value="37" />
           <entry key="txt" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="85" />
+          <entry key="ObjectiveC" value="88" />
           <entry key="PLAIN_TEXT" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Makefile" value="459" />
-          <entry key="cpp" value="10861" />
-          <entry key="h" value="1475" />
+          <entry key="cpp" value="10916" />
+          <entry key="h" value="1482" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="12336" />
+          <entry key="ObjectiveC" value="12398" />
           <entry key="PLAIN_TEXT" value="459" />
         </counts>
       </usages-collector>
@@ -72,71 +70,26 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pmt/src/pmt.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="225" column="31" lean-forward="true" selection-start-line="225" selection-start-column="31" selection-end-line="225" selection-end-column="31" />
+            <state relative-caret-position="215">
+              <caret line="262" column="48" selection-start-line="262" selection-start-column="48" selection-end-line="262" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pmt/data/englishTexts/bible.txt">
+        <entry file="file://$PROJECT_DIR$/pmt/src/boyerMoore.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="15054" column="82" selection-start-line="15054" selection-start-column="44" selection-end-line="15054" selection-end-column="82" />
+            <state relative-caret-position="306">
+              <caret line="18" column="65" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pmt/src/wumanber.h">
+        <entry file="file://$PROJECT_DIR$/pmt/src/boyerMoore.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="15" column="110" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="110" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pmt/src/ahoCohasick.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="102" column="30" selection-start-line="102" selection-start-column="30" selection-end-line="102" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pmt/src/ahoCohasick.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="24" column="93" selection-start-line="24" selection-start-column="93" selection-end-line="24" selection-end-column="93" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pmt/src/config.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pmt/src/Makefile">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="72" selection-start-column="72" selection-end-column="72" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pmt/src/sellers.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="708">
-              <caret line="124" column="32" lean-forward="true" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
+            <state relative-caret-position="34">
+              <caret line="56" column="123" selection-start-line="56" selection-start-column="123" selection-end-line="56" selection-end-column="123" />
             </state>
           </provider>
         </entry>
@@ -189,6 +142,8 @@
         <option value="$PROJECT_DIR$/pmt/src/shiftOr.h" />
         <option value="$PROJECT_DIR$/pmt/src/ahoCohasick.h" />
         <option value="$PROJECT_DIR$/pmt/src/ahoCohasick.cpp" />
+        <option value="$PROJECT_DIR$/pmt/src/boyerMoore.h" />
+        <option value="$PROJECT_DIR$/pmt/src/boyerMoore.cpp" />
         <option value="$PROJECT_DIR$/pmt/src/pmt.cpp" />
       </list>
     </option>
@@ -318,7 +273,7 @@
       <workItem from="1539818810579" duration="15235000" />
       <workItem from="1539873102058" duration="26564000" />
       <workItem from="1540123626804" duration="55000" />
-      <workItem from="1540125434095" duration="19150000" />
+      <workItem from="1540125434095" duration="21769000" />
     </task>
     <task id="LOCAL-00001" summary="Deleted main version of ubuntu. Should add in git ignore. Added makefile.">
       <created>1539287174508</created>
@@ -337,7 +292,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60024000" />
+    <option name="totallyTimeSpent" value="62643000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
@@ -486,15 +441,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pmt/src/ahoCohasick.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="102" column="30" selection-start-line="102" selection-start-column="30" selection-end-line="102" selection-end-column="30" />
+        <state relative-caret-position="402">
+          <caret line="144" column="1" selection-start-line="144" selection-start-column="1" selection-end-line="144" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/boyerMoore.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="65" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pmt/src/boyerMoore.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="56" column="123" selection-start-line="56" selection-start-column="123" selection-end-line="56" selection-end-column="123" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pmt/src/pmt.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="225" column="31" lean-forward="true" selection-start-line="225" selection-start-column="31" selection-end-line="225" selection-end-column="31" />
+        <state relative-caret-position="215">
+          <caret line="262" column="48" selection-start-line="262" selection-start-column="48" selection-end-line="262" selection-end-column="48" />
         </state>
       </provider>
     </entry>

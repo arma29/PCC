@@ -260,10 +260,13 @@ void boy_call(char* file, std::string pat,
 		ab += a;
 	}
 
+	std::map<char, int> C = Bm::bad_char(pat, ab);
+	std::vector<int> S = Bm::good_suffix(pat);
+
 	int count = 0;
 	int lines = 0;
 	while(std::getline(infile,line)) {
-		std::vector<int> array = Bm::boyer_moore(line,pat,ab);
+		std::vector<int> array = Bm::boyer_moore(line,pat,ab.length(),C,S);
 		if(!array.empty()) {
 			if(!cflag)
 				std::cout << line << '\n';

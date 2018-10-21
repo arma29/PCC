@@ -54,13 +54,10 @@ std::vector<int> Bm::good_suffix(std::string & pat) {
     return S;
 }
 
-std::vector<int> Bm::boyer_moore(std::string &txt, std::string &pat, std::string &ab) {
+std::vector<int> Bm::boyer_moore(std::string &txt, std::string &pat, int abSize, std::map<char, int> &C, std::vector<int> &S) {
     int n = txt.length();
     int m = pat.length();
-    int l = ab.length();
-
-    std::map<char, int> C = bad_char(pat, ab);
-    std::vector<int> S = good_suffix(pat);
+    int l = abSize;
 
     std::vector<int> occ;
     int i = 0;

@@ -16,7 +16,7 @@ namespace Bm {
     std::map<char, int> bad_char(std::string&, std::string&);
     std::vector<int> init_border(std::string&);
     std::vector<int> good_suffix(std::string&);
-    std::vector<int> boyer_moore(std::string&, std::string&, std::string&);
+    std::vector<int> boyer_moore(std::string&, std::string&, int, std::map<char, int>&, std::vector<int>&);
 };
 
 #endif //PCC_BOYERMOORE_H
