@@ -1,0 +1,228 @@
+../data/dna.txt:
+[Lines - 1] , [Count - 35], BoyerMoore
+9 ../data/patdna1.txt
+.037050871
+../data/dna.txt:
+[Lines - 1] , [Count - 1], BoyerMoore
+20 ../data/patdna2.txt
+.035866258
+../data/dna.txt:
+[Lines - 1] , [Count - 1], BoyerMoore
+32 ../data/patdna3.txt
+.032805629
+../data/dna.txt:
+[Lines - 1] , [Count - 1], BoyerMoore
+50 ../data/patdna4.txt
+.019817140
+../data/dna.txt:
+[Lines - 1] , [Count - 1], BoyerMoore
+59 ../data/patdna5.txt
+.021948503
+../data/dna.txt:
+[Lines - 1] , [Count - 1], BoyerMoore
+83 ../data/patdna6.txt
+.021793660
+../data/dna.txt:
+[Lines - 1] , [Count - 3], BoyerMoore
+89 ../data/patdna7.txt
+.015985663
+../data/dna.txt:
+[Lines - 1] , [Count - 35], ShiftOr
+9 ../data/patdna1.txt
+.077578713
+../data/dna.txt:
+[Lines - 1] , [Count - 1], ShiftOr
+20 ../data/patdna2.txt
+.079266493
+../data/dna.txt:
+[Lines - 1] , [Count - 1], ShiftOr
+32 ../data/patdna3.txt
+.083421598
+../data/dna.txt:
+[Lines - 1] , [Count - 1], ShiftOr
+50 ../data/patdna4.txt
+.083394024
+../data/dna.txt:
+[Lines - 1] , [Count - 1], ShiftOr
+59 ../data/patdna5.txt
+.078591802
+../data/dna.txt:
+[Lines - 1] , [Count - 1], ShiftOr
+83 ../data/patdna6.txt
+.083166601
+../data/dna.txt:
+[Lines - 1] , [Count - 3], ShiftOr
+89 ../data/patdna7.txt
+.081727783
+grep results for exact
+1
+9 ../data/patdna1.txt
+.013509798
+1
+20 ../data/patdna2.txt
+.015670114
+1
+32 ../data/patdna3.txt
+.015106594
+1
+50 ../data/patdna4.txt
+.017844503
+1
+59 ../data/patdna5.txt
+.010370748
+1
+83 ../data/patdna6.txt
+.016326544
+1
+89 ../data/patdna7.txt
+.017431266
+agrep results for exact
+14
+9 ../data/patdna1.txt
+.013394085
+1
+20 ../data/patdna2.txt
+.013131787
+1
+32 ../data/patdna3.txt
+.012824122
+1
+50 ../data/patdna4.txt
+.007637135
+1
+59 ../data/patdna5.txt
+.008345492
+1
+83 ../data/patdna6.txt
+.012527115
+2
+89 ../data/patdna7.txt
+.009677058
+../data/dna.txt:
+[Lines - 1] , [Count - 221349], AhoCorasick
+31 ../data/dicdna1.txt
+.212550736
+../data/dna.txt:
+[Lines - 1] , [Count - 74868], AhoCorasick
+57 ../data/dicdna2.txt
+.215541176
+../data/dna.txt:
+[Lines - 1] , [Count - 32158], AhoCorasick
+90 ../data/dicdna3.txt
+.214791743
+../data/dna.txt:
+[Lines - 1] , [Count - 47763], AhoCorasick
+120 ../data/dicdna4.txt
+.238814334
+../data/dna.txt:
+[Lines - 1] , [Count - 57690], AhoCorasick
+150 ../data/dicdna5.txt
+.260266901
+../data/dna.txt:
+[Lines - 1] , [Count - 71433], AhoCorasick
+180 ../data/dicdna6.txt
+.284279237
+../data/dna.txt:
+[Lines - 1] , [Count - 80077], AhoCorasick
+210 ../data/dicdna7.txt
+.315082316
+grep results for paralel
+1
+31 ../data/dicdna1.txt
+.013798695
+1
+57 ../data/dicdna2.txt
+.014698214
+1
+90 ../data/dicdna3.txt
+.015089083
+1
+120 ../data/dicdna4.txt
+.017464665
+1
+150 ../data/dicdna5.txt
+.015827085
+1
+180 ../data/dicdna6.txt
+.015581210
+1
+210 ../data/dicdna7.txt
+.016671529
+../data/dna.txt:
+[Lines - 1] , [Count - 1944], Sellers
+9 ../data/patdna1.txt
+.103998067
+../data/dna.txt:
+[Lines - 1] , [Count - 3], Sellers
+20 ../data/patdna2.txt
+.218144507
+../data/dna.txt:
+[Lines - 1] , [Count - 3], Sellers
+32 ../data/patdna3.txt
+.370317923
+../data/dna.txt:
+[Lines - 1] , [Count - 3], Sellers
+50 ../data/patdna4.txt
+.478961558
+../data/dna.txt:
+[Lines - 1] , [Count - 3], Sellers
+59 ../data/patdna5.txt
+.543222586
+../data/dna.txt:
+[Lines - 1] , [Count - 3], Sellers
+83 ../data/patdna6.txt
+.756336094
+../data/dna.txt:
+[Lines - 1] , [Count - 9], Sellers
+89 ../data/patdna7.txt
+.803535909
+../data/dna.txt:
+[Lines - 1] , [Count - 1944], WuManber
+9 ../data/patdna1.txt
+.147384434
+../data/dna.txt:
+[Lines - 1] , [Count - 3], WuManber
+20 ../data/patdna2.txt
+.146276774
+../data/dna.txt:
+[Lines - 1] , [Count - 3], WuManber
+32 ../data/patdna3.txt
+.145884868
+../data/dna.txt:
+[Lines - 1] , [Count - 3], WuManber
+50 ../data/patdna4.txt
+.147127342
+../data/dna.txt:
+[Lines - 1] , [Count - 3], WuManber
+59 ../data/patdna5.txt
+.146061055
+../data/dna.txt:
+[Lines - 1] , [Count - 3], WuManber
+83 ../data/patdna6.txt
+.146053156
+../data/dna.txt:
+[Lines - 1] , [Count - 9], WuManber
+89 ../data/patdna7.txt
+.145971604
+agrep results for aprox
+14
+9 ../data/patdna1.txt
+.012264232
+1
+20 ../data/patdna2.txt
+.009931053
+1
+32 ../data/patdna3.txt
+.007874819
+1
+50 ../data/patdna4.txt
+.010159545
+1
+59 ../data/patdna5.txt
+.009842590
+1
+83 ../data/patdna6.txt
+.012796539
+2
+89 ../data/patdna7.txt
+.010953730

@@ -1,0 +1,97 @@
+Boyer - (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+[Lines - 84] , [Count - 84], BoyerMoore 8 ../data/pateng2.txt .026058620
+[Lines - 54] , [Count - 54], BoyerMoore 13 ../data/pateng4.txt .021104660
+[Lines - 1] , [Count - 1], BoyerMoore 22 ../data/pateng5.txt .014188861
+[Lines - 1] , [Count - 1], BoyerMoore 33 ../data/pateng6.txt .013681524
+[Lines - 1] , [Count - 1], BoyerMoore 43 ../data/pateng7.txt .012612202
+[Lines - 1] , [Count - 1], BoyerMoore 54 ../data/pateng0.txt .014699451
+[Lines - 1] , [Count - 1], BoyerMoore 111 ../data/pateng8.txt .010186024
+[Lines - 1] , [Count - 1], BoyerMoore 193 ../data/pateng9.txt .008663562
+
+ShiftOr - (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+[Lines - 84] , [Count - 84], ShiftOr 8 ../data/pateng2.txt .080332767
+[Lines - 54] , [Count - 54], ShiftOr 13 ../data/pateng4.txt .077519611
+[Lines - 1] , [Count - 1], ShiftOr 22 ../data/pateng5.txt .077719720
+[Lines - 1] , [Count - 1], ShiftOr 33 ../data/pateng6.txt .077491522
+[Lines - 1] , [Count - 1], ShiftOr 43 ../data/pateng7.txt .077621975
+[Lines - 1] , [Count - 1], ShiftOr 54 ../data/pateng0.txt .076899218
+
+grep tamanho_padrao arquivo_padrao tempo
+
+8 ../data/pateng2.txt .005142172
+13 ../data/pateng4.txt .006399992
+22 ../data/pateng5.txt .005821293
+33 ../data/pateng6.txt .006376403
+43 ../data/pateng7.txt .005843143
+54 ../data/pateng0.txt .004719177
+111 ../data/pateng8.txt .005803012
+193 ../data/pateng9.txt .006536210
+
+
+agrep tamanho_padrao arquivo_padrao tempo
+
+8 ../data/pateng2.txt .011069242
+13 ../data/pateng4.txt .007662683
+22 ../data/pateng5.txt .006474975
+33 ../data/pateng6.txt .005165559
+43 ../data/pateng7.txt .005875967
+54 ../data/pateng0.txt .005582770
+111 ../data/pateng8.txt .005503945
+193 ../data/pateng9.txt .004948446
+
+
+Aho -(Irrelevante) Algoritmo quantidade_padrao arquivo_padrao tempo
+
+[Lines - 678] , [Count - 896], AhoCorasick 10 ../data/dic1.txt .380760547
+[Lines - 830] , [Count - 1137], AhoCorasick 20 ../data/dic2.txt .423769817
+[Lines - 830] , [Count - 1137], AhoCorasick 30 ../data/dic3.txt .461034591
+[Lines - 830] , [Count - 1180], AhoCorasick 40 ../data/dic4.txt .493845235
+[Lines - 830] , [Count - 1192], AhoCorasick 50 ../data/dic5.txt .549852733
+[Lines - 830] , [Count - 1205], AhoCorasick 60 ../data/dic6.txt .615577442
+[Lines - 830] , [Count - 1205], AhoCorasick 70 ../data/dic7.txt .671365334
+[Lines - 1006] , [Count - 1422], AhoCorasick 80 ../data/dic8.txt .720844056
+
+grep qtd_padr arquivo_padrao tempo
+
+10 ../data/dic1.txt .010440566
+20 ../data/dic2.txt .015785137
+30 ../data/dic3.txt .020943467
+40 ../data/dic4.txt .020829761
+50 ../data/dic5.txt .020816561
+60 ../data/dic6.txt .019947001
+70 ../data/dic7.txt .015310476
+80 ../data/dic8.txt .016512456
+
+
+Sellers - (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+[Lines - 145] , [Count - 324], Sellers 8 ../data/pateng2.txt .074391546
+[Lines - 75] , [Count - 185], Sellers 13 ../data/pateng4.txt .117195775
+[Lines - 1] , [Count - 3], Sellers 22 ../data/pateng5.txt .179822652
+[Lines - 1] , [Count - 3], Sellers 33 ../data/pateng6.txt .255016535
+[Lines - 1] , [Count - 3], Sellers 43 ../data/pateng7.txt .33189239
+[Lines - 1] , [Count - 3], Sellers 54 ../data/pateng0.txt .408842049
+[Lines - 1] , [Count - 3], Sellers 111 ../data/pateng8.txt .836556258
+[Lines - 1] , [Count - 2], Sellers 193 ../data/pateng9.txt 1.443293747
+
+WuManber- (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+[Lines - 145] , [Count - 324], WuManber 8 ../data/pateng2.txt .132679714
+[Lines - 75] , [Count - 185], WuManber 13 ../data/pateng4.txt .132859247
+[Lines - 1] , [Count - 3], WuManber 22 ../data/pateng5.txt .131375901
+[Lines - 1] , [Count - 3], WuManber 33 ../data/pateng6.txt .134949534
+[Lines - 1] , [Count - 3], WuManber 43 ../data/pateng7.txt .135624021
+[Lines - 1] , [Count - 3], WuManber 54 ../data/pateng0.txt .132138432
+
+agrep tamanho_padrao arquivo_padrao tempo
+
+8 ../data/pateng2.txt .009807206
+13 ../data/pateng4.txt .007481589
+22 ../data/pateng5.txt .005900851
+33 ../data/pateng6.txt .005916098
+43 ../data/pateng7.txt .005477560
+54 ../data/pateng0.txt .004972515
+111 ../data/pateng8.txt .004539236
+193 ../data/pateng9.txt .004297544

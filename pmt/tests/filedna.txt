@@ -1,0 +1,93 @@
+Boyer - (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+[Lines - 1] , [Count - 35], BoyerMoore 9 ../data/patdna1.txt .038028346
+[Lines - 1] , [Count - 1], BoyerMoore 20 ../data/patdna2.txt .033822175
+[Lines - 1] , [Count - 1], BoyerMoore 32 ../data/patdna3.txt .033907512
+[Lines - 1] , [Count - 1], BoyerMoore 50 ../data/patdna4.txt .024387218
+[Lines - 1] , [Count - 1], BoyerMoore 59 ../data/patdna5.txt .023340644
+[Lines - 1] , [Count - 1], BoyerMoore 83 ../data/patdna6.txt .021896476
+[Lines - 1] , [Count - 3], BoyerMoore 89 ../data/patdna7.txt .016904772
+
+Shiftor - (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+
+[Lines - 1] , [Count - 35], ShiftOr 9 ../data/patdna1.txt .079830934
+[Lines - 1] , [Count - 1], ShiftOr 20 ../data/patdna2.txt .082047320
+[Lines - 1] , [Count - 1], ShiftOr 32 ../data/patdna3.txt .078627149
+[Lines - 1] , [Count - 1], ShiftOr 50 ../data/patdna4.txt .078344113
+[Lines - 1] , [Count - 1], ShiftOr 59 ../data/patdna5.txt .083332228
+[Lines - 1] , [Count - 1], ShiftOr 83 ../data/patdna6.txt .080458361
+[Lines - 1] , [Count - 3], ShiftOr 89 ../data/patdna7.txt .078152651
+
+grep tamanho_padrao arquivo_padrao tempo
+
+9 ../data/patdna1.txt .013461824
+20 ../data/patdna2.txt .015245032
+32 ../data/patdna3.txt .010784495
+50 ../data/patdna4.txt .015130090
+59 ../data/patdna5.txt .012383292
+83 ../data/patdna6.txt .015376658
+89 ../data/patdna7.txt .015419384
+
+
+agrep tamanho_padrao arquivo_padrao tempo
+
+9 ../data/patdna1.txt .007675350
+20 ../data/patdna2.txt .008215857
+32 ../data/patdna3.txt .006548113
+50 ../data/patdna4.txt .008937535
+59 ../data/patdna5.txt .011231471
+83 ../data/patdna6.txt .006753173
+89 ../data/patdna7.txt .009313404
+
+AHO -(Irrelevante) Algoritmo quantidade_padrao arquivo_padrao tempo
+
+[Lines - 1] , [Count - 221349], AhoCorasick 31 ../data/dicdna1.txt .213370703
+[Lines - 1] , [Count - 74868], AhoCorasick 57 ../data/dicdna2.txt .212899814
+[Lines - 1] , [Count - 32158], AhoCorasick 90 ../data/dicdna3.txt .213924010
+[Lines - 1] , [Count - 47763], AhoCorasick 120 ../data/dicdna4.txt .237412331
+[Lines - 1] , [Count - 57690], AhoCorasick 150 ../data/dicdna5.txt .259940696
+[Lines - 1] , [Count - 71433], AhoCorasick 180 ../data/dicdna6.txt .276518033
+[Lines - 1] , [Count - 80077], AhoCorasick 210 ../data/dicdna7.txt .305580495
+
+grep qtd_padr arquivo_padrao tempo
+31 ../data/dicdna1.txt .013997611
+57 ../data/dicdna2.txt .017635763
+90 ../data/dicdna3.txt .018022077
+120 ../data/dicdna4.txt .017464665
+150 ../data/dicdna5.txt .015827085
+180 ../data/dicdna6.txt .015581210
+210 ../data/dicdna7.txt .016671529
+
+Sellers - (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+[Lines - 1] , [Count - 1944], Sellers 9 ../data/patdna1.txt .110713792
+[Lines - 1] , [Count - 3], Sellers 20 ../data/patdna2.txt .201696362
+[Lines - 1] , [Count - 3], Sellers 32 ../data/patdna3.txt .308070333
+[Lines - 1] , [Count - 3], Sellers 50 ../data/patdna4.txt .460353227
+[Lines - 1] , [Count - 3], Sellers 59 ../data/patdna5.txt .542556168
+[Lines - 1] , [Count - 3], Sellers 83 ../data/patdna6.txt .765631941
+[Lines - 1] , [Count - 9], Sellers 89 ../data/patdna7.txt .804552607
+
+
+Wumanber - (Irrelevante) Algoritmo tamanho_padrao arquivo_padrao tempo
+
+[Lines - 1] , [Count - 1944], WuManber 9 ../data/patdna1.txt .145914479
+[Lines - 1] , [Count - 3], WuManber 20 ../data/patdna2.txt .147513189
+[Lines - 1] , [Count - 3], WuManber 32 ../data/patdna3.txt .148933549
+[Lines - 1] , [Count - 3], WuManber 50 ../data/patdna4.txt .147949698
+[Lines - 1] , [Count - 3], WuManber 59 ../data/patdna5.txt .169430716
+[Lines - 1] , [Count - 3], WuManber 83 ../data/patdna6.txt .146510005
+[Lines - 1] , [Count - 9], WuManber 89 ../data/patdna7.txt .148712384
+
+
+
+agrep tamanho_padrao arquivo_padrao tempo
+
+9 ../data/patdna1.txt .007931312
+20 ../data/patdna2.txt .010393572
+32 ../data/patdna3.txt .010512482
+50 ../data/patdna4.txt .011856559
+59 ../data/patdna5.txt .009672626
+83 ../data/patdna6.txt .013457483
+89 ../data/patdna7.txt .011360126

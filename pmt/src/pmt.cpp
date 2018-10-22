@@ -10,6 +10,7 @@
 #include "boyerMoore.h"
 #include "sellers.h"
 #include "wumanber.h"
+#include "shiftOr.h"
 
 /*If you open the command palette, using Ctrl+Shift+p,
 you should find a fold all function by typing “fold all”.
@@ -28,7 +29,7 @@ static struct option const long_options[]=
 };
 
 static std::vector<std::string> alg_array =
-{"bm", "aho", "sel", "wu"};
+{"bm", "aho", "sel", "wu", "sho"};
 
 /*Usage function to show messages*/
 void usage(std::string const& name, bool status)
@@ -59,10 +60,11 @@ Miscellaneous:\n\
     -h, --help              Display this help text and exit\n\n" << '\n';
 		std::cout << "\
 Algorithm Names:\n\
-    bm, BoyerMoore          Default Algorithm for search\n\
-    aho, AhoCorasick        Default Algorithm for multi string search\n\
-    sel, Sellers            Default Algorithm for fuzzy search\n\
-    wu, Wumanber            Default for...\n\n" << '\n';
+    bm, BoyerMoore          Algorithm for exact match\n\
+	sho, ShiftOr			Algorithm for exact match\n\
+    aho, AhoCorasick        Algorithm for exact match\n\
+    sel, Sellers            Algorithm for fuzzy search\n\
+    wu, Wumanber            Algorithm for fuzzy search\n\n" << '\n';
 
 		std::cout << "\
 Relate the bugs to: arma@cin.ufpe.br // mapa@cin.ufpe.br\n\
@@ -357,6 +359,38 @@ void wu_call(char *file, std::string pat, int emax, bool cflag){
 	infile.close();
 
 }
+
+void shift_call(char* file, std::string pat, bool cflag){
+	std::ifstream infile(file);
+	std::string line;
+	std::string ab;
+	for(int i =0; i<128; i++) {
+		char a = i;
+		ab += a;
+	}
+
+	int patSize = pat.length();
+	std::bitset<BITSET_SIZE> beginMask = std::bitset<BITSET_SIZE>();
+	for (int i = 0;i < patSize;i++) { beginMask.set(i, true); }
+	std::map<char, std::bitset<BITSET_SIZE>> C = Sho::make_mask(pat,ab,beginMask);
+
+	int count = 0;
+	int lines = 0;
+	while(std::getline(infile,line)) {
+		// std::cout << line << '\n';
+		std::vector<int> array = Sho::shift_or(patSize,line,C,beginMask);
+		if(!array.empty()) {
+			if(!cflag)
+				std::cout << line << '\n';
+			lines++;
+			count += array.size();
+		}
+	}
+	if(cflag)
+		std::cout << "[Lines - " << lines << "] , [Count - "
+		<< count << "], ShiftOr" <<'\n';
+	infile.close();
+}
 /*Chamada dos algoritmos, incluindo a cflag
    Deve ser a chamada final da função call_pmt*/
 void call_alg(std::string alg_name, char* file,
@@ -382,6 +416,10 @@ void call_alg(std::string alg_name, char* file,
 		for(auto i: pat_array)
 			wu_call(file,i,emax,cflag);
 	}
+	else if(alg_name.compare(alg_array[4]) == 0){
+		for(auto i: pat_array)
+			shift_call(file, i, cflag);
+	}
 	else{
 		std::cout << "Invalid algorithm name" << '\n';
 		usage("./pmt", false);
@@ -398,10 +436,27 @@ void call_pmt(std::string alg_name, char* file,
 
 	//If no algorithm, pflag is activated...
 	if(!aflag){
-		if(pat_array.size() > 1)
+		if(pat_array.size() > 1){
 			alg_name = "aho";
-		if(emax != -1){
-			alg_name = "wu";
+			if(emax != -1){
+				alg_name = "sel";
+			}
+		}
+		else{
+			if(emax != -1){
+ 				if(pat_array[0].size() < 100)
+					alg_name = "wu";
+				else{
+					alg_name = "sel";
+				}
+			}
+			else{
+				if(pat_array[0].size() < 100)
+					alg_name = "sho";
+				else{
+					alg_name = "bm";
+				}
+			}
 		}
 	}
 	//If no error is selected., default is 1
@@ -472,7 +527,7 @@ int main(int argc, char *argv[]) {
 
 	for (size_t i = txt_index; i < argc; i++) {
 		/* code */
-		std::cout << RED << argv[i] << ":" << RESET << '\n';
+		std::cout << argv[i] << ":" << '\n';
 		call_pmt(alg_name, argv[i], pat_array, emax, aflag,cflag);
 	}
 

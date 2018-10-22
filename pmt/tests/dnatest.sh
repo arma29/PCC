@@ -1,4 +1,5 @@
 #!/bin/bash
+#chomd +x
 # sed -i -e 's/\r$//' test.sh; ./test.sh
 AHO="../bin/./pmt -a aho -c -p"
 BM="../bin/./pmt -a bm -c"
@@ -6,19 +7,18 @@ SHO="../bin/./pmt -a sho -c"
 SEL="../bin/./pmt -a sel -c"
 WU="../bin/./pmt -a wu -c"
 
-
 #BM
     #BM
-    for i in 2 4 5 6 7 0 8 9
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/pateng'
+        PAT='../data/patdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        ($BM -p $NOW ../data/eng1.txt)
+        ($BM -p $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
@@ -27,16 +27,16 @@ WU="../bin/./pmt -a wu -c"
     done
 
     #SHO
-    for i in 2 4 5 6 7 0
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/pateng'
+        PAT='../data/patdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        ($SHO -p $NOW ../data/eng1.txt)
+        ($SHO -p $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
@@ -45,16 +45,16 @@ WU="../bin/./pmt -a wu -c"
     done
 
     (echo "grep results for exact")
-    for i in 2 4 5 6 7 0 8 9
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/pateng'
+        PAT='../data/patdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        (grep -c -f $NOW ../data/eng1.txt)
+        (grep -c -f $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
@@ -66,16 +66,16 @@ WU="../bin/./pmt -a wu -c"
 
     (echo "agrep results for exact")
     #($TIME agrep -c -f $TESTE2)
-    for i in 2 4 5 6 7 0 8 9
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/pateng'
+        PAT='../data/patdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        (agrep -c -f $NOW ../data/eng1.txt)
+        (agrep -c -f $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
@@ -87,16 +87,16 @@ WU="../bin/./pmt -a wu -c"
 
 
 #AHO
-    for i in $(seq 1 8)
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/dic'
+        PAT='../data/dicdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        ($AHO $NOW ../data/eng1.txt)
+        ($AHO $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
@@ -105,16 +105,16 @@ WU="../bin/./pmt -a wu -c"
     done
 
     (echo "grep results for paralel")
-    for i in $(seq 1 8)
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/dic'
+        PAT='../data/dicdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        (grep -c -f $NOW ../data/eng1.txt)
+        (grep -c -f $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
@@ -126,16 +126,16 @@ WU="../bin/./pmt -a wu -c"
 
 
  #SEL
-     for i in 2 4 5 6 7 0 8 9
+     for i in $(seq 1 7)
      do
 
-         PAT='../data/pateng'
+         PAT='../data/patdna'
          END='.txt'
          START=$(date +%s.%N)
 
          NOW=$PAT$i$END
 
-         ($SEL -p $NOW ../data/eng1.txt)
+         ($SEL -p $NOW ../data/dna.txt)
 
          END=$(date +%s.%N)
          DIFF=$(echo "$END - $START" | bc)
@@ -146,16 +146,16 @@ WU="../bin/./pmt -a wu -c"
 #
 # #wu
 #WU
-    for i in 2 4 5 6 7 0
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/pateng'
+        PAT='../data/patdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        ($WU -p $NOW ../data/eng1.txt)
+        ($WU -p $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
@@ -164,16 +164,16 @@ WU="../bin/./pmt -a wu -c"
     done
 
     (echo "agrep results for aprox")
-    for i in 2 4 5 6 7 0 8 9
+    for i in $(seq 1 7)
     do
 
-        PAT='../data/pateng'
+        PAT='../data/patdna'
         END='.txt'
         START=$(date +%s.%N)
 
         NOW=$PAT$i$END
 
-        (agrep -c -f $NOW ../data/eng1.txt)
+        (agrep -c -f $NOW ../data/dna.txt)
 
         END=$(date +%s.%N)
         DIFF=$(echo "$END - $START" | bc)
