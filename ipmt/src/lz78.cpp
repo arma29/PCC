@@ -95,12 +95,6 @@ std::string LZ78::cw_encode(std::string& w, std::string& ab) {
     return LZ78::gprime(aux, ab) + ab.substr(0,1);
 }
 
-void mypause() 
-{ 
-  std::cout<<"Press [Enter] to continue . . .";
-  std::cin.get();
-}
-
 std::string LZ78::encode(std::string& txt, std::string& ab) {
     std::string code;
     int n = txt.length();
@@ -183,13 +177,13 @@ std::string LZ78::decode(std::string& code, std::string& ab) {
     return txt;
 }
 
-int main() {
-    std::string w = "aabcbcbcbacbabcbabccbabb";
-    std::string ab = "abc";
-    std::string encoded = LZ78::encode(w, ab);
-    std::string decoded = LZ78::decode(encoded, ab);
-    std::cout << w << std::endl;
-    std::cout << encoded << std::endl;
-    std::cout << decoded << std::endl;
-    return 0;
-}
+// int main() {
+//     std::string w = "aabcbcbcbacbabcbabccbabb";
+//     std::string ab = "abc";
+//     std::string encoded = LZ78::encode(w, ab);
+//     std::string decoded = LZ78::decode(encoded, ab);
+//     std::cout << w << std::endl;
+//     std::cout << encoded << std::endl;
+//     std::cout << decoded << std::endl;
+//     return 0;
+// }

@@ -9,16 +9,16 @@
 #include <iostream>
 #include <memory>
 
-namespace LZ78 {
+namespace LZ78_TRIE {
     namespace Dict {
         struct node {
             int id = 0;
             std::vector<std::string> names;
             std::vector<std::shared_ptr<node>> refs;
         };
-        std::pair<std::shared_ptr<LZ78::Dict::node>, int> search(std::string& txt,
+        std::pair<std::shared_ptr<LZ78_TRIE::Dict::node>, int> search(std::string& txt,
                                                                  int ini,
-                                                                 std::shared_ptr<LZ78::Dict::node>);
+                                                                 std::shared_ptr<LZ78_TRIE::Dict::node>);
         std::pair<int, int> index(std::string&,
                                   std::shared_ptr<node>);
         std::string find(int,

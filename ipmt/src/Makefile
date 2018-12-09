@@ -1,4 +1,4 @@
-OBJS = main.cpp sarray.o
+OBJS = main.cpp sarray.o lz78.o lz78_trie.o
 CC = g++
 CFLAGS = -c
 LFLAGS =
@@ -12,6 +12,12 @@ ipmt: $(OBJS)
 
 sarray.o: sarray.cpp sarray.h
 		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) sarray.cpp
+
+lz78.o: lz78.cpp lz78.h
+		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) lz78.cpp
+
+lz78_trie.o: lz78_trie.cpp lz78_trie.h
+		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) lz78_trie.cpp
 
 clean:
 	  @rm -f *.o
