@@ -11,40 +11,6 @@
 
 #include "sarray.h"
 
-// /**/
-// char *read(std:: string filename) {
-// 	FILE *file = fopen(filename.c_str(), "rb");
-// 	if (file == NULL) {
-// 		printf("Failed to open file: %s.\n", filename.c_str());
-// 		exit(0);
-// 	} else {
-// 		fseek(file, 0, SEEK_END);
-// 		int size = (int)ftell(file);
-// 		rewind(file);
-//
-// 		char *data = new char[size + 1];
-// 		data[size] = '\0';
-// 		size_t sizeRead = fread(data, 1, size, file);
-// 		if(sizeRead !=	size){
-// 			std::cout << "unable to read" << '\n';
-// 			exit(0);
-// 		}
-// 		fclose(file);
-// 		return data;
-// 	}
-// }
-
-/*teste de valor*/
-// static int ceilLog2(int n) {
-//  int k = 1;
-//  int l = 0;
-//  while (k < n) {
-//      k <<= 1;
-//      l += 1;
-//  }
-//  return l;
-// }
-
 int stepLog(int n){
 	return (int)ceil(log2(n));
 }
@@ -326,6 +292,8 @@ int SAr::search(std::vector<int> Llcp,
 		std::cout << '\n';
 		return R - L + 1;
 	}
+	//count
+	//return (L > R) ? 0 : R - L + 1
 }
 
 
