@@ -190,6 +190,7 @@ void call_index(std::string txtfile){
 	std::cout << "Final: "<< finalTxt << '\n';
 
 	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
+	// std::string idx_filename = "ban.idx";
 	FILE *idxfile = fopen(idx_filename.c_str(), "wb");
 	if (idxfile == NULL) {
 		printf("Couldn't create file: %s.", idx_filename.c_str());
@@ -204,12 +205,12 @@ void call_index(std::string txtfile){
 	// std::string ab = "abn0123456789,$\0";
 
 	std::string compressed = LZ78::encode(finalTxt, ab);
-	std::cout << "compressed: " << compressed << '\n';
+	std::cout << compressed << '\n';
 	// std::string backstr = LZ78::decode(compressed,ab);
 	// std::cout << "decompressed: " << backstr << " len "<< backstr.length()<<'\n';
 
 
-	fwrite(compressed.c_str(), sizeof(char), sizeof(finalTxt), idxfile);
+	fwrite(compressed.c_str(), sizeof(char), compressed.length(), idxfile);
 
 	fclose(idxfile);
 }
@@ -226,7 +227,7 @@ void call_search(std::vector<std::string> pat_array,
 	buffer << t.rdbuf();
 
 	std::cout << buffer.str() << '\n';
-	
+
 	std::string ab;
 	for(int i =0; i<256; i++) {
 		char a = i;
@@ -235,7 +236,7 @@ void call_search(std::vector<std::string> pat_array,
 
 	std::string compressed = buffer.str();
 	std::string finalTxt = LZ78::decode(compressed,ab);
-
+	std::cout << finalTxt << '\n';
 	std::vector<int> SArr;
 
 	std::vector<int> Llcp, Rlcp;
@@ -246,8 +247,9 @@ void call_search(std::vector<std::string> pat_array,
 	// int fou = returnIndex(thd+1, finalTxt);
 
 	std::string redoStr = finalTxt.substr(thd+1);
-
-	char *txt = read(redoStr);
+	std::cout << redoStr << '\n';
+	char *txt = new char[redoStr.length()+1];
+	std::strcpy(txt, redoStr.c_str());
 	int n = (int)strlen(txt);
 
 	for(auto i : pat_array) {
