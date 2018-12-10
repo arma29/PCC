@@ -139,24 +139,23 @@ std::string vecString(std::vector<int> vec){
 	return oss.str();
 }
 
-std::vector<int> stringVec(std:: string str){
-	std::vector<int> backvec;
+void stringVec(std:: string str, std::vector<int> &backvec){
+
 	for(auto i : str) {
 		if(i != ',') {
 			backvec.push_back(i);
 			// std::cout << i << '|';
 		}
 	}
-
-	return backvec;
 }
 
-int returnIndex(int index, std::string str){
+int returnIndex(int index, std::string str, std::vector<int> &backvec){
 	std:: string sub;
 	for(int i = index; i < str.length(); i++) {
 		if(str[i] == '$') {
 			sub = str.substr(index, i-index);
-			// std::cout << "sub: " << sub << '\n';
+			std::cout << "sub: " << sub << '\n';
+			stringVec(sub,backvec);
 			return i;
 		}
 	}
@@ -166,6 +165,7 @@ int returnIndex(int index, std::string str){
 void call_index(std::string txtfile){
 	char *txt = read(txtfile);
 	int n = (int)strlen(txt);
+
 
 	std::vector<std::vector<int> > P = SAr::build_P(txt,n);
 	std::vector<int> SArr = SAr::buildSArr(P,n);
@@ -189,43 +189,29 @@ void call_index(std::string txtfile){
 	std::cout << "Final txt tem "<< finalTxt.length() << '\n';
 	std::cout << "Final: "<< finalTxt << '\n';
 
-	// std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
-	// FILE *idxfile = fopen(idx_filename.c_str(), "wb");
-	// if (idxfile == NULL) {
-	// 	printf("Couldn't create file: %s.", idx_filename.c_str());
-	// 	exit(0);
-	// }
+	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
+	FILE *idxfile = fopen(idx_filename.c_str(), "wb");
+	if (idxfile == NULL) {
+		printf("Couldn't create file: %s.", idx_filename.c_str());
+		exit(0);
+	}
 
-	// std::string ab;
-	// for(int i =0; i<256; i++) {
-	// 	char a = i;
-	// 	ab += a;
-	// }
-	std::string ab = "abn0123456789,$\0";
+	std::string ab;
+	for(int i =0; i<256; i++) {
+		char a = i;
+		ab += a;
+	}
+	// std::string ab = "abn0123456789,$\0";
 
 	std::string compressed = LZ78::encode(finalTxt, ab);
 	std::cout << "compressed: " << compressed << '\n';
-	std::string backstr = LZ78::decode(compressed,ab);
-	std::cout << "decompressed: " << backstr << " len "<< backstr.length()<<'\n';
-	// fwrite(compressed.c_str(), sizeof(char), sizeof(finalTxt), idxfile);
-
-	// fclose(idxfile);
-
-	int fst = returnIndex(0, finalTxt);
-	std::cout << "fst vale: "<< fst << '\n';
-	int snd = returnIndex(fst+1, finalTxt);
-	int thd = returnIndex(snd+1, finalTxt);
-	std::string redoStr = finalTxt.substr(thd+1,finalTxt.length()-2);
-	std::cout << "redo vale: " << redoStr << '\n';
+	// std::string backstr = LZ78::decode(compressed,ab);
+	// std::cout << "decompressed: " << backstr << " len "<< backstr.length()<<'\n';
 
 
+	fwrite(compressed.c_str(), sizeof(char), sizeof(finalTxt), idxfile);
 
-	// test.append("\t $$");
-	// std::cout << test << '\n';
-	//
-	// std::vector<int> test2 = stringVec(test);
-	// std::cout << "SArr len - " << SArr.size() <<
-	// " Test len - " << test2.size()  << '\n';
+	fclose(idxfile);
 }
 
 /*Search Mode*/
@@ -239,43 +225,41 @@ void call_search(std::vector<std::string> pat_array,
 	std::stringstream buffer;
 	buffer << t.rdbuf();
 
-	// std::cout << "buffer" << buffer.str() << '\n';
-
-	// FILE *file = fopen(idxfile.c_str(), "rb");
-	// if (file == NULL) {
-	// 	printf("Couldn't open file: %s.", idxfile.c_str());
-	// 	exit(0);
-	// }
-	//
-	// int on = ftell(file);
-    // fseek(file, 0, SEEK_END);
-    // int sz = ftell(file) - on;
-    // fseek(file, on, SEEK_SET);
-	//
-    // char *compressed = new char[sz];
-	// std::cout << std::string(compressed) << '\n';
-    // fread(compressed, sizeof(char), sz, file);
-
+	std::cout << buffer.str() << '\n';
+	
 	std::string ab;
 	for(int i =0; i<256; i++) {
 		char a = i;
 		ab += a;
 	}
 
-	// std::string comp(compressed);
-	// std::cout << comp << '\n';
 	std::string compressed = buffer.str();
-	std::string backstr = LZ78::decode(compressed,ab);
+	std::string finalTxt = LZ78::decode(compressed,ab);
 
-	int fst = returnIndex(0, backstr);
-	int snd = returnIndex(fst+1, backstr);
-	int thd = returnIndex(snd+1, backstr);
-	std::string redoStr = backstr.substr(thd+1,backstr.length()-2);
+	std::vector<int> SArr;
 
+	std::vector<int> Llcp, Rlcp;
 
+	int fst = returnIndex(0, finalTxt, SArr);
+	int snd = returnIndex(fst+1, finalTxt, Llcp);
+	int thd = returnIndex(snd+1, finalTxt, Rlcp);
+	// int fou = returnIndex(thd+1, finalTxt);
 
-	// for(auto i : pat_array) {
-	// }
+	std::string redoStr = finalTxt.substr(thd+1);
+
+	char *txt = read(redoStr);
+	int n = (int)strlen(txt);
+
+	for(auto i : pat_array) {
+		std::string pat = i;
+		char *p = new char[pat.size() + 1];
+		pat.copy(p, std::string::npos, 0);
+		p[pat.size()] = '\0';
+
+		std::cout << "Search eh " <<
+		SAr::search(Llcp, Rlcp, SArr, txt,n,p) << '\n';
+	}
+
 }
 
 int main(int argc, char *argv[]) {
