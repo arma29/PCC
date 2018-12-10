@@ -7,12 +7,18 @@ std::pair<std::shared_ptr<LZ78_TRIE::Dict::node>, int> LZ78_TRIE::Dict::search(s
     // std::cout << "Curr Id: " << curr->id << std::endl;
     std::string name;
     std::string prefix;
-    for (int i = 0; i < curr->names.size();i++) {
-        name = curr->names.at(i);
-        prefix = txt.substr(ini, name.length());
-        if (name == prefix) {
-            // std::cout << "Match: " << prefix << std::endl;
-            return LZ78_TRIE::Dict::search(txt, ini + prefix.length(), curr->refs[i]);
+    bool miss = false;
+    while (!miss) {
+        miss = true;
+        for (int i = 0; i < curr->names.size();i++) {
+            name = curr->names.at(i);
+            prefix = txt.substr(ini, name.length());
+            if (name == prefix) {
+                ini = ini + prefix.length();
+                curr = curr->refs[i];
+                miss = false;
+                break;
+            }
         }
     }
     // std::cout << "Miss" << std::endl;
