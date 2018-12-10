@@ -12,6 +12,7 @@
 
 #include "sarray.h"
 #include "lz78.h"
+#include "lz78_trie.h"
 
 /*Necessary for getopt_long, use as argument 4*/
 static struct option const long_options[]=
@@ -143,7 +144,7 @@ void stringVec(std:: string str, std::vector<int> &backvec){
 
 	for(auto i : str) {
 		if(i != ',') {
-			backvec.push_back(i);
+			backvec.push_back((int)(i-48));
 			// std::cout << i << '|';
 		}
 	}
@@ -157,7 +158,7 @@ int returnIndex(int index, std::string str, std::vector<int> &backvec){
 	for(int i = index; i < str.length(); i++) {
 		if(str[i] == SPECC) {
 			sub = str.substr(index, i-index);
-			std::cout << "sub: " << sub << '\n';
+			// std::cout << "sub: " << sub << '\n';
 			stringVec(sub,backvec);
 			return i;
 		}
@@ -169,12 +170,14 @@ void call_index(std::string txtfile){
 	char *txt = read(txtfile);
 	int n = (int)strlen(txt);
 
-
+	double t = clock();
 	std::vector<std::vector<int> > P = SAr::build_P(txt,n);
 	std::vector<int> SArr = SAr::buildSArr(P,n);
 
 	std::vector<int> Llcp, Rlcp;
 	SAr::lcplr(Llcp, Rlcp, SArr, P, n);
+	printf("Build SArray time: %lfs", (clock() - t) / CLOCKS_PER_SEC);
+	std::cout << '\n';
 
 	std::string strSArr = vecString(SArr);
 	std::string strLlcp = vecString(Llcp);
@@ -189,8 +192,8 @@ void call_index(std::string txtfile){
 	finalTxt.append(SPEC);
 	finalTxt.append(txt);
 	// finalTxt.append("$");
-	std::cout << "Final txt tem "<< finalTxt.length() << '\n';
-	std::cout << "Final: "<< finalTxt << '\n';
+	// std::cout << "Final txt tem "<< finalTxt.length() << '\n';
+	// std::cout << "Final: "<< finalTxt << '\n';
 
 	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
 	// std::string idx_filename = "ban.idx";
@@ -207,14 +210,19 @@ void call_index(std::string txtfile){
 	}
 	// std::string ab = "abn0123456789,$\0";
 
-	std::string compressed = LZ78::encode(finalTxt, ab);
-	std::cout << compressed << '\n';
+	// std::string compressed = LZ78::encode(finalTxt, ab);
+	t = clock();
+	std::string compressed = LZ78_TRIE::encode(finalTxt, ab);
+	printf("LZ78 Trie Encode time: %lfs", (clock() - t) / CLOCKS_PER_SEC);
+	std::cout << '\n';
+
+	// std::cout << compressed << '\n';
 	// std::string backstr = LZ78::decode(compressed,ab);
 	// std::cout << "decompressed: " << backstr << " len "<< backstr.length()<<'\n';
 
 
 	fwrite(compressed.c_str(), sizeof(char), compressed.length(), idxfile);
-
+	std::cout << "Index file: " << "'" << idx_filename << "' was created." << '\n';
 	fclose(idxfile);
 	delete[] txt;
 }
@@ -227,7 +235,7 @@ void call_search(std::vector<std::string> pat_array,
 	std::stringstream buffer;
 	buffer << t.rdbuf();
 
-	std::cout << buffer.str() << '\n';
+	// std::cout << buffer.str() << '\n';
 
 	std::string ab;
 	for(int i =0; i<256; i++) {
@@ -236,8 +244,15 @@ void call_search(std::vector<std::string> pat_array,
 	}
 
 	std::string compressed = buffer.str();
-	std::string finalTxt = LZ78::decode(compressed,ab);
-	std::cout << finalTxt << '\n';
+	// std::string finalTxt = LZ78::decode(compressed,ab);
+	double taux = clock();
+	std::string finalTxt = LZ78_TRIE::decode(compressed,ab);
+	printf("LZ78 Trie Decode time: %lfs", (clock() - taux) / CLOCKS_PER_SEC);
+	std::cout << '\n';
+
+
+	// std::cout << finalTxt << '\n';
+
 	std::vector<int> SArr;
 
 	std::vector<int> Llcp, Rlcp;
@@ -247,23 +262,33 @@ void call_search(std::vector<std::string> pat_array,
 	int thd = returnIndex(snd+1, finalTxt, Rlcp);
 	// int fou = returnIndex(thd+1, finalTxt);
 	std::string redoStr = finalTxt.substr(thd+1);
-	std::cout << redoStr << '\n';
+	// std::cout << "[" << redoStr << "]"<< '\n';
 
 	char *txt = new char[redoStr.length()+1];
+	txt[redoStr.length()] = '\0';
 	std::strcpy(txt, redoStr.c_str());
 	int n = (int)strlen(txt);
 
+	int count = 0;
+	double avg = 0;
 	for(auto i : pat_array) {
 		std::string pat = i;
+		// std::cout << "palavra é [" << i << "]" << '\n';
 		char *p = new char[pat.size() + 1];
 		pat.copy(p, std::string::npos, 0);
 		p[pat.size()] = '\0';
 
-		std::cout << "Search eh " <<
+		double t = clock();
+		std::cout << "Count: " <<
 		SAr::search(Llcp, Rlcp, SArr, txt,n,p) << '\n';
+		printf("Search time: %lfs", (clock() - t) / CLOCKS_PER_SEC);
+		std::cout << '\n';
 
+		count ++;
+		avg += (clock() - t);
 		delete[] p;
 	}
+	std::cout << "Avg time: " << avg/count << '\n';
 	delete[] txt;
 }
 
@@ -274,32 +299,35 @@ int main(int argc, char *argv[]) {
 	int txt_index = 2;
 	std::vector<std::string> pat_array;
 
+	if(argc < 2)
+		usage(argv[0],false);
+
 	if(strcmp(argv[1], "index") == 0 ) {
 		if(argc != 3) {
 			usage(argv[0], true);
 		}
 		call_index(argv[2]);
-		std::cout << "index" << '\n';
 	}
 	else if(strcmp(argv[1], "search") == 0) {
 
 		while((option = getopt_long(argc,argv, "p:ch",
-		                            long_options, NULL)) != -1) {
+									long_options, NULL)) != -1) {
 			switch(option) {
 			case 'p':
 				pflag = true;
+
 				build_string_array(optarg, pat_array);
 				set_txt_index(1,txt_index);
 				break;
 			case 'c':
 				cflag = true;
 				set_txt_index(1,txt_index);
-				usage(argv[0],true);
 				break;
 			case 'h':
-				usage(argv[0],false);
+				usage(argv[0],true);
 				break;
 			default:
+				usage(argv[0],false);
 				return -1;
 			}
 		}
@@ -310,19 +338,6 @@ int main(int argc, char *argv[]) {
 	else{
 		usage(argv[0],false);
 	}
-
-	// check_file(argv[argc-1], argv[0]);
-	// check_args(argc, txt_index, argv[0]);
-	// set_pat(pat_array, argv[txt_index-1],pflag);
-	//
-	// for (size_t i = txt_index; i < argc; i++) {
-	//  /* code */
-	//  std::cout << argv[i] << ":" << '\n';
-	//  call_pmt(alg_name, argv[i], pat_array, emax, aflag,cflag);
-	// }
-
-
-
 
 	return 0;
 }

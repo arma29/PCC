@@ -31,10 +31,10 @@ std::vector<int> buildHash(char *txt, int n) {
 		count[i] += count[i - 1];
 	}
 	for (int i = 0; i < n; ++i) {
-		std::cout << txt[i];
+		// std::cout << txt[i];
 		unsigned char ch = txt[i];
 		hash[ch] = count[ch] - 1;
-		std::cout << hash[ch] << '\n';
+		// std::cout << hash[ch] << '\n';
 	}
 
 	return hash;
@@ -90,8 +90,8 @@ std::vector<std::vector<int> > SAr::build_P(char *txt,int n) {
 
 	//TODO: rever o log
 	int log2n = stepLog(n);
-	std::cout << "log2n vale - "<< log2n << '\n';
-	std::cout << "math vale - "<< (int)ceil(log2(n)) << '\n';
+	// std::cout << "log2n vale - "<< log2n << '\n';
+	// std::cout << "math vale - "<< (int)ceil(log2(n)) << '\n';
 
 
 	for (int k = 1; k <= log2n; ++k) {
@@ -267,36 +267,6 @@ int pred(std::vector<int> Llcp,
 	return l;
 }
 
-int SAr::search(std::vector<int> Llcp,
-           std::vector<int> Rlcp,
-           std::vector<int> SArr,
-           char *txt, int n, const char *pat) {
-
-	int L = succ(Llcp, Rlcp, SArr, txt, n, pat);
-	int R = pred(Llcp, Rlcp, SArr, txt, n, pat);
-	if (L > R)
-		return 0;
-	else{
-		std::cout << "[";
-		for(int i = L; i <= R; i++){
-			std::cout << SArr[i] << ",";
-		}
-		std::cout << "]" << '\n';
-		std::cout << "R vale - " << R << "L vale - " << L  << '\n';
-
-		/*Comeca no SArr[R] e vai até pat+SArr[R]*/
-		for (size_t i = SArr[R]; i < SArr[R]+(int)strlen(pat); i++) {
-			/* code */
-			std::cout << txt[i];
-		}
-		std::cout << '\n';
-		return R - L + 1;
-	}
-	//count
-	//return (L > R) ? 0 : R - L + 1
-}
-
-
 void printP(std::vector<std::vector<int> > P){
 	for (size_t i = 0; i < P.size(); i++) {
 		std::cout << "[";
@@ -312,11 +282,45 @@ void printVec(std::vector<int> v){
 	std::cout << "[";
 	for (size_t i = 0; i < v.size(); i++) {
 		/* code */
-		std::cout << v[i] << ",";
-
+		if(i != v.size()-1)
+			std::cout << v[i] << ",";
+		else
+			std::cout << v[i];
 	}
 	std::cout << "]"<< '\n';
 }
+
+int SAr::search(std::vector<int> Llcp,
+           std::vector<int> Rlcp,
+           std::vector<int> SArr,
+           char *txt, int n, const char *pat) {
+
+	int L = succ(Llcp, Rlcp, SArr, txt, n, pat);
+	int R = pred(Llcp, Rlcp, SArr, txt, n, pat);
+	if (L > R)
+		return 0;
+	else{
+		// std::cout << "[";
+		// for(int i = L; i <= R; i++){
+		// 	std::cout << SArr[i] << ",";
+		// }
+		// std::cout << "]" << '\n';
+		// std::cout << "R vale - " << R << "L vale - " << L  << '\n';
+
+		/*Comeca no SArr[R] e vai até pat+SArr[R]*/
+		// for (size_t i = SArr[R]; i < SArr[R]+(int)strlen(pat); i++) {
+		// 	/* code */
+		// 	std::cout << txt[i];
+		// }
+		// std::cout << '\n';
+		return R - L + 1;
+	}
+	//count
+	//return (L > R) ? 0 : R - L + 1
+}
+
+
+
 
 // int main(int argc, char const *argv[]) {
 //
