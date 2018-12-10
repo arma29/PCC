@@ -68,7 +68,7 @@ int LZ78::int_decode(std::string& x, std::string & ab) {
 
     for (int i = x.length() - 1; i >= 0; i--) {
         found = ab.find(x[i]);
-        
+
         if (found == std::string::npos) {
             return -1;
         }
@@ -130,7 +130,7 @@ std::string LZ78::encode(std::string& txt, std::string& ab) {
     return code;
 }
 
-std::string LZ78::decode(std::string& code, std::string& ab) {
+    std::string LZ78::decode(std::string& code, std::string& ab) {
     std::vector<std::string> data_inv;
     std::map<std::string, int> data;
     data[""] = 0;
@@ -167,7 +167,7 @@ std::string LZ78::decode(std::string& code, std::string& ab) {
                 aux = dic_entry + c;
                 LZ78::Dict::add(aux, data_inv, data);
                 // std::cout << LZ78::Dict::to_str(data_inv) << std::endl;
-                break; 
+                break;
             }
             w = code.substr(i, l+2);
             i = i + l + 2;

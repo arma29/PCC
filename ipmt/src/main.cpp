@@ -5,6 +5,13 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <string>
+#include <cstring>
+#include <sstream>
+#include <iterator>
+
+
+#include "sarray.h"
+#include "lz78.h"
 
 /*Necessary for getopt_long, use as argument 4*/
 static struct option const long_options[]=
@@ -17,7 +24,7 @@ static struct option const long_options[]=
 
 void usage(std::string const& name, bool status)
 {
-    // Status False
+	// Status False
 	if(!status) {
 		std::cout << "Usage: " << name
 		          << " [MODE] [OPTION] [PATTERN] [FILE]" <<'\n';
@@ -25,7 +32,7 @@ void usage(std::string const& name, bool status)
 		          << " --help' for more information"<<'\n';
 		exit(EXIT_FAILURE);
 	}
-    // Status True
+	// Status True
 	else{
 		std::cout << "Usage (Index Mode): " << name
 		          << " index TEXTFILE" <<'\n';
@@ -33,10 +40,10 @@ void usage(std::string const& name, bool status)
 		std::cout << "\
 Example: "<< name << " index text.txt\n" << '\n';
 
-        std::cout << "Usage (Search Mode): " << name
-                  << " search [OPTION] PATTERN INDEXFILE" <<'\n';
-        std::cout << "Generates an .txt for the .idx file and Search for PATTERN" << '\n';
-        std::cout << "\
+		std::cout << "Usage (Search Mode): " << name
+		          << " search [OPTION] PATTERN INDEXFILE" <<'\n';
+		std::cout << "Generates an .txt for the .idx file and Search for PATTERN" << '\n';
+		std::cout << "\
 Example: "<< name << " search -c -p 'dic.txt' text.idx\n" << '\n';
 
 
@@ -71,7 +78,7 @@ char *read(std:: string filename) {
 		char *data = new char[size + 1];
 		data[size] = '\0';
 		size_t sizeRead = fread(data, 1, size, file);
-		if(sizeRead !=	size){
+		if(sizeRead !=  size) {
 			std::cout << "unable to read" << '\n';
 			exit(0);
 		}
@@ -80,6 +87,195 @@ char *read(std:: string filename) {
 	}
 }
 
+/*Convert the input file in array of strings*/
+void build_string_array(char* file,
+                        std::vector<std::string> &str_array){
+
+	std:: ifstream infile(file);
+	if(!infile) {
+		std::cout << "File or Directory not found" << '\n';
+		exit(EXIT_FAILURE);
+	}
+	std::string line;
+	while(std::getline(infile,line)) {
+		str_array.push_back(line);
+	}
+	infile.close();
+}
+
+/*Function to set the index of first wildcard argument or textfile*/
+void set_txt_index(int opt, int& index){
+	index = index + opt;
+}
+
+/*Caso seja uma string, anexo a um vetor de string (único)*/
+void set_pat(std::vector<std::string> &pat_array,
+             std::string str,bool pflag){
+
+	if(!pflag)
+		pat_array.push_back(str);
+
+	std::ifstream infile(pat_array[0]);
+
+	if(infile.is_open()) {
+		std::cout << "No file" << '\n';
+		usage("./pmt", false);
+	}
+}
+
+std::string vecString(std::vector<int> vec){
+	std::ostringstream oss;
+
+	if (!vec.empty())
+	{
+		// Convert all but the last element to avoid a trailing ","
+		std::copy(vec.begin(), vec.end()-1,
+		          std::ostream_iterator<int>(oss, ","));
+
+		// Now add the last element with no delimiter
+		oss << vec.back();
+	}
+
+	return oss.str();
+}
+
+std::vector<int> stringVec(std:: string str){
+	std::vector<int> backvec;
+	for(auto i : str) {
+		if(i != ',') {
+			backvec.push_back(i);
+			// std::cout << i << '|';
+		}
+	}
+
+	return backvec;
+}
+
+int returnIndex(int index, std::string str){
+	std:: string sub;
+	for(int i = index; i < str.length(); i++) {
+		if(str[i] == '$') {
+			sub = str.substr(index, i-index);
+			// std::cout << "sub: " << sub << '\n';
+			return i;
+		}
+	}
+
+}
+
+void call_index(std::string txtfile){
+	char *txt = read(txtfile);
+	int n = (int)strlen(txt);
+
+	std::vector<std::vector<int> > P = SAr::build_P(txt,n);
+	std::vector<int> SArr = SAr::buildSArr(P,n);
+
+	std::vector<int> Llcp, Rlcp;
+	SAr::lcplr(Llcp, Rlcp, SArr, P, n);
+
+	std::string strSArr = vecString(SArr);
+	std::string strLlcp = vecString(Llcp);
+	std::string strRlcp = vecString(Rlcp);
+
+	std::string finalTxt;
+	finalTxt.append(strSArr);
+	finalTxt.append("$");
+	finalTxt.append(strLlcp);
+	finalTxt.append("$");
+	finalTxt.append(strRlcp);
+	finalTxt.append("$");
+	finalTxt.append(txt);
+	// finalTxt.append("$");
+
+	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
+	FILE *idxfile = fopen(idx_filename.c_str(), "wb");
+	if (idxfile == NULL) {
+		printf("Couldn't create file: %s.", idx_filename.c_str());
+		exit(0);
+	}
+
+	// std::string ab;
+	// for(int i =0; i<256; i++) {
+	// 	char a = i;
+	// 	ab += a;
+	// }
+	std::string ab = "abn0123456789,$\0";
+
+	std::string compressed = LZ78::encode(finalTxt, ab);
+	std::cout << "compressed: " << compressed << '\n';
+	std::string backstr = LZ78::decode(compressed,ab);
+	std::cout << "decompressed: " << backstr << " len "<< backstr.length()<<'\n';
+	fwrite(compressed.c_str(), sizeof(char), sizeof(finalTxt), idxfile);
+
+	fclose(idxfile);
+
+	int fst = returnIndex(0, finalTxt);
+	std::cout << "fst vale: "<< fst << '\n';
+	int snd = returnIndex(fst+1, finalTxt);
+	int thd = returnIndex(snd+1, finalTxt);
+	std::string redoStr = finalTxt.substr(thd+1,finalTxt.length()-2);
+	std::cout << "redo vale: " << redoStr << '\n';
+
+	std::cout << "Final txt tem "<< finalTxt.length() << '\n';
+	std::cout << "Final: "<< finalTxt << '\n';
+
+	// test.append("\t $$");
+	// std::cout << test << '\n';
+	//
+	// std::vector<int> test2 = stringVec(test);
+	// std::cout << "SArr len - " << SArr.size() <<
+	// " Test len - " << test2.size()  << '\n';
+}
+
+/*Search Mode*/
+void call_search(std::vector<std::string> pat_array,
+                 char *filename){
+
+	std::string idxfile(filename);
+	std::cout << idxfile << '\n';
+
+	std::ifstream t(filename);
+	std::stringstream buffer;
+	buffer << t.rdbuf();
+
+	// std::cout << "buffer" << buffer.str() << '\n';
+
+	// FILE *file = fopen(idxfile.c_str(), "rb");
+	// if (file == NULL) {
+	// 	printf("Couldn't open file: %s.", idxfile.c_str());
+	// 	exit(0);
+	// }
+	//
+	// int on = ftell(file);
+    // fseek(file, 0, SEEK_END);
+    // int sz = ftell(file) - on;
+    // fseek(file, on, SEEK_SET);
+	//
+    // char *compressed = new char[sz];
+	// std::cout << std::string(compressed) << '\n';
+    // fread(compressed, sizeof(char), sz, file);
+
+	std::string ab;
+	for(int i =0; i<256; i++) {
+		char a = i;
+		ab += a;
+	}
+
+	// std::string comp(compressed);
+	// std::cout << comp << '\n';
+	std::string compressed = buffer.str();
+	std::string backstr = LZ78::decode(compressed,ab);
+
+	int fst = returnIndex(0, backstr);
+	int snd = returnIndex(fst+1, backstr);
+	int thd = returnIndex(snd+1, backstr);
+	std::string redoStr = backstr.substr(thd+1,backstr.length()-2);
+
+
+
+	// for(auto i : pat_array) {
+	// }
+}
 
 int main(int argc, char *argv[]) {
 	int option;
@@ -88,35 +284,51 @@ int main(int argc, char *argv[]) {
 	int txt_index = 2;
 	std::vector<std::string> pat_array;
 
-	while((option = getopt_long(argc,argv, "p:ch",
-	                            long_options, NULL)) != -1) {
-		switch(option) {
-		case 'p':
-			pflag = true;
-			// build_string_array(optarg, pat_array);
-			// set_txt_index(1,txt_index);
-			break;
-		case 'c':
-			cflag = true;
-			// set_txt_index(1,txt_index);
-            usage(argv[0],true);
-			break;
-		case 'h':
-			usage(argv[0],false);
-			break;
-		default:
-			return -1;
+	if(strcmp(argv[1], "index") == 0 ) {
+		if(argc != 3) {
+			usage(argv[0], true);
 		}
+		call_index(argv[2]);
+		std::cout << "index" << '\n';
+	}
+	else if(strcmp(argv[1], "search") == 0) {
+
+		while((option = getopt_long(argc,argv, "p:ch",
+		                            long_options, NULL)) != -1) {
+			switch(option) {
+			case 'p':
+				pflag = true;
+				build_string_array(optarg, pat_array);
+				set_txt_index(1,txt_index);
+				break;
+			case 'c':
+				cflag = true;
+				set_txt_index(1,txt_index);
+				usage(argv[0],true);
+				break;
+			case 'h':
+				usage(argv[0],false);
+				break;
+			default:
+				return -1;
+			}
+		}
+
+		set_pat(pat_array, argv[txt_index],pflag);
+		call_search(pat_array, argv[argc-1]);
+	}
+	else{
+		usage(argv[0],false);
 	}
 
 	// check_file(argv[argc-1], argv[0]);
 	// check_args(argc, txt_index, argv[0]);
 	// set_pat(pat_array, argv[txt_index-1],pflag);
-    //
+	//
 	// for (size_t i = txt_index; i < argc; i++) {
-	// 	/* code */
-	// 	std::cout << argv[i] << ":" << '\n';
-	// 	call_pmt(alg_name, argv[i], pat_array, emax, aflag,cflag);
+	//  /* code */
+	//  std::cout << argv[i] << ":" << '\n';
+	//  call_pmt(alg_name, argv[i], pat_array, emax, aflag,cflag);
 	// }
 
 
