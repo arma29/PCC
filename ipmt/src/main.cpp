@@ -149,10 +149,13 @@ void stringVec(std:: string str, std::vector<int> &backvec){
 	}
 }
 
+std::string SPEC = "$";
+char SPECC ='$';
+
 int returnIndex(int index, std::string str, std::vector<int> &backvec){
 	std:: string sub;
 	for(int i = index; i < str.length(); i++) {
-		if(str[i] == '$') {
+		if(str[i] == SPECC) {
 			sub = str.substr(index, i-index);
 			std::cout << "sub: " << sub << '\n';
 			stringVec(sub,backvec);
@@ -179,11 +182,11 @@ void call_index(std::string txtfile){
 
 	std::string finalTxt;
 	finalTxt.append(strSArr);
-	finalTxt.append("$");
+	finalTxt.append(SPEC);
 	finalTxt.append(strLlcp);
-	finalTxt.append("$");
+	finalTxt.append(SPEC);
 	finalTxt.append(strRlcp);
-	finalTxt.append("$");
+	finalTxt.append(SPEC);
 	finalTxt.append(txt);
 	// finalTxt.append("$");
 	std::cout << "Final txt tem "<< finalTxt.length() << '\n';
@@ -213,14 +216,12 @@ void call_index(std::string txtfile){
 	fwrite(compressed.c_str(), sizeof(char), compressed.length(), idxfile);
 
 	fclose(idxfile);
+	delete[] txt;
 }
 
 /*Search Mode*/
 void call_search(std::vector<std::string> pat_array,
                  char *filename){
-
-	std::string idxfile(filename);
-	std::cout << idxfile << '\n';
 
 	std::ifstream t(filename);
 	std::stringstream buffer;
@@ -245,9 +246,9 @@ void call_search(std::vector<std::string> pat_array,
 	int snd = returnIndex(fst+1, finalTxt, Llcp);
 	int thd = returnIndex(snd+1, finalTxt, Rlcp);
 	// int fou = returnIndex(thd+1, finalTxt);
-
 	std::string redoStr = finalTxt.substr(thd+1);
 	std::cout << redoStr << '\n';
+
 	char *txt = new char[redoStr.length()+1];
 	std::strcpy(txt, redoStr.c_str());
 	int n = (int)strlen(txt);
@@ -260,8 +261,10 @@ void call_search(std::vector<std::string> pat_array,
 
 		std::cout << "Search eh " <<
 		SAr::search(Llcp, Rlcp, SArr, txt,n,p) << '\n';
-	}
 
+		delete[] p;
+	}
+	delete[] txt;
 }
 
 int main(int argc, char *argv[]) {
