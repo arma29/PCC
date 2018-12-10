@@ -186,13 +186,15 @@ void call_index(std::string txtfile){
 	finalTxt.append("$");
 	finalTxt.append(txt);
 	// finalTxt.append("$");
+	std::cout << "Final txt tem "<< finalTxt.length() << '\n';
+	std::cout << "Final: "<< finalTxt << '\n';
 
-	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
-	FILE *idxfile = fopen(idx_filename.c_str(), "wb");
-	if (idxfile == NULL) {
-		printf("Couldn't create file: %s.", idx_filename.c_str());
-		exit(0);
-	}
+	// std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
+	// FILE *idxfile = fopen(idx_filename.c_str(), "wb");
+	// if (idxfile == NULL) {
+	// 	printf("Couldn't create file: %s.", idx_filename.c_str());
+	// 	exit(0);
+	// }
 
 	// std::string ab;
 	// for(int i =0; i<256; i++) {
@@ -205,9 +207,9 @@ void call_index(std::string txtfile){
 	std::cout << "compressed: " << compressed << '\n';
 	std::string backstr = LZ78::decode(compressed,ab);
 	std::cout << "decompressed: " << backstr << " len "<< backstr.length()<<'\n';
-	fwrite(compressed.c_str(), sizeof(char), sizeof(finalTxt), idxfile);
+	// fwrite(compressed.c_str(), sizeof(char), sizeof(finalTxt), idxfile);
 
-	fclose(idxfile);
+	// fclose(idxfile);
 
 	int fst = returnIndex(0, finalTxt);
 	std::cout << "fst vale: "<< fst << '\n';
@@ -216,8 +218,7 @@ void call_index(std::string txtfile){
 	std::string redoStr = finalTxt.substr(thd+1,finalTxt.length()-2);
 	std::cout << "redo vale: " << redoStr << '\n';
 
-	std::cout << "Final txt tem "<< finalTxt.length() << '\n';
-	std::cout << "Final: "<< finalTxt << '\n';
+
 
 	// test.append("\t $$");
 	// std::cout << test << '\n';
