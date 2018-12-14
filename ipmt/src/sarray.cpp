@@ -11,6 +11,29 @@
 
 #include "sarray.h"
 
+void printP(std::vector<std::vector<int> > P){
+	for (size_t i = 0; i < P.size(); i++) {
+		std::cout << "[";
+		for (size_t j = 0; j < P[i].size(); j++) {
+			/* code */
+			std::cout << P[i][j] << ",";
+		}
+		std::cout << "]"<< '\n';
+	}
+}
+
+void printVec(std::vector<int> v){
+	std::cout << "[";
+	for (size_t i = 0; i < v.size(); i++) {
+		/* code */
+		if(i != v.size()-1)
+			std::cout << v[i] << ",";
+		else
+			std::cout << v[i];
+	}
+	std::cout << "]"<< '\n';
+}
+
 int stepLog(int n){
 	return (int)ceil(log2(n));
 }
@@ -157,14 +180,23 @@ void fill_lcplr(std::vector<int> &Llcp,
 
 //
 void SAr::lcplr(std::vector<int> &Llcp,
-           std::vector<int> &Rlcp,
-           std::vector<int> SArr,
-           std::vector<std::vector<int> > P,
-           int n) {
+                std::vector<int> &Rlcp,
+                std::vector<int> SArr,
+                std::vector<std::vector<int> > P,
+                int n) {
 
 	Llcp.assign(n, 0);
 	Rlcp.assign(n, 0);
 	fill_lcplr(Llcp, Rlcp, SArr, P, n, 0, n - 1);
+
+	// std::cout << "SArr: " << SArr.size() << '\n';
+	// printVec(SArr);
+	// std::cout << "Llcp: " << Llcp.size() << '\n';
+	//
+	// printVec(Llcp);
+	// std::cout << "Rlcp: " << Rlcp.size() << '\n';
+	//
+	// printVec(Rlcp);
 }
 
 int lcpPair(const char *u, const char *v) {
@@ -267,50 +299,45 @@ int pred(std::vector<int> Llcp,
 	return l;
 }
 
-void printP(std::vector<std::vector<int> > P){
-	for (size_t i = 0; i < P.size(); i++) {
-		std::cout << "[";
-		for (size_t j = 0; j < P[i].size(); j++) {
-			/* code */
-			std::cout << P[i][j] << ",";
-		}
-		std::cout << "]"<< '\n';
-	}
-}
 
-void printVec(std::vector<int> v){
-	std::cout << "[";
-	for (size_t i = 0; i < v.size(); i++) {
-		/* code */
-		if(i != v.size()-1)
-			std::cout << v[i] << ",";
-		else
-			std::cout << v[i];
-	}
-	std::cout << "]"<< '\n';
-}
 
 int SAr::search(std::vector<int> Llcp,
-           std::vector<int> Rlcp,
-           std::vector<int> SArr,
-           char *txt, int n, const char *pat) {
+                std::vector<int> Rlcp,
+                std::vector<int> SArr,
+                char *txt, int n, const char *pat) {
+
+	// std::cout << "Llcp & Rlcp & SArr" << Llcp.size() << " , " << Rlcp.size() << " , " << SArr.size() << '\n';
+	std::cout << "Pat: [" << pat  << "]"<< '\n';
+	std::cout << "Txt Len: " << strlen(txt) << "bytes"<< '\n';
+	// std::cout << "N vale: " << n << " - " << stepLog(n) << '\n';
+
+	// std::cout << "SArr: " << SArr.size() << '\n';
+	// printVec(SArr);
+	// std::cout << "Llcp: " << Llcp.size() << '\n';
+	//
+	// printVec(Llcp);
+	// std::cout << "Rlcp: " << Rlcp.size() << '\n';
+	//
+	// printVec(Rlcp);
+	// TODO: dados que entram na função estão OK.
 
 	int L = succ(Llcp, Rlcp, SArr, txt, n, pat);
 	int R = pred(Llcp, Rlcp, SArr, txt, n, pat);
+	// std::cout << "L & R: " << L << " , " << R << '\n';
 	if (L > R)
 		return 0;
 	else{
 		// std::cout << "[";
 		// for(int i = L; i <= R; i++){
-		// 	std::cout << SArr[i] << ",";
+		//  std::cout << SArr[i] << ",";
 		// }
 		// std::cout << "]" << '\n';
 		// std::cout << "R vale - " << R << "L vale - " << L  << '\n';
 
 		/*Comeca no SArr[R] e vai até pat+SArr[R]*/
 		// for (size_t i = SArr[R]; i < SArr[R]+(int)strlen(pat); i++) {
-		// 	/* code */
-		// 	std::cout << txt[i];
+		//  /* code */
+		//  std::cout << txt[i];
 		// }
 		// std::cout << '\n';
 		return R - L + 1;
@@ -324,34 +351,34 @@ int SAr::search(std::vector<int> Llcp,
 
 // int main(int argc, char const *argv[]) {
 //
-// 	// std::string txt = "like lovi loveme like you do lov loveee you iove";
-// 	// std::string txt = "banana";
-// 	std::string filename = argv[1];
+//  // std::string txt = "like lovi loveme like you do lov loveee you iove";
+//  // std::string txt = "banana";
+//  std::string filename = argv[1];
 //
-// 	char *txt = read(filename);
-// 	int n = (int)strlen(txt);
+//  char *txt = read(filename);
+//  int n = (int)strlen(txt);
 //
-// 	std::vector<std::vector<int> > P = build_P(txt,n);
-// 	printP(P);
-// 	std::cout << '\n';
-// 	/*Suffix array*/
-// 	std::vector<int> SArr = buildSArr(P,n);
+//  std::vector<std::vector<int> > P = build_P(txt,n);
+//  printP(P);
+//  std::cout << '\n';
+//  /*Suffix array*/
+//  std::vector<int> SArr = buildSArr(P,n);
 //
-// 	/*LCP-LR array for binary trick*/
-// 	std::vector<int> Llcp, Rlcp;
-// 	lcplr(Llcp, Rlcp, SArr, P, n);
+//  /*LCP-LR array for binary trick*/
+//  std::vector<int> Llcp, Rlcp;
+//  lcplr(Llcp, Rlcp, SArr, P, n);
 //
-// 	printVec(SArr);
-// 	printVec(Llcp);
-// 	printVec(Rlcp);
+//  printVec(SArr);
+//  printVec(Llcp);
+//  printVec(Rlcp);
 //
-// 	std::string pat = argv[2];
-// 	char *p = new char[pat.size() + 1];
-// 	pat.copy(p, std::string::npos, 0);
-// 	p[pat.size()] = '\0';
+//  std::string pat = argv[2];
+//  char *p = new char[pat.size() + 1];
+//  pat.copy(p, std::string::npos, 0);
+//  p[pat.size()] = '\0';
 //
-// 	std::cout << "Search eh " <<
-// 	search(Llcp, Rlcp, SArr, txt,n,p) << '\n';
+//  std::cout << "Search eh " <<
+//  search(Llcp, Rlcp, SArr, txt,n,p) << '\n';
 //
-// 	return 0;
+//  return 0;
 // }

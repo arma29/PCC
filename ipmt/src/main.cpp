@@ -124,13 +124,14 @@ void set_pat(std::vector<std::string> &pat_array,
 	}
 }
 
+
 std::string vecString(std::vector<int> vec){
 	std::ostringstream oss;
 
 	if (!vec.empty())
 	{
 		// Convert all but the last element to avoid a trailing ","
-		std::copy(vec.begin(), vec.end()-1,
+		std::copy(vec.begin(), vec.end(),
 		          std::ostream_iterator<int>(oss, ","));
 
 		// Now add the last element with no delimiter
@@ -141,11 +142,22 @@ std::string vecString(std::vector<int> vec){
 }
 
 void stringVec(std:: string str, std::vector<int> &backvec){
-
+	int count = 0;
+	int total = 0;
 	for(auto i : str) {
-		if(i != ',') {
-			backvec.push_back((int)(i-48));
+		count++;
+		total++;
+		// std::cout << i << "-" << '\n';
+		if(i == ',') {
+			std::string aux = str.substr(total-count,count-1);
+			int add = 0;
+			for(auto j: aux){
+				add += (int)(j - 48)*pow(10,count-2);
+				count--;
+			}
+			backvec.push_back(add);
 			// std::cout << i << '|';
+			count = 0;
 		}
 	}
 }
@@ -160,6 +172,7 @@ int returnIndex(int index, std::string str, std::vector<int> &backvec){
 			sub = str.substr(index, i-index);
 			// std::cout << "sub: " << sub << '\n';
 			stringVec(sub,backvec);
+			// std::cout << "Back: " << backvec[0] << '\n';
 			return i;
 		}
 	}
@@ -172,12 +185,18 @@ void call_index(std::string txtfile){
 
 	double t = clock();
 	std::vector<std::vector<int> > P = SAr::build_P(txt,n);
-	std::vector<int> SArr = SAr::buildSArr(P,n);
+	printf("Build P time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
 
+	t = clock();
+	std::vector<int> SArr = SAr::buildSArr(P,n);
+	printf("Build SArray time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
+
+
+	t = clock();
 	std::vector<int> Llcp, Rlcp;
 	SAr::lcplr(Llcp, Rlcp, SArr, P, n);
-	printf("Build SArray time: %lfs", (clock() - t) / CLOCKS_PER_SEC);
-	std::cout << '\n';
+	printf("Build Llcp & Rlcp time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
+
 
 	std::string strSArr = vecString(SArr);
 	std::string strLlcp = vecString(Llcp);
@@ -227,6 +246,18 @@ void call_index(std::string txtfile){
 	delete[] txt;
 }
 
+void printV(std::vector<int> v){
+	std::cout << "[";
+	for (size_t i = 0; i < v.size(); i++) {
+		/* code */
+		if(i != v.size()-1)
+			std::cout << v[i] << ",";
+		else
+			std::cout << v[i];
+	}
+	std::cout << "]"<< '\n';
+}
+
 /*Search Mode*/
 void call_search(std::vector<std::string> pat_array,
                  char *filename){
@@ -258,6 +289,8 @@ void call_search(std::vector<std::string> pat_array,
 	std::vector<int> Llcp, Rlcp;
 
 	int fst = returnIndex(0, finalTxt, SArr);
+	// std::cout << "SArr: " << SArr.size() << '\n';
+    // printV(SArr);
 	int snd = returnIndex(fst+1, finalTxt, Llcp);
 	int thd = returnIndex(snd+1, finalTxt, Rlcp);
 	// int fou = returnIndex(thd+1, finalTxt);
@@ -288,7 +321,7 @@ void call_search(std::vector<std::string> pat_array,
 		avg += (clock() - t);
 		delete[] p;
 	}
-	std::cout << "Avg time: " << avg/count << '\n';
+	// std::cout << "Avg time: " << avg/count << '\n';
 	delete[] txt;
 }
 
@@ -301,7 +334,10 @@ int main(int argc, char *argv[]) {
 
 	if(argc < 2)
 		usage(argv[0],false);
-
+	option = getopt_long(argc,argv, "p:ch",long_options, NULL);
+	if(option == 'h')
+		usage(argv[0],true);
+	
 	if(strcmp(argv[1], "index") == 0 ) {
 		if(argc != 3) {
 			usage(argv[0], true);
