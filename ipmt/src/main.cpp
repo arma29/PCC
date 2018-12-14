@@ -88,6 +88,22 @@ char *read(std:: string filename) {
 	}
 }
 
+std::string get_file_contents(const char * filename)
+{
+  std::FILE *fp = std::fopen(filename, "rb");
+  if (fp)
+  {
+    std::string contents;
+    std::fseek(fp, 0, SEEK_END);
+    contents.resize(std::ftell(fp));
+    std::rewind(fp);
+    size_t ret = std::fread(&contents[0], 1, contents.size(), fp);
+    std::fclose(fp);
+    return(contents);
+  }
+  throw(errno);
+}
+
 /*Convert the input file in array of strings*/
 void build_string_array(char* file,
                         std::vector<std::string> &str_array){
@@ -180,10 +196,14 @@ int returnIndex(int index, std::string str, std::vector<int> &backvec){
 }
 
 void call_index(std::string txtfile){
-	char *txt = read(txtfile);
-	int n = (int)strlen(txt);
-
 	double t = clock();
+	// char *txt = read(txtfile);
+	// int n = (int)strlen(txt);
+	std:: string txt = get_file_contents(txtfile.c_str());
+	int n = txt.length();
+	printf("Build Read time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
+
+	t = clock();
 	std::vector<std::vector<int> > P = SAr::build_P(txt,n);
 	printf("Build P time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
 
@@ -243,7 +263,7 @@ void call_index(std::string txtfile){
 	fwrite(compressed.c_str(), sizeof(char), compressed.length(), idxfile);
 	std::cout << "Index file: " << "'" << idx_filename << "' was created." << '\n';
 	fclose(idxfile);
-	delete[] txt;
+	// delete[] txt;
 }
 
 void printV(std::vector<int> v){
@@ -337,7 +357,7 @@ int main(int argc, char *argv[]) {
 	option = getopt_long(argc,argv, "p:ch",long_options, NULL);
 	if(option == 'h')
 		usage(argv[0],true);
-	
+
 	if(strcmp(argv[1], "index") == 0 ) {
 		if(argc != 3) {
 			usage(argv[0], true);

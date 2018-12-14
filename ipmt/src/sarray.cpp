@@ -11,7 +11,7 @@
 
 #include "sarray.h"
 
-void printP(std::vector<std::vector<int> > P){
+void printP(const std::vector<std::vector<int> > &P){
 	for (size_t i = 0; i < P.size(); i++) {
 		std::cout << "[";
 		for (size_t j = 0; j < P[i].size(); j++) {
@@ -22,7 +22,7 @@ void printP(std::vector<std::vector<int> > P){
 	}
 }
 
-void printVec(std::vector<int> v){
+void printVec(const std::vector<int> &v){
 	std::cout << "[";
 	for (size_t i = 0; i < v.size(); i++) {
 		/* code */
@@ -40,7 +40,7 @@ int stepLog(int n){
 
 const int sigma = 256;  // ASCII characters
 
-std::vector<int> buildHash(char *txt, int n) {
+std::vector<int> buildHash(std:: string txt, int n) {
 	// char *txt = read(filename);
 	// int n = (int)strlen(txt);
 
@@ -64,7 +64,7 @@ std::vector<int> buildHash(char *txt, int n) {
 }
 
 //Primeira linha com o texto
-std::vector<std::vector<int> > initializeP(char *txt, int n){
+std::vector<std::vector<int> > initializeP(std:: string txt, int n){
 	std::vector<std::vector<int> > P;
 
 	std::vector<int> hash = buildHash(txt, n);
@@ -104,7 +104,7 @@ void sort_index(std::vector<std::vector<int> > &P,
 
 
 //Need to give the read(filename) and length
-std::vector<std::vector<int> > SAr::build_P(char *txt,int n) {
+std::vector<std::vector<int> > SAr::build_P(std:: string txt,int n) {
 	// char *txt = read(filename);
 	// int n = (int)strlen(txt);
 
@@ -134,7 +134,7 @@ std::vector<std::vector<int> > SAr::build_P(char *txt,int n) {
 	return P;
 }
 
-std::vector<int> SAr::buildSArr(std::vector<std::vector<int> > P,int n) {
+std::vector<int> SAr::buildSArr(std::vector<std::vector<int> > &P,int n) {
 	std::vector<int> SArr;
 	int log2n = stepLog(n);
 	SArr.assign(n, -1);
@@ -145,12 +145,12 @@ std::vector<int> SAr::buildSArr(std::vector<std::vector<int> > P,int n) {
 }
 
 // computes lcp(txt[i:], txt[j:])
-int lcpP(std::vector<std::vector<int> > P, int n,int i, int j) {  // computes lcp(txt[i:], txt[j:])
+int lcpP(std::vector<std::vector<int> > &P, int n,int i, int j) {  // computes lcp(txt[i:], txt[j:])
 	int log2n = stepLog(n);
 	if (i == j)
 		return (n - i);
 	//TIRA ELSE?
-	else{
+	// else{
 		int lcp = 0;
 		for (int k = log2n; k >= 0 && i < n && j < n; k--) {
 			if (P[k][i] == P[k][j]) {
@@ -161,13 +161,13 @@ int lcpP(std::vector<std::vector<int> > P, int n,int i, int j) {  // computes lc
 			}
 		}
 		return lcp;
-	}
+	// }
 }
 
 void fill_lcplr(std::vector<int> &Llcp,
                 std::vector<int> &Rlcp,
-                std::vector<int> SArr,
-                std::vector<std::vector<int> > P,
+                std::vector<int> &SArr,
+                std::vector<std::vector<int> > &P,
                 int n, int l, int r) {
 	if (r - l > 1) {
 		int h = (l + r) / 2;
@@ -181,14 +181,13 @@ void fill_lcplr(std::vector<int> &Llcp,
 //
 void SAr::lcplr(std::vector<int> &Llcp,
                 std::vector<int> &Rlcp,
-                std::vector<int> SArr,
-                std::vector<std::vector<int> > P,
+                std::vector<int> &SArr,
+                std::vector<std::vector<int> > &P,
                 int n) {
 
 	Llcp.assign(n, 0);
 	Rlcp.assign(n, 0);
 	fill_lcplr(Llcp, Rlcp, SArr, P, n, 0, n - 1);
-
 	// std::cout << "SArr: " << SArr.size() << '\n';
 	// printVec(SArr);
 	// std::cout << "Llcp: " << Llcp.size() << '\n';
@@ -207,9 +206,9 @@ int lcpPair(const char *u, const char *v) {
 	return l;
 }
 
-int succ(std::vector<int> Llcp,
-         std::vector<int> Rlcp,
-         std::vector<int> SArr,
+int succ(std::vector<int> &Llcp,
+         std::vector<int> &Rlcp,
+         std::vector<int> &SArr,
          char *txt,int n, const char *pat) {      // succ is in (l, r]
 
 	int m = (int)strlen(pat);
@@ -253,9 +252,9 @@ int succ(std::vector<int> Llcp,
 	return r;
 }
 
-int pred(std::vector<int> Llcp,
-         std::vector<int> Rlcp,
-         std::vector<int> SArr,
+int pred(std::vector<int> &Llcp,
+         std::vector<int> &Rlcp,
+         std::vector<int> &SArr,
          char *txt,int n, const char *pat) {  // pred is in [l, r)
 
 	int m = (int)strlen(pat);
@@ -301,9 +300,9 @@ int pred(std::vector<int> Llcp,
 
 
 
-int SAr::search(std::vector<int> Llcp,
-                std::vector<int> Rlcp,
-                std::vector<int> SArr,
+int SAr::search(std::vector<int> &Llcp,
+                std::vector<int> &Rlcp,
+                std::vector<int> &SArr,
                 char *txt, int n, const char *pat) {
 
 	// std::cout << "Llcp & Rlcp & SArr" << Llcp.size() << " , " << Rlcp.size() << " , " << SArr.size() << '\n';
