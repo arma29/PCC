@@ -13,17 +13,17 @@
 #include <math.h>
 
 namespace SAr{
-    std::vector<std::vector<int> > build_P(std:: string txt,int n);
-    std::vector<int> buildSArr(std::vector<std::vector<int> > &P,int n);
+    std::vector<std::vector<int> > build_P(const std:: string &txt,int n);
+    std::vector<int> buildSArr(const std::vector<std::vector<int> > &P,int n);
     void lcplr(std::vector<int> &Llcp,
                std::vector<int> &Rlcp,
-               std::vector<int> &SArr,
-               std::vector<std::vector<int> > &P,
+               const std::vector<int> &SArr,
+               const std::vector<std::vector<int> > &P,
                int n);
-    int search(std::vector<int> &Llcp,
-               std::vector<int> &Rlcp,
-               std::vector<int> &SArr,
-               char *txt, int n, const char *pat);
+    int search(const std::vector<int> &Llcp,
+               const std::vector<int> &Rlcp,
+               const std::vector<int> &SArr,
+               const std::string &txt, int n, const std::string &pat);
 }
 
 #endif

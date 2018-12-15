@@ -1,13 +1,4 @@
 #include <algorithm>
-// #include <cstring>
-// #include <string>
-// #include <tuple>
-// #include <vector>
-// #include <iostream>
-// #include <cstdio>
-// #include <cstring>
-// #include <fstream>
-// #include <math.h>
 
 #include "sarray.h"
 
@@ -40,9 +31,7 @@ int stepLog(int n){
 
 const int sigma = 256;  // ASCII characters
 
-std::vector<int> buildHash(std:: string txt, int n) {
-	// char *txt = read(filename);
-	// int n = (int)strlen(txt);
+std::vector<int> buildHash(const std:: string &txt, int n) {
 
 	std::vector<int> hash = std::vector<int>(256);
 	std::vector<int> count(256, 0);
@@ -64,7 +53,7 @@ std::vector<int> buildHash(std:: string txt, int n) {
 }
 
 //Primeira linha com o texto
-std::vector<std::vector<int> > initializeP(std:: string txt, int n){
+std::vector<std::vector<int> > initializeP(const std:: string &txt, int n){
 	std::vector<std::vector<int> > P;
 
 	std::vector<int> hash = buildHash(txt, n);
@@ -104,18 +93,11 @@ void sort_index(std::vector<std::vector<int> > &P,
 
 
 //Need to give the read(filename) and length
-std::vector<std::vector<int> > SAr::build_P(std:: string txt,int n) {
-	// char *txt = read(filename);
-	// int n = (int)strlen(txt);
+std::vector<std::vector<int> > SAr::build_P(const std:: string &txt,int n) {
 
-	//P[0][i] = letras
 	std::vector<std::vector<int> > P = initializeP(txt,n);
 
-	//TODO: rever o log
 	int log2n = stepLog(n);
-	// std::cout << "log2n vale - "<< log2n << '\n';
-	// std::cout << "math vale - "<< (int)ceil(log2(n)) << '\n';
-
 
 	for (int k = 1; k <= log2n; ++k) {
 		//Array of Tuples
@@ -134,7 +116,7 @@ std::vector<std::vector<int> > SAr::build_P(std:: string txt,int n) {
 	return P;
 }
 
-std::vector<int> SAr::buildSArr(std::vector<std::vector<int> > &P,int n) {
+std::vector<int> SAr::buildSArr(const std::vector<std::vector<int> > &P,int n) {
 	std::vector<int> SArr;
 	int log2n = stepLog(n);
 	SArr.assign(n, -1);
@@ -145,29 +127,26 @@ std::vector<int> SAr::buildSArr(std::vector<std::vector<int> > &P,int n) {
 }
 
 // computes lcp(txt[i:], txt[j:])
-int lcpP(std::vector<std::vector<int> > &P, int n,int i, int j) {  // computes lcp(txt[i:], txt[j:])
+int lcpP(const std::vector<std::vector<int> > &P, int n,int i, int j) {  // computes lcp(txt[i:], txt[j:])
 	int log2n = stepLog(n);
 	if (i == j)
 		return (n - i);
-	//TIRA ELSE?
-	// else{
-		int lcp = 0;
-		for (int k = log2n; k >= 0 && i < n && j < n; k--) {
-			if (P[k][i] == P[k][j]) {
-				//exchange << -> += (pow(k,2))
-				lcp += pow(2,k);
-				i += pow(2,k);
-				j += pow(2,k);
-			}
+
+	int lcp = 0;
+	for (int k = log2n; k >= 0 && i < n && j < n; k--) {
+		if (P[k][i] == P[k][j]) {
+			lcp += pow(2,k);
+			i += pow(2,k);
+			j += pow(2,k);
 		}
-		return lcp;
-	// }
+	}
+	return lcp;
 }
 
 void fill_lcplr(std::vector<int> &Llcp,
                 std::vector<int> &Rlcp,
-                std::vector<int> &SArr,
-                std::vector<std::vector<int> > &P,
+                const std::vector<int> &SArr,
+                const std::vector<std::vector<int> > &P,
                 int n, int l, int r) {
 	if (r - l > 1) {
 		int h = (l + r) / 2;
@@ -178,24 +157,17 @@ void fill_lcplr(std::vector<int> &Llcp,
 	}
 }
 
-//
+
 void SAr::lcplr(std::vector<int> &Llcp,
                 std::vector<int> &Rlcp,
-                std::vector<int> &SArr,
-                std::vector<std::vector<int> > &P,
+                const std::vector<int> &SArr,
+                const std::vector<std::vector<int> > &P,
                 int n) {
 
 	Llcp.assign(n, 0);
 	Rlcp.assign(n, 0);
 	fill_lcplr(Llcp, Rlcp, SArr, P, n, 0, n - 1);
-	// std::cout << "SArr: " << SArr.size() << '\n';
-	// printVec(SArr);
-	// std::cout << "Llcp: " << Llcp.size() << '\n';
-	//
-	// printVec(Llcp);
-	// std::cout << "Rlcp: " << Rlcp.size() << '\n';
-	//
-	// printVec(Rlcp);
+
 }
 
 int lcpPair(const char *u, const char *v) {
@@ -206,15 +178,15 @@ int lcpPair(const char *u, const char *v) {
 	return l;
 }
 
-int succ(std::vector<int> &Llcp,
-         std::vector<int> &Rlcp,
-         std::vector<int> &SArr,
-         char *txt,int n, const char *pat) {      // succ is in (l, r]
+int succ(const std::vector<int> &Llcp,
+         const std::vector<int> &Rlcp,
+         const std::vector<int> &SArr,
+         const std::string &txt, int n, const std::string &pat) {      // succ is in (l, r]
 
-	int m = (int)strlen(pat);
+	int m = pat.length();
 
-	int L = lcpPair(pat, txt + SArr[0]);
-	int R = lcpPair(pat, txt + SArr[n - 1]);
+	int L = lcpPair(pat.c_str(), txt.c_str() + SArr[0]);
+	int R = lcpPair(pat.c_str(), txt.c_str() + SArr[n - 1]);
 	if (L == m || (unsigned char)txt[SArr[0] + L] >
 	    (unsigned char)pat[L]) {              // txt[SArr[0]] >=m pat
 		return 0;
@@ -230,13 +202,13 @@ int succ(std::vector<int> &Llcp,
 		if (L >= R) {
 			if (Llcp[h] >= L) {
 				// std::cout << "Comparing P=" << pat << " to" << txt[SArr[h]] << '\n';
-				H = L + lcpPair(pat + L, txt + SArr[h] + L);
+				H = L + lcpPair(pat.c_str() + L, txt.c_str() + SArr[h] + L);
 			} else {
 				H = Llcp[h];
 			}
 		} else { // R > L
 			if (Rlcp[h] >= R) {
-				H = R + lcpPair(pat + R, txt + SArr[h] + R);
+				H = R + lcpPair(pat.c_str() + R, txt.c_str() + SArr[h] + R);
 			} else {
 				H = Rlcp[h];
 			}
@@ -252,15 +224,15 @@ int succ(std::vector<int> &Llcp,
 	return r;
 }
 
-int pred(std::vector<int> &Llcp,
-         std::vector<int> &Rlcp,
-         std::vector<int> &SArr,
-         char *txt,int n, const char *pat) {  // pred is in [l, r)
+int pred(const std::vector<int> &Llcp,
+         const std::vector<int> &Rlcp,
+         const std::vector<int> &SArr,
+         const std::string &txt, int n, const std::string &pat) {  // pred is in [l, r)
 
-	int m = (int)strlen(pat);
+	int m = pat.length();
 
-	int L = lcpPair(pat, txt + SArr[0]);
-	int R = lcpPair(pat, txt + SArr[n - 1]);
+	int L = lcpPair(pat.c_str(), txt.c_str() + SArr[0]);
+	int R = lcpPair(pat.c_str(), txt.c_str() + SArr[n - 1]);
 
 	if (R == m || (unsigned char)txt[SArr[n - 1] + R] <
 	    (unsigned char)pat[R]) {              // txt[SArr[n - 1]] <=m pat
@@ -276,13 +248,13 @@ int pred(std::vector<int> &Llcp,
 		int H = -1;
 		if (L >= R) {
 			if (Llcp[h] >= L) {
-				H = L + lcpPair(pat + L, txt + SArr[h] + L);
+				H = L + lcpPair(pat.c_str() + L, txt.c_str() + SArr[h] + L);
 			} else {
 				H = Llcp[h];
 			}
 		} else { // R > L
 			if (Rlcp[h] >= R) {
-				H = R + lcpPair(pat + R, txt + SArr[h] + R);
+				H = R + lcpPair(pat.c_str() + R, txt.c_str() + SArr[h] + R);
 			} else {
 				H = Rlcp[h];
 			}
@@ -300,49 +272,22 @@ int pred(std::vector<int> &Llcp,
 
 
 
-int SAr::search(std::vector<int> &Llcp,
-                std::vector<int> &Rlcp,
-                std::vector<int> &SArr,
-                char *txt, int n, const char *pat) {
+int SAr::search(const std::vector<int> &Llcp,
+                const std::vector<int> &Rlcp,
+                const std::vector<int> &SArr,
+                const std::string &txt, int n, const std::string &pat) {
 
-	// std::cout << "Llcp & Rlcp & SArr" << Llcp.size() << " , " << Rlcp.size() << " , " << SArr.size() << '\n';
-	std::cout << "Pat: [" << pat  << "]"<< '\n';
-	std::cout << "Txt Len: " << strlen(txt) << "bytes"<< '\n';
-	// std::cout << "N vale: " << n << " - " << stepLog(n) << '\n';
-
-	// std::cout << "SArr: " << SArr.size() << '\n';
-	// printVec(SArr);
-	// std::cout << "Llcp: " << Llcp.size() << '\n';
-	//
-	// printVec(Llcp);
-	// std::cout << "Rlcp: " << Rlcp.size() << '\n';
-	//
-	// printVec(Rlcp);
-	// TODO: dados que entram na função estão OK.
+	/*
+	
+	*/
 
 	int L = succ(Llcp, Rlcp, SArr, txt, n, pat);
 	int R = pred(Llcp, Rlcp, SArr, txt, n, pat);
-	// std::cout << "L & R: " << L << " , " << R << '\n';
 	if (L > R)
 		return 0;
 	else{
-		// std::cout << "[";
-		// for(int i = L; i <= R; i++){
-		//  std::cout << SArr[i] << ",";
-		// }
-		// std::cout << "]" << '\n';
-		// std::cout << "R vale - " << R << "L vale - " << L  << '\n';
-
-		/*Comeca no SArr[R] e vai até pat+SArr[R]*/
-		// for (size_t i = SArr[R]; i < SArr[R]+(int)strlen(pat); i++) {
-		//  /* code */
-		//  std::cout << txt[i];
-		// }
-		// std::cout << '\n';
 		return R - L + 1;
 	}
-	//count
-	//return (L > R) ? 0 : R - L + 1
 }
 
 

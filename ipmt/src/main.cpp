@@ -105,7 +105,7 @@ std::string get_file_contents(const char * filename)
 }
 
 /*Convert the input file in array of strings*/
-void build_string_array(char* file,
+void build_string_array(const char *file,
                         std::vector<std::string> &str_array){
 
 	std:: ifstream infile(file);
@@ -117,6 +117,7 @@ void build_string_array(char* file,
 	while(std::getline(infile,line)) {
 		str_array.push_back(line);
 	}
+	//std::cout << "[" << str_array[0] << "]" << '\n';
 	infile.close();
 }
 
@@ -127,7 +128,7 @@ void set_txt_index(int opt, int& index){
 
 /*Caso seja uma string, anexo a um vetor de string (único)*/
 void set_pat(std::vector<std::string> &pat_array,
-             std::string str,bool pflag){
+             const std::string &str,bool pflag){
 
 	if(!pflag)
 		pat_array.push_back(str);
@@ -141,7 +142,7 @@ void set_pat(std::vector<std::string> &pat_array,
 }
 
 
-std::string vecString(std::vector<int> vec){
+std::string vecString(const std::vector<int> &vec){
 	std::ostringstream oss;
 
 	if (!vec.empty())
@@ -157,7 +158,7 @@ std::string vecString(std::vector<int> vec){
 	return oss.str();
 }
 
-void stringVec(std:: string str, std::vector<int> &backvec){
+void stringVec(const std:: string &str, std::vector<int> &backvec){
 	int count = 0;
 	int total = 0;
 	for(auto i : str) {
@@ -181,7 +182,7 @@ void stringVec(std:: string str, std::vector<int> &backvec){
 std::string SPEC = "$";
 char SPECC ='$';
 
-int returnIndex(int index, std::string str, std::vector<int> &backvec){
+int returnIndex(int index, const std::string &str, std::vector<int> &backvec){
 	std:: string sub;
 	for(int i = index; i < str.length(); i++) {
 		if(str[i] == SPECC) {
@@ -195,14 +196,15 @@ int returnIndex(int index, std::string str, std::vector<int> &backvec){
 
 }
 
-void call_index(std::string txtfile){
+void call_index(const std::string &txtfile){
 	double t = clock();
-	// char *txt = read(txtfile);
-	// int n = (int)strlen(txt);
+
+	//Leitura .txt
 	std:: string txt = get_file_contents(txtfile.c_str());
 	int n = txt.length();
 	printf("Build Read time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
 
+	//Criação dos vetores
 	t = clock();
 	std::vector<std::vector<int> > P = SAr::build_P(txt,n);
 	printf("Build P time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
@@ -218,6 +220,7 @@ void call_index(std::string txtfile){
 	printf("Build Llcp & Rlcp time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
 
 
+	//Criação do index
 	std::string strSArr = vecString(SArr);
 	std::string strLlcp = vecString(Llcp);
 	std::string strRlcp = vecString(Rlcp);
@@ -230,40 +233,35 @@ void call_index(std::string txtfile){
 	finalTxt.append(strRlcp);
 	finalTxt.append(SPEC);
 	finalTxt.append(txt);
+
 	// finalTxt.append("$");
 	// std::cout << "Final txt tem "<< finalTxt.length() << '\n';
 	// std::cout << "Final: "<< finalTxt << '\n';
-
-	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
-	// std::string idx_filename = "ban.idx";
-	FILE *idxfile = fopen(idx_filename.c_str(), "wb");
-	if (idxfile == NULL) {
-		printf("Couldn't create file: %s.", idx_filename.c_str());
-		exit(0);
-	}
 
 	std::string ab;
 	for(int i =0; i<256; i++) {
 		char a = i;
 		ab += a;
 	}
-	// std::string ab = "abn0123456789,$\0";
-
-	// std::string compressed = LZ78::encode(finalTxt, ab);
+	
+	//Compress
 	t = clock();
 	std::string compressed = LZ78_TRIE::encode(finalTxt, ab);
 	printf("LZ78 Trie Encode time: %lfs", (clock() - t) / CLOCKS_PER_SEC);
 	std::cout << '\n';
 
-	// std::cout << compressed << '\n';
-	// std::string backstr = LZ78::decode(compressed,ab);
-	// std::cout << "decompressed: " << backstr << " len "<< backstr.length()<<'\n';
-
+	//Write .idx file
+	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
+	FILE *idxfile = fopen(idx_filename.c_str(), "wb");
+	if (idxfile == NULL) {
+		printf("Couldn't create file: %s.", idx_filename.c_str());
+		exit(0);
+	}
 
 	fwrite(compressed.c_str(), sizeof(char), compressed.length(), idxfile);
 	std::cout << "Index file: " << "'" << idx_filename << "' was created." << '\n';
 	fclose(idxfile);
-	// delete[] txt;
+
 }
 
 void printV(std::vector<int> v){
@@ -279,14 +277,8 @@ void printV(std::vector<int> v){
 }
 
 /*Search Mode*/
-void call_search(std::vector<std::string> pat_array,
-                 char *filename){
-
-	std::ifstream t(filename);
-	std::stringstream buffer;
-	buffer << t.rdbuf();
-
-	// std::cout << buffer.str() << '\n';
+void call_search(const std::vector<std::string> &pat_array,
+                 const std::string &filename){
 
 	std::string ab;
 	for(int i =0; i<256; i++) {
@@ -294,55 +286,40 @@ void call_search(std::vector<std::string> pat_array,
 		ab += a;
 	}
 
-	std::string compressed = buffer.str();
-	// std::string finalTxt = LZ78::decode(compressed,ab);
+	//Leitura do idx
+	std::string compressed = get_file_contents(filename.c_str());
+
 	double taux = clock();
 	std::string finalTxt = LZ78_TRIE::decode(compressed,ab);
-	printf("LZ78 Trie Decode time: %lfs", (clock() - taux) / CLOCKS_PER_SEC);
-	std::cout << '\n';
+	printf("LZ78 Trie Decode time: %lfs \n", (clock() - taux) / CLOCKS_PER_SEC);
 
 
-	// std::cout << finalTxt << '\n';
-
+	//Retorno do index
 	std::vector<int> SArr;
-
 	std::vector<int> Llcp, Rlcp;
 
 	int fst = returnIndex(0, finalTxt, SArr);
-	// std::cout << "SArr: " << SArr.size() << '\n';
-    // printV(SArr);
 	int snd = returnIndex(fst+1, finalTxt, Llcp);
 	int thd = returnIndex(snd+1, finalTxt, Rlcp);
-	// int fou = returnIndex(thd+1, finalTxt);
 	std::string redoStr = finalTxt.substr(thd+1);
-	// std::cout << "[" << redoStr << "]"<< '\n';
 
-	char *txt = new char[redoStr.length()+1];
-	txt[redoStr.length()] = '\0';
-	std::strcpy(txt, redoStr.c_str());
-	int n = (int)strlen(txt);
-
-	int count = 0;
-	double avg = 0;
+	//Search
+	double count = 0;
+	double t2 = clock();
 	for(auto i : pat_array) {
-		std::string pat = i;
-		// std::cout << "palavra é [" << i << "]" << '\n';
-		char *p = new char[pat.size() + 1];
-		pat.copy(p, std::string::npos, 0);
-		p[pat.size()] = '\0';
 
-		double t = clock();
-		std::cout << "Count: " <<
-		SAr::search(Llcp, Rlcp, SArr, txt,n,p) << '\n';
-		printf("Search time: %lfs", (clock() - t) / CLOCKS_PER_SEC);
-		std::cout << '\n';
+		if(i.length() > 0){
+			double t = clock();
+			std::cout << "Pat: [" << i  << "]"<< '\n';
+			std::cout << "Txt Len: " << redoStr.length() << " bytes"<< '\n';
+			std::cout << "Occurences: " <<
+			SAr::search(Llcp, Rlcp, SArr, redoStr,redoStr.length(),i) << '\n';
+			printf("Search time: %lfs \n\n", (clock() - t) / CLOCKS_PER_SEC);
 
-		count ++;
-		avg += (clock() - t);
-		delete[] p;
+			count++;
+		}
 	}
-	// std::cout << "Avg time: " << avg/count << '\n';
-	delete[] txt;
+	printf("Avg time: %lfs in %d counts\n", ((clock()-t2)/CLOCKS_PER_SEC)/count , (int)count);
 }
 
 int main(int argc, char *argv[]) {
@@ -354,11 +331,11 @@ int main(int argc, char *argv[]) {
 
 	if(argc < 2)
 		usage(argv[0],false);
-	option = getopt_long(argc,argv, "p:ch",long_options, NULL);
-	if(option == 'h')
+
+	if(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)
 		usage(argv[0],true);
 
-	if(strcmp(argv[1], "index") == 0 ) {
+	else if(strcmp(argv[1], "index") == 0 ) {
 		if(argc != 3) {
 			usage(argv[0], true);
 		}
@@ -394,6 +371,7 @@ int main(int argc, char *argv[]) {
 	else{
 		usage(argv[0],false);
 	}
+	
 
 	return 0;
 }
