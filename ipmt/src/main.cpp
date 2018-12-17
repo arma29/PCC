@@ -196,12 +196,12 @@ void call_index(std::string txtfile){
 	// 	exit(0);
 	// }
 
-	// std::string ab;
-	// for(int i =0; i<256; i++) {
-	// 	char a = i;
-	// 	ab += a;
-	// }
-	std::string ab = "abn0123456789,$\0";
+	std::string ab;
+	for(int i =0; i<256; i++) {
+		char a = i;
+		ab += a;
+	}
+	// std::string ab = "abn0123456789,$\0";
 
 	std::string compressed = LZ78::encode(finalTxt, ab);
 	std::cout << "compressed: " << compressed << '\n';

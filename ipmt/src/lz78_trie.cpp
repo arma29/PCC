@@ -1,18 +1,16 @@
 #include "lz78_trie.h"
 
-std::pair<std::shared_ptr<LZ78_TRIE::Dict::node>, int> LZ78_TRIE::Dict::search(std::string& txt,
+std::pair<std::shared_ptr<LZ78_TRIE::Dict::node>, int> LZ78_TRIE::Dict::search(string_ref& txt,
                                                                      int ini,
                                                                      std::shared_ptr<LZ78_TRIE::Dict::node> curr) {
-    // std::cout << "Ini: " << ini << std::endl;
-    // std::cout << "Curr Id: " << curr->id << std::endl;
-    std::string name;
-    std::string prefix;
+    string_ref name;
+    string_ref prefix;
     bool miss = false;
     while (!miss) {
         miss = true;
         for (int i = 0; i < curr->names.size();i++) {
             name = curr->names.at(i);
-            prefix = txt.substr(ini, name.length());
+            prefix = string_ref(txt, ini, name.length());
             if (name == prefix) {
                 ini = ini + prefix.length();
                 curr = curr->refs[i];
@@ -21,11 +19,10 @@ std::pair<std::shared_ptr<LZ78_TRIE::Dict::node>, int> LZ78_TRIE::Dict::search(s
             }
         }
     }
-    // std::cout << "Miss" << std::endl;
     return std::make_pair(curr, ini);
 }
 
-std::pair<int, int> LZ78_TRIE::Dict::index(std::string& txt,
+std::pair<int, int> LZ78_TRIE::Dict::index(string_ref& txt,
                                       std::shared_ptr<LZ78_TRIE::Dict::node> root) {
     std::shared_ptr<LZ78_TRIE::Dict::node> found;
     int end;
@@ -33,16 +30,17 @@ std::pair<int, int> LZ78_TRIE::Dict::index(std::string& txt,
     return std::make_pair(found->id, end); 
 }
 
-std::string LZ78_TRIE::Dict::find(int i,
-                             std::vector<std::string>& data_inv) {
+string_ref LZ78_TRIE::Dict::find(int i,
+                             std::vector<string_ref>& data_inv) {
     if (i > data_inv.size()) {
-        return std::string("");
+        string_ref ret("");
+        return ret;
     }
     return data_inv[i];
 }
 
-void LZ78_TRIE::Dict::add(std::string& w,
-                    std::vector<std::string>& data_inv,
+void LZ78_TRIE::Dict::add(string_ref& w,
+                    std::vector<string_ref>& data_inv,
                     std::shared_ptr<LZ78_TRIE::Dict::node> root) {
     std::shared_ptr<LZ78_TRIE::Dict::node> found;
     int end;
@@ -50,27 +48,19 @@ void LZ78_TRIE::Dict::add(std::string& w,
 
     std::shared_ptr<LZ78_TRIE::Dict::node> newNode(new LZ78_TRIE::Dict::node);
     newNode->id = data_inv.size();
-    found->names.push_back(w.substr(end, w.length()));
+    found->names.push_back(string_ref(w, end, w.length()));
     found->refs.push_back(newNode);
     data_inv.push_back(w);
 }
 
-std::string LZ78_TRIE::Dict::to_str(std::vector<std::string>& data_inv) {
-    std::string output = "";
-    for (int i = 0; i < data_inv.size(); i++) {
-        output = output + std::to_string(i) + std::string(":");
-        output = output + data_inv[i] + std::string("\n");
-    }
-    return output;
-}
-
-std::string LZ78_TRIE::int_encode(int x, std::string& ab) {
+string_ref LZ78_TRIE::int_encode(int x, string_ref& ab) {
     if (x == 0) {
-        return ab.substr(0, 1);
+        string_ref ret(ab, 0, 1);
+        return ret;
     }
 
     int base = ab.length();
-    std::string code = "";
+    string_ref code("");
     int bit;
 
     while (x) {
@@ -82,7 +72,7 @@ std::string LZ78_TRIE::int_encode(int x, std::string& ab) {
     return code;
 }
 
-int LZ78_TRIE::int_decode(std::string& x, std::string & ab) {
+int LZ78_TRIE::int_decode(string_ref& x, string_ref & ab) {
     int base = ab.length();
     int power = 1;
     int val = 0;
@@ -101,49 +91,41 @@ int LZ78_TRIE::int_decode(std::string& x, std::string & ab) {
     return val;
 }
 
-std::string LZ78_TRIE::gprime(std::string& y, std::string& ab) {
-    // std::cout << "gprime encoding " << y << std::endl;
+string_ref LZ78_TRIE::gprime(string_ref& y, string_ref& ab) {
     if (y.length() <= 1) {
         return y;
     } else {
-        std::string encoded = LZ78_TRIE::int_encode(y.length() - 2, ab);
+        string_ref encoded = LZ78_TRIE::int_encode(y.length() - 2, ab);
         return gprime(encoded, ab) + y;
     }
 }
 
-std::string LZ78_TRIE::cw_encode(std::string& w, std::string& ab) {
-    // std::cout << "g encoding " << w << std::endl;
-    std::string aux = ab.substr(1,1) + w;
-    return LZ78_TRIE::gprime(aux, ab) + ab.substr(0,1);
+string_ref LZ78_TRIE::cw_encode(string_ref& w, string_ref& ab) {
+    string_ref aux = string_ref(ab, 1,1) + w;
+    return LZ78_TRIE::gprime(aux, ab) + string_ref(ab, 0,1);
 }
 
-std::string LZ78_TRIE::encode(std::string& txt, std::string& ab) {
-    std::string code;
+string_ref LZ78_TRIE::encode(string_ref& txt, string_ref& ab) {
+    string_ref code;
     int n = txt.length();
     int i = 0;
     int j, l;
 
-    std::string int_encoded;
-    std::string cj;
-    std::string to_add;
+    string_ref int_encoded;
+    string_ref cj;
+    string_ref to_add;
 
-    std::vector<std::string> data_inv;
+    std::vector<string_ref> data_inv;
     std::shared_ptr<LZ78_TRIE::Dict::node> root(new LZ78_TRIE::Dict::node);
     data_inv.push_back("");
 
     while (i < n) {
-        std::string sufix = txt.substr(i, n);
-        // std::cout << txt.substr(0, i) << "|" << sufix << std::endl;
-        // std::cout << LZ78_TRIE::Dict::to_str(data_inv) << std::endl;
-        // std::cout << std::endl;
+        string_ref sufix = txt.substr(i, n);
 
         std::tie(j, l) = LZ78_TRIE::Dict::index(sufix, root);
-        // std::cout << "found" << LZ78_TRIE::Dict::find(j, data_inv) << std::endl;
         int_encoded = int_encode(j, ab);
         cj = LZ78_TRIE::cw_encode(int_encoded, ab);
-        // std::cout << "g(" << j << ")=" << cj << std::endl;
         code = code + cj + txt.substr(i+l, 1);
-        // std::cout << "code=" << code << std::endl;
         to_add = txt.substr(i, l+1);
         LZ78_TRIE::Dict::add(to_add, data_inv, root);
         i += l + 1;
@@ -151,59 +133,44 @@ std::string LZ78_TRIE::encode(std::string& txt, std::string& ab) {
     return code;
 }
 
-std::string LZ78_TRIE::decode(std::string& code, std::string& ab) {
-    std::vector<std::string> data_inv;
+string_ref LZ78_TRIE::decode(string_ref& code, string_ref& ab) {
+    std::vector<string_ref> data_inv;
     std::shared_ptr<LZ78_TRIE::Dict::node> root(new LZ78_TRIE::Dict::node);
     data_inv.push_back("");
 
     int i = 0;
     int n = code.length();
-    std::string txt = "";
+    string_ref txt("");
 
-    std::string w;
+    string_ref w;
     int l;
 
-    std::string sufix;
-    std::string dic_entry;
-    std::string c;
-    std::string aux;
+    string_ref sufix;
+    string_ref dic_entry;
+    string_ref c;
+    string_ref aux;
 
     while (i < n) {
-        w = code.substr(i, 1);
+        w = string_ref(code, i, 1);
         l = LZ78_TRIE::int_decode(w, ab);
         i += 1;
         while (1) {
-            if (code.substr(i, 1) == ab.substr(0, 1)) {
-                sufix = w.substr(1, w.length() - 1);
+            if (string_ref(code, i, 1) == string_ref(ab, 0, 1)) {
+                sufix = string_ref(w, 1, w.length() - 1);
                 dic_entry = LZ78_TRIE::Dict::find(LZ78_TRIE::int_decode(sufix, ab), data_inv);
-                // std::cout << "sufix [" << sufix << "]" << std::endl;
-                // std::cout << "dec [" << LZ78_TRIE::int_decode(sufix, ab) << "]" << std::endl;
-                // std::cout << "dic entry [" << dic_entry << "]" << std::endl;
                 txt += dic_entry;
                 i++;
-                c = code.substr(i, 1);
+                c = string_ref(code, i, 1);
                 txt += c;
                 i+=1;
                 aux = dic_entry + c;
                 LZ78_TRIE::Dict::add(aux, data_inv, root);
-                // std::cout << LZ78_TRIE::Dict::to_str(data_inv) << std::endl;
                 break; 
             }
-            w = code.substr(i, l+2);
+            w = string_ref(code ,i, l+2);
             i = i + l + 2;
             l = LZ78_TRIE::int_decode(w, ab);
         }
     }
     return txt;
 }
-
-// int main() {
-//     std::string w = "aabcbcbcbacbabcbabccbabb";
-//     std::string ab = "abc";
-//     std::string encoded = LZ78_TRIE::encode(w, ab);
-//     std::string decoded = LZ78_TRIE::decode(encoded, ab);
-//     std::cout << w << std::endl;
-//     std::cout << encoded << std::endl;
-//     std::cout << decoded << std::endl;
-//     return 0;
-// }

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "stringref.h"
 #include <map>
 #include <tuple>
 #include <utility>
@@ -13,28 +14,28 @@ namespace LZ78_TRIE {
     namespace Dict {
         struct node {
             int id = 0;
-            std::vector<std::string> names;
+            std::vector<string_ref> names;
             std::vector<std::shared_ptr<node>> refs;
         };
-        std::pair<std::shared_ptr<LZ78_TRIE::Dict::node>, int> search(std::string& txt,
+        std::pair<std::shared_ptr<LZ78_TRIE::Dict::node>, int> search(string_ref& txt,
                                                                  int ini,
                                                                  std::shared_ptr<LZ78_TRIE::Dict::node>);
-        std::pair<int, int> index(std::string&,
+        std::pair<int, int> index(string_ref&,
                                   std::shared_ptr<node>);
-        std::string find(int,
-                         std::vector<std::string>&);
-        void  add(std::string&,
-                  std::vector<std::string>&,
+        string_ref find(int,
+                         std::vector<string_ref>&);
+        void  add(string_ref&,
+                  std::vector<string_ref>&,
                   std::shared_ptr<node>);
-        std::string to_str(std::vector<std::string>&);
+        string_ref to_str(std::vector<string_ref>&);
     };
 
-    std::string int_encode(int, std::string&);
-    int int_decode(std::string&, std::string&);
-    std::string gprime(std::string&, std::string&);
-    std::string cw_encode(std::string&, std::string&);
-    std::string encode(std::string&, std::string&);
-    std::string decode(std::string&, std::string&);
+    string_ref int_encode(int, string_ref&);
+    int int_decode(string_ref&, string_ref&);
+    string_ref gprime(string_ref&, string_ref&);
+    string_ref cw_encode(string_ref&, string_ref&);
+    string_ref encode(string_ref&, string_ref&);
+    string_ref decode(string_ref&, string_ref&);
 };
 
 #endif
