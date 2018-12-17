@@ -1,5 +1,3 @@
-#include <algorithm>
-
 #include "sarray.h"
 
 void printP(const std::vector<std::vector<int> > &P){
@@ -278,7 +276,7 @@ int SAr::search(const std::vector<int> &Llcp,
                 const std::string &txt, int n, const std::string &pat) {
 
 	/*
-	
+
 	*/
 
 	int L = succ(Llcp, Rlcp, SArr, txt, n, pat);

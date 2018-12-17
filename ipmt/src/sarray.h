@@ -1,5 +1,5 @@
-#ifndef PCC_SELLERS_H
-#define PCC_SELLERS_H
+#ifndef S_ARRAY
+#define S_ARRAY
 
 #include <algorithm>
 #include <cstring>
@@ -23,7 +23,8 @@ namespace SAr{
     int search(const std::vector<int> &Llcp,
                const std::vector<int> &Rlcp,
                const std::vector<int> &SArr,
-               const std::string &txt, int n, const std::string &pat);
+               const std::string &txt, int n,
+               const std::string &pat);
 }
 
 #endif
