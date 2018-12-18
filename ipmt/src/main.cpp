@@ -12,7 +12,7 @@
 #include "sarray.h"
 #include "lz78.h"
 #include "lz78_trie.h"
-#include "aux.h"
+#include "util.h"
 
 /*Necessary for getopt_long, use as argument 4*/
 static struct option const long_options[]=
@@ -34,7 +34,7 @@ void call_index(const std::string &txtfile){
 	double t = clock();
 
 	//Leitura .txt
-	std:: string txt = Faux::get_file_contents(txtfile.c_str());
+	std:: string txt = UTL::get_file_contents(txtfile.c_str());
 	int n = txt.length();
 	// printf("Build Read time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
 
@@ -58,7 +58,7 @@ void call_index(const std::string &txtfile){
 	//Criação do index
 	/*First insert SArr as str + "$" + str(Llcp) + "$"
 	+ str(Rlcp) + "$" + text*/
-	std::string finalTxt = Faux::indexCreate(SArr,Llcp,Rlcp, txt, "$");
+	std::string finalTxt = UTL::indexCreate(SArr,Llcp,Rlcp, txt, "$");
 
 
 	// finalTxt.append("$");
@@ -115,7 +115,7 @@ void call_search(const std::vector<std::string> &pat_array,
 	}
 
 	//Leitura do idx
-	std::string compressed = Faux::get_file_contents(filename.c_str());
+	std::string compressed = UTL::get_file_contents(filename.c_str());
 
 	double taux = clock();
 	std::string finalTxt = LZ78_TRIE::decode(compressed,ab);
@@ -128,7 +128,7 @@ void call_search(const std::vector<std::string> &pat_array,
 	std::vector<int> Llcp, Rlcp;
 
 	std::string redoStr =
-		Faux::indexRecovery(SArr,Llcp,Rlcp, finalTxt,'$');
+		UTL::indexRecovery(SArr,Llcp,Rlcp, finalTxt,'$');
 	// std::cout << redoStr.length() << ", " << pat_array[0].length() << ", ";
 	//Search
 	double count = 0;
@@ -167,15 +167,15 @@ int main(int argc, char *argv[]) {
 	std::vector<std::string> pat_array;
 
 	if(argc < 2)
-		Faux::usage(argv[0],false);
+		UTL::usage(argv[0],false);
 
 	if(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)
-		Faux::usage(argv[0],true);
+		UTL::usage(argv[0],true);
 
 
 	else if(strcmp(argv[1], "index") == 0 ) {
 		if(argc != 3) {
-			Faux::usage(argv[0], true);
+			UTL::usage(argv[0], true);
 		}
 		// std::cout << filesize(argv[argc-1]) << ", " <<
 		// argv[argc-1] << ", ";
@@ -189,30 +189,30 @@ int main(int argc, char *argv[]) {
 			case 'p':
 				pflag = true;
 
-				Faux::build_string_array(optarg, pat_array);
-				Faux::set_txt_index(1,txt_index);
+				UTL::build_string_array(optarg, pat_array);
+				UTL::set_txt_index(1,txt_index);
 				break;
 			case 'c':
 				cflag = true;
-				Faux::set_txt_index(1,txt_index);
+				UTL::set_txt_index(1,txt_index);
 				break;
 			case 'h':
-				Faux::usage(argv[0],true);
+				UTL::usage(argv[0],true);
 				break;
 			default:
-				Faux::usage(argv[0],false);
+				UTL::usage(argv[0],false);
 				return -1;
 			}
 		}
 
-		Faux::set_pat(pat_array, argv[txt_index],pflag);
+		UTL::set_pat(pat_array, argv[txt_index],pflag);
 		// std::cout << filesize(argv[argc-1]) << ", " <<
 		// argv[argc-1] << ", ";
 
 		call_search(pat_array, argv[argc-1], pflag);
 	}
 	else{
-		Faux::usage(argv[0],false);
+		UTL::usage(argv[0],false);
 	}
 
 

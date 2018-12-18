@@ -1,5 +1,5 @@
-#ifndef AUX_F
-#define AUX_F
+#ifndef U_UTIL
+#define U_UTIL
 //Teste
 
 #include <iostream>
@@ -14,7 +14,7 @@
 #include <iterator>
 #include <math.h>
 
-namespace Faux{
+namespace UTL{
     void usage(std::string const& name, bool status);
     std::string get_file_contents(const char * filename);
     void build_string_array(const char *file,

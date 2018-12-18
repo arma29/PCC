@@ -1,6 +1,6 @@
-#include "aux.h"
+#include "util.h"
 //Teste
-void Faux::usage(std::string const& name, bool status)
+void UTL::usage(std::string const& name, bool status)
 {
 	// Status False
 	if(!status) {
@@ -42,7 +42,7 @@ IPMT Page: <http://www.github.com/arma29/PCC>\n" << '\n';
 	exit(EXIT_SUCCESS);
 }
 
-std::string Faux::get_file_contents(const char * filename)
+std::string UTL::get_file_contents(const char * filename)
 {
   std::FILE *fp = std::fopen(filename, "rb");
   if (fp)
@@ -59,7 +59,7 @@ std::string Faux::get_file_contents(const char * filename)
 }
 
 /*Convert the input file in array of strings*/
-void Faux::build_string_array(const char *file,
+void UTL::build_string_array(const char *file,
                         std::vector<std::string> &str_array){
 
 	std:: ifstream infile(file);
@@ -76,12 +76,12 @@ void Faux::build_string_array(const char *file,
 }
 
 /*Function to set the index of first wildcard argument or textfile*/
-void Faux::set_txt_index(int opt, int& index){
+void UTL::set_txt_index(int opt, int& index){
 	index = index + opt;
 }
 
 /*Caso seja uma string, anexo a um vetor de string (único)*/
-void Faux::set_pat(std::vector<std::string> &pat_array,
+void UTL::set_pat(std::vector<std::string> &pat_array,
              const std::string &str,bool pflag){
 
 	if(!pflag)
@@ -148,7 +148,7 @@ int returnIndex(int index, const std::string &str,
 
 }
 
-std::string Faux::indexCreate(const std::vector<int> &SArr,
+std::string UTL::indexCreate(const std::vector<int> &SArr,
                 const std::vector<int> &Llcp,
                 const std::vector<int> &Rlcp,
 				const std::string &txt,
@@ -172,7 +172,7 @@ std::string Faux::indexCreate(const std::vector<int> &SArr,
 
 }
 
-std::string Faux::indexRecovery(std::vector<int> &SArr,
+std::string UTL::indexRecovery(std::vector<int> &SArr,
                 std::vector<int> &Llcp,
                 std::vector<int> &Rlcp,
 				const std::string &finalTxt,

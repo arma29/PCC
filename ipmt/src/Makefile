@@ -1,4 +1,4 @@
-OBJS = main.cpp sarray.o lz78.o lz78_trie.o aux.o
+OBJS = main.cpp sarray.o lz78.o lz78_trie.o util.o
 CC = g++
 CFLAGS = -c
 LFLAGS =
@@ -19,8 +19,8 @@ lz78.o: lz78.cpp lz78.h
 lz78_trie.o: lz78_trie.cpp lz78_trie.h
 		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) lz78_trie.cpp
 
-aux.o: aux.cpp aux.h
-		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) aux.cpp
+util.o: util.cpp util.h
+		$(CC) $(CFLAGS) $(VFLAGS) $(LFLAGS) util.cpp
 
 clean:
 	  @rm -f *.o
