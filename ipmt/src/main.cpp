@@ -23,6 +23,12 @@ static struct option const long_options[]=
 	{0,0,0,0},     //end of array
 };
 
+std::ifstream::pos_type filesize(const char* filename)
+{
+    std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+    return in.tellg();
+}
+
 
 void call_index(const std::string &txtfile){
 	double t = clock();
@@ -47,7 +53,7 @@ void call_index(const std::string &txtfile){
 	SAr::lcplr(Llcp, Rlcp, SArr, P, n);
 	// printf("Build Llcp & Rlcp time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
 	printf("[LR] Build Array time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
-
+	// printf("%lf, ", (clock() - t) / CLOCKS_PER_SEC);
 
 	//Criação do index
 	/*First insert SArr as str + "$" + str(Llcp) + "$"
@@ -68,9 +74,9 @@ void call_index(const std::string &txtfile){
 	//Compress
 	t = clock();
 	std::string compressed = LZ78_TRIE::encode(finalTxt, ab);
-	printf("LZ78 Trie Encode time: %lfs", (clock() - t) / CLOCKS_PER_SEC);
+	printf("LZ78 Trie Encode time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
+	// printf("%lf, ",(clock() - t) / CLOCKS_PER_SEC );
 
-	std::cout << '\n';
 
 	//Write .idx file
 	std::string idx_filename = txtfile.substr(0, txtfile.size() - 4) + ".idx";
@@ -81,7 +87,7 @@ void call_index(const std::string &txtfile){
 	}
 
 	fwrite(compressed.c_str(), sizeof(char), compressed.length(), idxfile);
-	// std::cout << "Index file: " << "'" << idx_filename << "' was created." << '\n';
+	std::cout << "Index file: " << "'" << idx_filename << "' was created." << '\n';
 	fclose(idxfile);
 
 }
@@ -100,7 +106,7 @@ void printV(std::vector<int> v){
 
 /*Search Mode*/
 void call_search(const std::vector<std::string> &pat_array,
-                 const std::string &filename){
+                 const std::string &filename, bool pflag){
 
 	std::string ab;
 	for(int i =0; i<256; i++) {
@@ -114,6 +120,7 @@ void call_search(const std::vector<std::string> &pat_array,
 	double taux = clock();
 	std::string finalTxt = LZ78_TRIE::decode(compressed,ab);
 	printf("LZ78 Trie Decode time: %lfs \n", (clock() - taux) / CLOCKS_PER_SEC);
+	// printf("%lf \n", ((clock() - taux) / CLOCKS_PER_SEC));
 
 
 	//Retorno do index
@@ -122,7 +129,7 @@ void call_search(const std::vector<std::string> &pat_array,
 
 	std::string redoStr =
 		Faux::indexRecovery(SArr,Llcp,Rlcp, finalTxt,'$');
-
+	// std::cout << redoStr.length() << ", " << pat_array[0].length() << ", ";
 	//Search
 	double count = 0;
 
@@ -134,19 +141,22 @@ void call_search(const std::vector<std::string> &pat_array,
 			double t = clock();
 			// std::cout << "Pat: [" << i  << "]"<< '\n';
 			// std::cout << "Txt Len: " << redoStr.length() << " bytes"<< '\n';
-			// std::cout << "Occurences: " <<
-			// SAr::search(Llcp, Rlcp, SArr, redoStr,redoStr.length(),i) << '\n';
-			total += SAr::search(Llcp, Rlcp, SArr, redoStr,redoStr.length(),i);
+			int fst = SAr::search(Llcp, Rlcp, SArr, redoStr,redoStr.length(),i);
+			std::cout << "Occurences: " << fst << '\n';
+			total += fst;
 			// double taux = (clock() - t) / CLOCKS_PER_SEC;
-			// printf("Search time: %lfs \n\n", (clock() - t) / CLOCKS_PER_SEC);
+			printf("Search time: %lfs \n", (clock() - t) / CLOCKS_PER_SEC);
 			// t2 += (clock() - t)/CLOCKS_PER_SEC;
 			count++;
 		}
 	}
-	// printf("[Pat Len: %d] Avg time: %lfs in %d lines -> %d Total Occ\n",
-	// 	int(pat_array[0].length()), (clock() - t2)/CLOCKS_PER_SEC, (int)count,total);
-	printf("[Pat Len: %d] Avg time: %lfs\n",
-		int(pat_array[0].length()), (clock() - t2)/CLOCKS_PER_SEC);
+	if(pflag){
+		printf("Avg time: %lfs in %d lines -> %d Total Occ\n",
+			(clock() - t2)/CLOCKS_PER_SEC, (int)count,total);
+		// printf("[Pat Len: %d] Avg time: %lfs\n", int(pat_array[0].length()), (clock() - t2)/CLOCKS_PER_SEC);
+		//printf("%lf \n", (clock() - t2)/CLOCKS_PER_SEC);
+	}
+
 }
 
 int main(int argc, char *argv[]) {
@@ -162,10 +172,13 @@ int main(int argc, char *argv[]) {
 	if(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)
 		Faux::usage(argv[0],true);
 
+
 	else if(strcmp(argv[1], "index") == 0 ) {
 		if(argc != 3) {
 			Faux::usage(argv[0], true);
 		}
+		// std::cout << filesize(argv[argc-1]) << ", " <<
+		// argv[argc-1] << ", ";
 		call_index(argv[2]);
 	}
 	else if(strcmp(argv[1], "search") == 0) {
@@ -193,7 +206,10 @@ int main(int argc, char *argv[]) {
 		}
 
 		Faux::set_pat(pat_array, argv[txt_index],pflag);
-		call_search(pat_array, argv[argc-1]);
+		// std::cout << filesize(argv[argc-1]) << ", " <<
+		// argv[argc-1] << ", ";
+
+		call_search(pat_array, argv[argc-1], pflag);
 	}
 	else{
 		Faux::usage(argv[0],false);

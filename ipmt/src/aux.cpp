@@ -22,13 +22,13 @@ Example: "<< name << " index text.txt\n" << '\n';
 		          << " search [OPTION] PATTERN INDEXFILE" <<'\n';
 		std::cout << "Generates an .txt for the .idx file and Search for PATTERN" << '\n';
 		std::cout << "\
-Example: "<< name << " search -c -p 'dic.txt' text.idx\n" << '\n';
+Example: "<< name << " search -p dic.txt text.idx\n" << '\n';
 
 
 		std::cout <<"\
 Option Interpretation:\n\
     -p, --pattern=PFile     Make the search of all patterns in patternfile\n\
-    -c, --count             Print the total count of matches\n\n" << '\n';
+    -c, --count             Print the total count of matches (Default)\n\n" << '\n';
 
 		std::cout << "\
 Miscellaneous:\n\
