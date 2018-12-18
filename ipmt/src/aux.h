@@ -1,5 +1,6 @@
 #ifndef AUX_F
 #define AUX_F
+//Teste
 
 #include <iostream>
 #include <vector>

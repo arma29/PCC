@@ -1,5 +1,5 @@
 #include "aux.h"
-
+//Teste
 void Faux::usage(std::string const& name, bool status)
 {
 	// Status False
